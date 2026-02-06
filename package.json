@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "@webflow/data-types": "^1.2.0",
+    "@webflow/react": "^1.2.0",
+    "@webflow/webflow-cli": "^1.12.0"
+  }
+}

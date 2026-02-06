@@ -1,0 +1,17 @@
+{
+  "library": {
+    "name": "Calendar",
+    "components": [
+      "./src/**/*.webflow.@(js|jsx|mjs|ts|tsx)"
+    ],
+    "description": "A date picker calendar that adapts to your Webflow site's design system.",
+    "id": "calendar"
+  },
+  "telemetry": {
+    "global": {
+      "allowTelemetry": true,
+      "lastPrompted": 1770397394062,
+      "version": "1.12.0"
+    }
+  }
+}

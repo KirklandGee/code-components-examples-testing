@@ -1,0 +1,290 @@
+/*
+ * Calendar Component Styles
+ *
+ * This component adapts to your Webflow site's design system via CSS variables.
+ * It references common Webflow site variables with sensible fallbacks.
+ *
+ * Site variables used:
+ *   --background-primary   → calendar background
+ *   --background-secondary → hover states, today highlight
+ *   --text-primary         → main text color
+ *   --text-secondary       → muted text (weekdays, outside days)
+ *   --border-color         → calendar border
+ *   --accent-color         → selected date background
+ *   --accent-text-color    → selected date text
+ *   --border-radius        → corner rounding
+ *
+ * If your site uses different variable names, rename them below.
+ */
+
+.wf-calendar {
+  font-family: inherit;
+  color: inherit;
+  line-height: inherit;
+  --wf-calendar-cell-size: 36px;
+}
+
+/* Root calendar container */
+.wf-calendar-root {
+  padding: 12px;
+  background: var(--background-primary, #ffffff);
+  border: 1px solid var(--border-color, #e5e5e5);
+  border-radius: var(--border-radius, 8px);
+  width: fit-content;
+}
+
+/* Month grid layout */
+.wf-calendar-months {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+
+.wf-calendar-month {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+
+/* Navigation */
+.wf-calendar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.wf-calendar-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--wf-calendar-cell-size);
+  height: var(--wf-calendar-cell-size);
+  padding: 0;
+  border: none;
+  border-radius: var(--border-radius, 8px);
+  background: transparent;
+  color: var(--text-primary, #1a1a1a);
+  cursor: pointer;
+  user-select: none;
+}
+
+.wf-calendar-nav-btn:hover {
+  background: var(--background-secondary, #f5f5f5);
+}
+
+.wf-calendar-nav-btn:disabled,
+.wf-calendar-nav-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.wf-calendar-nav-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Caption / month-year label */
+.wf-calendar-caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--wf-calendar-cell-size);
+  width: 100%;
+  padding: 0 var(--wf-calendar-cell-size);
+}
+
+.wf-calendar-caption-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  user-select: none;
+  color: var(--text-primary, #1a1a1a);
+}
+
+/* Dropdowns (when captionLayout="dropdown") */
+.wf-calendar-dropdowns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  height: var(--wf-calendar-cell-size);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.wf-calendar-dropdown-root {
+  position: relative;
+  border: 1px solid var(--border-color, #e5e5e5);
+  border-radius: var(--border-radius, 8px);
+}
+
+.wf-calendar-dropdown-root:focus-within {
+  border-color: var(--accent-color, #1a1a1a);
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: -1px;
+}
+
+.wf-calendar-dropdown {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: var(--background-primary, #ffffff);
+}
+
+/* Weekday headers */
+.wf-calendar-weekdays {
+  display: flex;
+}
+
+.wf-calendar-weekday {
+  flex: 1;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-secondary, #737373);
+  text-align: center;
+  user-select: none;
+  width: var(--wf-calendar-cell-size);
+  height: var(--wf-calendar-cell-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Week rows */
+.wf-calendar-week {
+  display: flex;
+  width: 100%;
+  margin-top: 2px;
+}
+
+/* Week numbers */
+.wf-calendar-week-number-header {
+  width: var(--wf-calendar-cell-size);
+  user-select: none;
+}
+
+.wf-calendar-week-number {
+  font-size: 0.75rem;
+  color: var(--text-secondary, #737373);
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--wf-calendar-cell-size);
+  height: var(--wf-calendar-cell-size);
+}
+
+/* Day cells */
+.wf-calendar-day {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  text-align: center;
+  aspect-ratio: 1;
+  user-select: none;
+}
+
+.wf-calendar-day-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--wf-calendar-cell-size);
+  height: var(--wf-calendar-cell-size);
+  padding: 0;
+  border: none;
+  border-radius: var(--border-radius, 8px);
+  background: transparent;
+  color: var(--text-primary, #1a1a1a);
+  font-size: 0.875rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.wf-calendar-day-btn:hover {
+  background: var(--background-secondary, #f5f5f5);
+}
+
+.wf-calendar-day-btn:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: -1px;
+}
+
+/* Selected state */
+.wf-calendar-selected .wf-calendar-day-btn {
+  background: var(--accent-color, #1a1a1a);
+  color: var(--accent-text-color, #ffffff);
+  font-weight: 500;
+}
+
+.wf-calendar-selected .wf-calendar-day-btn:hover {
+  background: var(--accent-color, #1a1a1a);
+  opacity: 0.9;
+}
+
+/* Today */
+.wf-calendar-today .wf-calendar-day-btn {
+  background: var(--background-secondary, #f5f5f5);
+  font-weight: 600;
+}
+
+.wf-calendar-selected.wf-calendar-today .wf-calendar-day-btn {
+  background: var(--accent-color, #1a1a1a);
+  color: var(--accent-text-color, #ffffff);
+}
+
+/* Outside days (previous/next month) */
+.wf-calendar-outside .wf-calendar-day-btn {
+  color: var(--text-secondary, #737373);
+  opacity: 0.5;
+}
+
+/* Disabled days */
+.wf-calendar-disabled .wf-calendar-day-btn {
+  color: var(--text-secondary, #737373);
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Hidden days */
+.wf-calendar-hidden {
+  visibility: hidden;
+}
+
+/* Range selection states */
+.wf-calendar-range-start .wf-calendar-day-btn {
+  background: var(--accent-color, #1a1a1a);
+  color: var(--accent-text-color, #ffffff);
+  border-radius: var(--border-radius, 8px) 0 0 var(--border-radius, 8px);
+}
+
+.wf-calendar-range-middle .wf-calendar-day-btn {
+  background: var(--background-secondary, #f5f5f5);
+  border-radius: 0;
+}
+
+.wf-calendar-range-end .wf-calendar-day-btn {
+  background: var(--accent-color, #1a1a1a);
+  color: var(--accent-text-color, #ffffff);
+  border-radius: 0 var(--border-radius, 8px) var(--border-radius, 8px) 0;
+}
+
+/* Header and footer slots */
+.wf-calendar-header {
+  padding: 0 0 8px 0;
+}
+
+.wf-calendar-footer {
+  padding: 8px 0 0 0;
+  border-top: 1px solid var(--border-color, #e5e5e5);
+  margin-top: 8px;
+}

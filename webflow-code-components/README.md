@@ -1,0 +1,97 @@
+# webflow-code-components
+
+AI Agents &amp; Workflows built with Output.ai for webflow-code-components
+
+## Prerequisites
+
+- Node.js >= 24.3
+- Docker and Docker Compose (for local development)
+
+## Project Structure
+
+```
+src/
+├── shared/                    # Shared code across workflows
+│   ├── clients/               # API clients (e.g., jina.ts)
+│   └── utils/                 # Utility functions (e.g., string.ts)
+└── workflows/                 # Workflow definitions
+    └── blog_evaluator/        # Example workflow
+        ├── workflow.ts        # Main workflow
+        ├── steps.ts           # Workflow steps
+        ├── evaluators.ts      # Quality evaluators
+        ├── utils.ts           # Local utilities
+        ├── prompts/           # LLM prompts
+        └── scenarios/         # Test scenarios
+```
+
+### Shared Directory
+
+The `src/shared/` directory contains code shared across multiple workflows:
+
+- **`shared/clients/`** - API clients using `@output.ai/http` for external services
+- **`shared/utils/`** - Helper functions and utilities
+
+### Import Rules
+
+**Workflows** can import from:
+- Local steps, evaluators, and utilities
+- Shared steps, evaluators, clients, and utilities
+
+**Steps and Evaluators** can import from:
+- Local utilities and clients
+- Shared utilities and clients
+
+**Steps and Evaluators cannot** import from:
+- Other steps or evaluators (Temporal activity isolation)
+
+## Getting Started
+
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure Environment
+
+Copy `.env.example` to `.env` and add your API keys:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` to add:
+- `ANTHROPIC_API_KEY` - for Claude LLM integration
+- `OPENAI_API_KEY` - for OpenAI LLM integration (optional)
+
+### 3. Start Output Services
+
+```bash
+npm run dev
+```
+
+This starts:
+- Temporal server and UI (http://localhost:8080)
+- PostgreSQL and Redis databases
+- Output.ai API server (http://localhost:3001)
+- Worker process for executing workflows
+
+### 4. Run a workflow
+
+In a new terminal:
+
+```bash
+npx output workflow run blog_evaluator paulgraham_hwh
+```
+
+### 5. Stop Services
+
+Press `Ctrl+C` in the terminal running `npm run dev` to stop all services gracefully.
+
+### 6. View Logs
+
+Monitor workflow execution and system status in the Temporal UI:
+
+```bash
+open http://localhost:8080
+```

@@ -1,0 +1,27 @@
+{
+  "name": "webflow-code-components",
+  "version": "0.0.1",
+  "description": "AI Agents &amp; Workflows built with Output.ai for webflow-code-components",
+  "type": "module",
+  "main": "dist/worker.js",
+  "scripts": {
+    "output:worker:install": "npm install",
+    "output:worker:build": "rm -rf dist/* && tsc -p ./ && copyfiles -u 1 './src/**/*.prompt' dist",
+    "output:worker:start": "output-worker",
+    "dev": "output dev"
+  },
+  "dependencies": {
+    "@output.ai/output": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@webflow/data-types": "^1.2.0",
+    "@webflow/react": "^1.2.0",
+    "@webflow/webflow-cli": "^1.12.0",
+    "copyfiles": "^1.0.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=24.3.0"
+  }
+}

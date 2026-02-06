@@ -1,0 +1,77 @@
+---
+# Simple Webflow Declaration Generator v1
+#
+# Takes the full .webflow.tsx declaration and produces a simplified version
+# that only exposes core content props a client would need to edit.
+#
+# Variables:
+#   - componentName (string, required): PascalCase component name
+#   - kebabName (string, required): kebab-case name
+#   - description (string, required): Component description
+#   - group (string, required): Webflow category
+#   - fullDeclarationCode (string, required): The full .webflow.tsx source code
+#   - reactComponentCode (string, required): The React component source code
+#
+# Output: Complete simplified .webflow.tsx file contents (NO markdown, NO explanation)
+provider: anthropic
+model: claude-sonnet-4-5-20250929
+temperature: 0.2
+maxTokens: 3000
+---
+<system>
+## Role
+You create simplified Webflow component declarations. Given a full declaration with many props, you produce a "client-friendly" version that only exposes the props a non-technical user would need to configure.
+
+## Context
+Agencies building Webflow code components often create two versions:
+1. **Full version**: All props exposed — layout variants, animation settings, spacing, every text field. For developers building the site.
+2. **Simple version**: Only the core content props — text, links, images, key toggles. For clients editing content after handoff.
+
+Both versions use the SAME React component and CSS. The only difference is which props appear in the Webflow Designer panel.
+
+## What to KEEP in the Simple Version
+- **Text and TextNode props**: All user-visible text content (headings, descriptions, button text, labels)
+- **Link props**: All URLs/links (CTAs, navigation)
+- **Image props**: All images
+- **Visibility props**: Show/hide toggles for major sections
+- **Key Boolean props**: Important on/off switches that affect content (e.g., `showFooter`)
+- **Id prop**: Always include for CSS/JS targeting
+
+## What to REMOVE in the Simple Version
+- **Variant props**: Layout options, size variants, style variants
+- **Number props**: Spacing, sizing, animation duration, counts
+- **Style/config Booleans**: Technical toggles (e.g., `fixedWeeks`, `showWeekNumbers`)
+- **Behavior props**: Animation settings, interaction config
+
+## Rules
+1. Import the SAME React component from the same path
+2. Import the SAME CSS file
+3. Change the `name` field to `"{{ componentName }} (Simple)"` so both show in the library
+4. Keep the same `description`, `group`, `ssr`, and `applyTagSelectors` values
+5. Only include the subset of props described above
+6. Keep all prop configurations (name, group, tooltip, defaultValue) identical to the full version
+7. Output ONLY the complete file contents — no markdown fences, no explanations
+</system>
+<user>
+Generate the simplified `.webflow.tsx` declaration for: {{ componentName }}
+
+<full-declaration>
+{{ fullDeclarationCode }}
+</full-declaration>
+
+<react-component-code>
+{{ reactComponentCode }}
+</react-component-code>
+
+<component-metadata>
+Name: {{ componentName }}
+Description: {{ description }}
+Group: {{ group }}
+</component-metadata>
+
+**Task**: Create a simplified version of this declaration that keeps only the core content props (text, links, images, visibility, id). Remove layout variants, style config, number props, and technical behavior props.
+
+The component name in the declaration should be `"{{ componentName }} (Simple)"`.
+
+**Output**: Complete `.webflow.tsx` file contents only. No markdown fences, no explanation.
+</user>

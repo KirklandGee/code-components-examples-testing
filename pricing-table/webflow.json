@@ -1,0 +1,17 @@
+{
+  "library": {
+    "name": "PricingTable",
+    "components": [
+      "./src/**/*.webflow.@(js|jsx|mjs|ts|tsx)"
+    ],
+    "description": "A responsive pricing table with 3 tiers displayed as cards. Each tier shows a name, price, billing period, description, feature list, and CTA button with link. Supports highlighting a recommended tier with a visual accent badge. Cards stack vertically on mobile and display horizontally on desktop.",
+    "id": "pricing-table"
+  },
+  "telemetry": {
+    "global": {
+      "allowTelemetry": true,
+      "lastPrompted": 1770410224387,
+      "version": "1.12.0"
+    }
+  }
+}

@@ -1,0 +1,225 @@
+{
+  "componentName": "PricingTable",
+  "description": "A responsive pricing table with 3 tiers displayed as cards. Each tier shows a name, price, billing period, description, feature list, and CTA button with link. Supports highlighting a recommended tier with a visual accent badge. Cards stack vertically on mobile and display horizontally on desktop.",
+  "props": [
+    {
+      "name": "id",
+      "type": "Id",
+      "description": "HTML ID for targeting with CSS or JavaScript",
+      "group": "Settings"
+    },
+    {
+      "name": "layout",
+      "type": "Variant",
+      "description": "Card arrangement direction",
+      "options": ["horizontal", "vertical"],
+      "defaultValue": "horizontal",
+      "group": "Style"
+    },
+    {
+      "name": "heading",
+      "type": "TextNode",
+      "description": "Main heading above the pricing cards",
+      "defaultValue": "Choose Your Plan",
+      "group": "Content"
+    },
+    {
+      "name": "subheading",
+      "type": "Text",
+      "description": "Subheading text below the main heading",
+      "defaultValue": "Select the perfect plan for your needs",
+      "group": "Content"
+    },
+    {
+      "name": "tier1Name",
+      "type": "Text",
+      "description": "First tier plan name",
+      "defaultValue": "Basic",
+      "group": "Tier 1"
+    },
+    {
+      "name": "tier1Price",
+      "type": "Text",
+      "description": "First tier price display",
+      "defaultValue": "$9",
+      "group": "Tier 1"
+    },
+    {
+      "name": "tier1Period",
+      "type": "Text",
+      "description": "First tier billing period",
+      "defaultValue": "/month",
+      "group": "Tier 1"
+    },
+    {
+      "name": "tier1Description",
+      "type": "Text",
+      "description": "First tier short description",
+      "defaultValue": "Perfect for getting started",
+      "group": "Tier 1"
+    },
+    {
+      "name": "tier1Features",
+      "type": "Text",
+      "description": "First tier features, one per line",
+      "defaultValue": "Up to 5 projects\nBasic support\n1GB storage\nEmail notifications",
+      "group": "Tier 1"
+    },
+    {
+      "name": "tier1CtaText",
+      "type": "Text",
+      "description": "First tier call-to-action button text",
+      "defaultValue": "Get Started",
+      "group": "Tier 1"
+    },
+    {
+      "name": "tier1CtaLink",
+      "type": "Link",
+      "description": "First tier call-to-action button link",
+      "group": "Tier 1"
+    },
+    {
+      "name": "tier1Visible",
+      "type": "Visibility",
+      "description": "Show or hide the first tier",
+      "group": "Tier 1"
+    },
+    {
+      "name": "tier2Name",
+      "type": "Text",
+      "description": "Second tier plan name",
+      "defaultValue": "Professional",
+      "group": "Tier 2"
+    },
+    {
+      "name": "tier2Price",
+      "type": "Text",
+      "description": "Second tier price display",
+      "defaultValue": "$29",
+      "group": "Tier 2"
+    },
+    {
+      "name": "tier2Period",
+      "type": "Text",
+      "description": "Second tier billing period",
+      "defaultValue": "/month",
+      "group": "Tier 2"
+    },
+    {
+      "name": "tier2Description",
+      "type": "Text",
+      "description": "Second tier short description",
+      "defaultValue": "Most popular choice",
+      "group": "Tier 2"
+    },
+    {
+      "name": "tier2Features",
+      "type": "Text",
+      "description": "Second tier features, one per line",
+      "defaultValue": "Unlimited projects\nPriority support\n10GB storage\nAdvanced analytics\nTeam collaboration\nCustom integrations",
+      "group": "Tier 2"
+    },
+    {
+      "name": "tier2CtaText",
+      "type": "Text",
+      "description": "Second tier call-to-action button text",
+      "defaultValue": "Start Free Trial",
+      "group": "Tier 2"
+    },
+    {
+      "name": "tier2CtaLink",
+      "type": "Link",
+      "description": "Second tier call-to-action button link",
+      "group": "Tier 2"
+    },
+    {
+      "name": "tier2Recommended",
+      "type": "Boolean",
+      "description": "Show recommended badge on this tier",
+      "defaultValue": true,
+      "group": "Tier 2"
+    },
+    {
+      "name": "tier2Visible",
+      "type": "Visibility",
+      "description": "Show or hide the second tier",
+      "group": "Tier 2"
+    },
+    {
+      "name": "tier3Name",
+      "type": "Text",
+      "description": "Third tier plan name",
+      "defaultValue": "Enterprise",
+      "group": "Tier 3"
+    },
+    {
+      "name": "tier3Price",
+      "type": "Text",
+      "description": "Third tier price display",
+      "defaultValue": "$99",
+      "group": "Tier 3"
+    },
+    {
+      "name": "tier3Period",
+      "type": "Text",
+      "description": "Third tier billing period",
+      "defaultValue": "/month",
+      "group": "Tier 3"
+    },
+    {
+      "name": "tier3Description",
+      "type": "Text",
+      "description": "Third tier short description",
+      "defaultValue": "For large organizations",
+      "group": "Tier 3"
+    },
+    {
+      "name": "tier3Features",
+      "type": "Text",
+      "description": "Third tier features, one per line",
+      "defaultValue": "Everything in Pro\nDedicated support\nUnlimited storage\nAdvanced security\nCustom workflows\nSLA guarantee",
+      "group": "Tier 3"
+    },
+    {
+      "name": "tier3CtaText",
+      "type": "Text",
+      "description": "Third tier call-to-action button text",
+      "defaultValue": "Contact Sales",
+      "group": "Tier 3"
+    },
+    {
+      "name": "tier3CtaLink",
+      "type": "Link",
+      "description": "Third tier call-to-action button link",
+      "group": "Tier 3"
+    },
+    {
+      "name": "tier3Visible",
+      "type": "Visibility",
+      "description": "Show or hide the third tier",
+      "group": "Tier 3"
+    },
+    {
+      "name": "badgeText",
+      "type": "Text",
+      "description": "Text shown on the recommended tier badge",
+      "defaultValue": "Most Popular",
+      "group": "Style"
+    },
+    {
+      "name": "footerText",
+      "type": "Text",
+      "description": "Optional footer text below the pricing cards",
+      "defaultValue": "All plans include 24/7 support and 30-day money-back guarantee",
+      "group": "Content"
+    },
+    {
+      "name": "showFooter",
+      "type": "Boolean",
+      "description": "Show or hide the footer text",
+      "defaultValue": true,
+      "group": "Display"
+    }
+  ],
+  "group": "Marketing"
+}
