@@ -1,0 +1,4 @@
+{
+  "description": "A hero section with a large headline, subheading, CTA button, and an optional background image. Should support left-aligned and centered layout variants.",
+  "complexity": "standard"
+}

@@ -181,5 +181,7 @@ Please evaluate this component against all six criteria. Return a structured JSO
 2. Detailed reasoning explaining the score with specific examples
 3. Per-criterion scores and notes
 
+IMPORTANT: Return ONLY raw JSON. Do NOT wrap the output in markdown code fences (```json or ```). Output the JSON object directly with no extra text before or after it.
+
 Remember: If scoring below 90, you MUST list exactly what needs to change so the generator can fix it on the next iteration.
 </user>

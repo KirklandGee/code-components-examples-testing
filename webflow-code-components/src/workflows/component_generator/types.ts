@@ -16,12 +16,23 @@ export const PropSchema = z.object( {
 
 // ─── Workflow Input / Output ─────────────────────────────────────────────────
 
+export const ApiIntegrationSchema = z.object( {
+  service: z.string(),
+  endpoint: z.string(),
+  authMethod: z.enum( [ 'none', 'api-key-header', 'api-key-query', 'path-token', 'bearer-token' ] ),
+  authParamName: z.string().optional(),
+  requiredParams: z.record( z.string(), z.string() ).optional(),
+  responseShape: z.string(),
+  notes: z.string().optional(),
+} );
+
 export const WorkflowInputSchema = z.object( {
   componentName: z.string().describe( 'PascalCase component name, e.g. "PricingTable"' ),
   description: z.string().describe( 'What the component does, its features, behaviors' ),
   props: z.array( PropSchema ).describe( 'Component props to expose in Webflow Designer' ),
   npmDependencies: z.record( z.string(), z.string() ).optional().describe( 'Additional npm packages, e.g. {"swiper": "^11.0.0"}' ),
   group: z.string().optional().default( 'Components' ).describe( 'Webflow component group/category' ),
+  apiIntegrations: z.array( ApiIntegrationSchema ).optional().describe( 'External API integrations with verified response shapes' ),
 } );
 
 export const DeterministicChecksSchema = z.object( {
@@ -68,6 +79,7 @@ export const GenerateReactComponentInputSchema = z.object( {
   description: z.string(),
   props: z.array( PropSchema ),
   npmDependencies: z.record( z.string(), z.string() ).optional(),
+  apiIntegrations: z.array( ApiIntegrationSchema ).optional(),
   feedback: z.string().optional().default( '' ),
 } );
 

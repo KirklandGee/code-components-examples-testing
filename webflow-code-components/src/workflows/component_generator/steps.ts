@@ -45,6 +45,10 @@ export const generateReactComponent = step( {
       ? Object.entries( input.npmDependencies ).map( ( [ k, v ] ) => `${k}@${v}` ).join( ', ' )
       : 'none';
 
+    const apiIntegrationsText = input.apiIntegrations && input.apiIntegrations.length > 0
+      ? JSON.stringify( input.apiIntegrations, null, 2 )
+      : '';
+
     const { result } = await generateText( {
       prompt: 'generate_react_component@v1',
       variables: {
@@ -55,6 +59,7 @@ export const generateReactComponent = step( {
         propsText,
         propsJson: JSON.stringify( input.props, null, 2 ),
         npmDependencies: depsText,
+        apiIntegrations: apiIntegrationsText,
         feedback: input.feedback || '',
       },
     } );
@@ -238,14 +243,41 @@ export const runDeterministicChecks = step( {
       failures.push( 'Missing "declareComponent" call in .webflow.tsx' );
     }
 
-    // 9. Props grouped check
-    const propBlocks = webflowDeclarationCode.match( /props\.\w+\(\{[^}]+\}/g ) || [];
+    // 9. Props grouped check — uses brace-depth counting to handle
+    //    curly braces inside string values (e.g. "{count} open positions")
     let propsGrouped = true;
-    for ( const block of propBlocks ) {
-      if ( !block.includes( 'group:' ) ) {
-        propsGrouped = false;
-        failures.push( `A prop declaration in .webflow.tsx is missing the "group:" field` );
-        break;
+    const propStartRegex = /props\.\w+\(\{/g;
+    let propMatch;
+    while ( ( propMatch = propStartRegex.exec( webflowDeclarationCode ) ) !== null ) {
+      const startIdx = propMatch.index + propMatch[0].length - 1; // position of opening {
+      let depth = 1;
+      let inString = false;
+      let stringChar = '';
+      let blockEnd = -1;
+      for ( let ci = startIdx + 1; ci < webflowDeclarationCode.length && depth > 0; ci++ ) {
+        const ch = webflowDeclarationCode[ci];
+        const prev = ci > 0 ? webflowDeclarationCode[ci - 1] : '';
+        if ( inString ) {
+          if ( ch === stringChar && prev !== '\\' ) inString = false;
+        } else {
+          if ( ch === '"' || ch === '\'' || ch === '`' ) {
+            inString = true;
+            stringChar = ch;
+          } else if ( ch === '{' ) {
+            depth++;
+          } else if ( ch === '}' ) {
+            depth--;
+            if ( depth === 0 ) blockEnd = ci;
+          }
+        }
+      }
+      if ( blockEnd > 0 ) {
+        const block = webflowDeclarationCode.slice( startIdx, blockEnd + 1 );
+        if ( !block.includes( 'group:' ) ) {
+          propsGrouped = false;
+          failures.push( `A prop declaration in .webflow.tsx is missing the "group:" field` );
+          break;
+        }
       }
     }
 

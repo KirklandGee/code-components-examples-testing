@@ -1,0 +1,4 @@
+{
+  "description": "An accordion / FAQ component where each item has a question and answer. Clicking a question expands the answer with a smooth animation. Only one item should be open at a time. Should support 5-6 items.",
+  "complexity": "standard"
+}

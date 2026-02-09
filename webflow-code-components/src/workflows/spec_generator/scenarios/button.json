@@ -1,0 +1,4 @@
+{
+  "description": "A button component with different sizes and variants. Should support primary, secondary, and outline styles.",
+  "complexity": "simple"
+}

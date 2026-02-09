@@ -1,0 +1,4 @@
+{
+  "description": "A weather widget that fetches current weather data from the OpenWeatherMap API. Takes an API key and a city name as props. Displays the current temperature, weather condition (sunny, cloudy, rainy, etc.), humidity percentage, wind speed, and a weather icon. Shows a loading state while fetching and an error message if the API key is invalid or the city is not found. Supports Fahrenheit/Celsius toggle. Includes a 'last updated' timestamp and a refresh button to re-fetch data. Clean card-style design.",
+  "complexity": "standard"
+}

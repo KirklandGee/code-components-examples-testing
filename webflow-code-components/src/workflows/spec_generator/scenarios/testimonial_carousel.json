@@ -1,0 +1,4 @@
+{
+  "description": "A testimonial carousel powered by Swiper.js that displays customer quotes with author name, role, company, and an optional avatar image. Supports autoplay with configurable delay, prev/next arrow buttons, and dot pagination indicators. Shows 1 slide on mobile, 2 on tablet, and 3 on desktop. Each testimonial card has a quote icon, the testimonial text, and the author info below. Should support 5 testimonial slots. Pause autoplay on hover.",
+  "complexity": "standard"
+}

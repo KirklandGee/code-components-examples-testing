@@ -1,0 +1,4 @@
+{
+  "description": "A job board component that fetches open positions from the Greenhouse API (boards-api.greenhouse.io). Takes a board token as a prop to connect to any Greenhouse account. Displays job listings as cards in a grid layout with each card showing the job title, department, location, and a link to apply. Includes a loading spinner while fetching, an error state if the API call fails, and an empty state if no jobs are found. Supports filtering jobs by department and location using dropdown selects at the top. Should handle pagination or a 'Load More' button if there are many listings. Mobile-responsive: cards stack vertically on small screens.",
+  "complexity": "complex"
+}

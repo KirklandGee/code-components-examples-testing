@@ -1,0 +1,53 @@
+{
+  "componentName": "JobBoard",
+  "description": "A dynamic job board component that fetches and displays open positions from the Greenhouse API. Features a grid layout of job cards, each showing the job title, department, location, and an apply link. Includes interactive department and location filter dropdowns at the top, a loading spinner during data fetch, an error state for failed API calls, and an empty state when no jobs match filters. Supports pagination with a 'Load More' button for large job lists. Cards display in a multi-column grid on desktop and stack vertically on mobile devices. The component connects to any Greenhouse account via a board token prop and handles all API communication, error handling, and responsive layout transitions automatically.",
+  "props": [
+    { "name": "id", "type": "Id", "description": "HTML ID attribute for targeting and accessibility", "group": "Settings" },
+    { "name": "boardToken", "type": "Text", "description": "Greenhouse board token for API authentication (from boards-api.greenhouse.io)", "defaultValue": "", "group": "Settings" },
+    { "name": "heading", "type": "TextNode", "description": "Main heading displayed at the top of the job board", "defaultValue": "Open Positions", "group": "Content" },
+    { "name": "subheading", "type": "Text", "description": "Subheading text below the main heading", "defaultValue": "Join our team and help us build the future", "group": "Content" },
+    { "name": "layout", "type": "Variant", "description": "Grid layout columns for job cards on desktop", "options": ["2-column", "3-column", "4-column"], "defaultValue": "3-column", "group": "Style" },
+    { "name": "cardStyle", "type": "Variant", "description": "Visual style of job cards", "options": ["elevated", "outlined", "minimal"], "defaultValue": "elevated", "group": "Style" },
+    { "name": "showFilters", "type": "Boolean", "description": "Show or hide the department and location filter dropdowns", "defaultValue": true, "group": "Display" },
+    { "name": "filterDepartmentLabel", "type": "Text", "description": "Label text for the department filter dropdown", "defaultValue": "Department", "group": "Filters" },
+    { "name": "filterLocationLabel", "type": "Text", "description": "Label text for the location filter dropdown", "defaultValue": "Location", "group": "Filters" },
+    { "name": "filterAllDepartmentsText", "type": "Text", "description": "Default option text for all departments in filter", "defaultValue": "All Departments", "group": "Filters" },
+    { "name": "filterAllLocationsText", "type": "Text", "description": "Default option text for all locations in filter", "defaultValue": "All Locations", "group": "Filters" },
+    { "name": "jobsPerPage", "type": "Number", "description": "Number of jobs to display per page or load batch", "defaultValue": 12, "group": "Behavior" },
+    { "name": "paginationType", "type": "Variant", "description": "How to handle multiple pages of jobs", "options": ["load-more", "pagination", "show-all"], "defaultValue": "load-more", "group": "Behavior" },
+    { "name": "loadMoreButtonText", "type": "Text", "description": "Text for the Load More button", "defaultValue": "Load More Jobs", "group": "Pagination" },
+    { "name": "previousButtonText", "type": "Text", "description": "Text for the previous page button (pagination mode)", "defaultValue": "Previous", "group": "Pagination" },
+    { "name": "nextButtonText", "type": "Text", "description": "Text for the next page button (pagination mode)", "defaultValue": "Next", "group": "Pagination" },
+    { "name": "applyButtonText", "type": "Text", "description": "Text for the apply button on each job card", "defaultValue": "Apply Now", "group": "Job Cards" },
+    { "name": "departmentLabelText", "type": "Text", "description": "Label prefix for department on job cards", "defaultValue": "Department:", "group": "Job Cards" },
+    { "name": "locationLabelText", "type": "Text", "description": "Label prefix for location on job cards", "defaultValue": "Location:", "group": "Job Cards" },
+    { "name": "showDepartmentOnCard", "type": "Boolean", "description": "Display department information on job cards", "defaultValue": true, "group": "Job Cards" },
+    { "name": "showLocationOnCard", "type": "Boolean", "description": "Display location information on job cards", "defaultValue": true, "group": "Job Cards" },
+    { "name": "openInNewTab", "type": "Boolean", "description": "Open job application links in a new browser tab", "defaultValue": true, "group": "Behavior" },
+    { "name": "loadingText", "type": "Text", "description": "Text displayed during initial data loading", "defaultValue": "Loading open positions...", "group": "Loading State" },
+    { "name": "showLoadingSpinner", "type": "Boolean", "description": "Show animated spinner during loading", "defaultValue": true, "group": "Loading State" },
+    { "name": "errorHeading", "type": "Text", "description": "Heading text for error state", "defaultValue": "Unable to Load Jobs", "group": "Error State" },
+    { "name": "errorMessage", "type": "Text", "description": "Error message text when API call fails", "defaultValue": "We're having trouble loading our open positions. Please try again later or contact us directly.", "group": "Error State" },
+    { "name": "retryButtonText", "type": "Text", "description": "Text for retry button in error state", "defaultValue": "Try Again", "group": "Error State" },
+    { "name": "showRetryButton", "type": "Boolean", "description": "Show retry button in error state", "defaultValue": true, "group": "Error State" },
+    { "name": "emptyStateHeading", "type": "Text", "description": "Heading text when no jobs are found", "defaultValue": "No Positions Available", "group": "Empty State" },
+    { "name": "emptyStateMessage", "type": "Text", "description": "Message text when no jobs match current filters", "defaultValue": "There are no open positions matching your criteria at this time. Check back soon or adjust your filters.", "group": "Empty State" },
+    { "name": "resultsCountText", "type": "Text", "description": "Text template for showing job count (use {count} as placeholder)", "defaultValue": "{count} positions found", "group": "Content" },
+    { "name": "showResultsCount", "type": "Boolean", "description": "Display the total number of jobs found", "defaultValue": true, "group": "Display" },
+    { "name": "cacheTimeout", "type": "Number", "description": "API response cache duration in minutes (0 to disable)", "defaultValue": 5, "group": "Behavior" }
+  ],
+  "group": "Data Display",
+  "apiIntegrations": [
+    {
+      "service": "Greenhouse",
+      "endpoint": "https://boards-api.greenhouse.io/v1/boards/{boardToken}/jobs?content=true",
+      "authMethod": "path-token",
+      "authParamName": "boardToken",
+      "requiredParams": {
+        "content": "Must be set to 'true' to receive department and office information in the response"
+      },
+      "responseShape": "interface GreenhouseResponse {\n  jobs: Array<{\n    id: number;\n    title: string;\n    absolute_url: string;\n    location?: {\n      name: string;\n    };\n    departments?: Array<{\n      id: number;\n      name: string;\n    }>;\n    offices?: Array<{\n      id: number;\n      name: string;\n      location?: string;\n    }>;\n    content?: string;\n    updated_at: string;\n    requisition_id?: string;\n    metadata?: Array<{\n      id: number;\n      name: string;\n      value: string;\n    }>;\n  }>;\n}",
+      "notes": "CRITICAL IMPLEMENTATION NOTES:\n\n1. The ?content=true query parameter is REQUIRED to receive departments and offices arrays. Without it, these fields will be null/undefined.\n\n2. NULL SAFETY: The following fields are optional and require null checks:\n   - location (can be null)\n   - departments (can be null or empty array)\n   - offices (can be null or empty array)\n   - content (can be null)\n   - requisition_id (can be null)\n   - offices[].location (can be null)\n\n3. CORS: The Greenhouse Boards API supports CORS and can be called directly from the browser.\n\n4. RATE LIMITING: Greenhouse recommends caching responses for at least 5 minutes.\n\n5. FILTERING: The API returns ALL jobs - filtering by department and location must be done client-side.\n\n6. PAGINATION: The API does not support server-side pagination - client-side pagination must be implemented.\n\n7. BOARD TOKEN: The boardToken is embedded in the URL path, not passed as a query parameter or header. It's a public identifier, not a secret API key.\n\n8. DEPARTMENT vs OFFICES: Jobs can have multiple departments and multiple offices. The location field is separate from offices.\n\n9. ERROR HANDLING: Common errors include 404 (invalid board token), network errors, and empty responses.\n\n10. APPLY LINKS: Use the absolute_url field for the apply button."
+    }
+  ]
+}

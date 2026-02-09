@@ -66,6 +66,7 @@ export default workflow( {
         description: input.description,
         props: input.props,
         npmDependencies: input.npmDependencies,
+        apiIntegrations: input.apiIntegrations,
         feedback,
       } );
       reactCode = reactResult.code;

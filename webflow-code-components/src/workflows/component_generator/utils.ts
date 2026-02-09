@@ -177,6 +177,9 @@ export default defineConfig({
 </html>
 `;
 
+  const viteEnvDts = `/// <reference types="vite/client" />
+`;
+
   return {
     'package.json': packageJson,
     'webflow.json': webflowJson,
@@ -185,5 +188,6 @@ export default defineConfig({
     'tsconfig.app.json': tsconfigAppJson,
     'tsconfig.node.json': tsconfigNodeJson,
     'index.html': indexHtml,
+    'src/vite-env.d.ts': viteEnvDts,
   };
 }

@@ -9,6 +9,7 @@
 #   - propsText (string, required): human-readable prop list
 #   - propsJson (string, required): JSON array of prop definitions
 #   - npmDependencies (string, optional): available npm packages
+#   - apiIntegrations (string, optional): JSON array of API integration details
 #   - feedback (string, optional): fix instructions from evaluation iteration
 #
 # Output: Complete .tsx file contents (no markdown fences)
@@ -109,7 +110,18 @@ text.split(/\\n|\n/)
 ```
 Do NOT use `.split("\n")` alone — it will miss literal `\n` from JSX string attributes and Webflow text fields.
 
-### 11. Focused and Minimal
+### 11. External API Integrations
+When the component needs to fetch data from an external API:
+- Use `useEffect` + `useState` for data fetching (loading → data | error states)
+- Use `fetch()` — do NOT import axios or any HTTP library
+- Use the EXACT endpoint URL from the api-integrations section — including all required query parameters
+- Mirror the response shape EXACTLY as a TypeScript interface, marking optional fields with `?`
+- Add null-safety on every optional field: `|| []` for arrays, `?.` for nested access, `?? ''` for strings
+- Show a loading state (spinner or "Loading..." text) while fetching
+- Show an error message if the fetch fails
+- Accept API keys/tokens as props so Webflow designers can configure them in the panel
+
+### 12. Focused and Minimal
 - Keep the component focused on its core purpose
 - Don't add unnecessary features beyond what's described
 - Provide sensible default values for ALL optional props so it looks complete out of the box
@@ -202,6 +214,24 @@ Generate the React TypeScript component for: {{ componentName }}
 <available-npm-packages>
 {{ npmDependencies }}
 </available-npm-packages>
+{% endif %}
+
+{% if apiIntegrations %}
+<api-integrations>
+This component integrates with external APIs. Use the EXACT endpoints, query parameters, and response shapes documented below. Do NOT guess or hallucinate API details.
+
+{{ apiIntegrations }}
+
+CRITICAL RULES for API integration:
+1. Use the EXACT endpoint URL provided — including all required query parameters
+2. Use the EXACT field names from the responseShape — do not rename or assume fields
+3. Mark fields as optional in your TypeScript interface if the responseShape marks them with `?`
+4. Add null-safety (`|| []`, `?.`, `?? ''`) for ALL optional/nullable fields
+5. Handle loading and error states (show a loading spinner, then results or an error message)
+6. The API key / token prop should have a sensible placeholder default value
+7. Respect the authMethod: 'none' = no auth, 'path-token' = token in URL path, 'api-key-query' = key as query param, 'api-key-header' = key in request header, 'bearer-token' = Authorization: Bearer header
+8. If notes mention CORS issues, add appropriate error handling
+</api-integrations>
 {% endif %}
 
 <css-class-prefix>
