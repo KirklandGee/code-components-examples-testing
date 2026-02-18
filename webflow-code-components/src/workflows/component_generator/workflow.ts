@@ -133,6 +133,7 @@ export default workflow( {
       kebabName,
       description: input.description,
       props: input.props,
+      apiIntegrations: input.apiIntegrations,
     } );
 
     // Step 4: Generate README (outside loop, depends on final CSS)

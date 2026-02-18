@@ -111,6 +111,7 @@ export const GenerateMainTsxInputSchema = z.object( {
   kebabName: z.string(),
   description: z.string(),
   props: z.array( PropSchema ),
+  apiIntegrations: z.array( ApiIntegrationSchema ).optional(),
 } );
 
 export const GenerateReadmeInputSchema = z.object( {

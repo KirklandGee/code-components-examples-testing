@@ -1,0 +1,17 @@
+{
+  "library": {
+    "name": "TestimonialCarousel",
+    "components": [
+      "./src/**/*.webflow.@(js|jsx|mjs|ts|tsx)"
+    ],
+    "description": "A responsive testimonial carousel powered by Swiper.js that displays customer testimonials in card format. Each card features a decorative quote icon at the top, the testimonial text, and author information below including name, role, company, and an optional avatar image. The carousel shows 1 slide on mobile, 2 on tablet, and 3 on desktop. Includes navigation arrows for manual control, dot pagination indicators at the bottom, and autoplay functionality with configurable delay that pauses on hover. Supports up to 5 testimonial slots with individual visibility controls.",
+    "id": "testimonial-carousel"
+  },
+  "telemetry": {
+    "global": {
+      "allowTelemetry": true,
+      "lastPrompted": 1770657752180,
+      "version": "1.12.0"
+    }
+  }
+}

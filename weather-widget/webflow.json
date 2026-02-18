@@ -1,0 +1,17 @@
+{
+  "library": {
+    "name": "WeatherWidget",
+    "components": [
+      "./src/**/*.webflow.@(js|jsx|mjs|ts|tsx)"
+    ],
+    "description": "A clean card-style weather widget that fetches and displays current weather data from the OpenWeatherMap API. Shows temperature, weather condition with icon, humidity percentage, and wind speed in a structured layout. Features a temperature unit toggle (Fahrenheit/Celsius), a refresh button to re-fetch data, and displays a 'last updated' timestamp. Includes loading state with spinner during data fetch and error message display for invalid API keys or unfound cities. Responsive design that maintains readability on all screen sizes.",
+    "id": "weather-widget"
+  },
+  "telemetry": {
+    "global": {
+      "allowTelemetry": true,
+      "lastPrompted": 1770657822770,
+      "version": "1.12.0"
+    }
+  }
+}

@@ -1,0 +1,268 @@
+/*
+ * Webflow Site Variables Used:
+ * - --background-primary: Hero section background
+ * - --background-secondary: Secondary CTA button background
+ * - --text-primary: Headline and main text
+ * - --text-secondary: Subheading text
+ * - --border-color: Badge and secondary button borders
+ * - --accent-color: Primary CTA button background
+ * - --accent-text-color: Primary CTA button text
+ * - --border-radius: Button and badge rounding
+ */
+
+.wf-herosection *,
+.wf-herosection *::before,
+.wf-herosection *::after {
+  box-sizing: border-box;
+}
+
+.wf-herosection {
+  font-family: inherit;
+  color: inherit;
+  line-height: inherit;
+  --wf-herosection-min-height: 700px;
+  --wf-herosection-overlay-opacity: 0.5;
+  --wf-herosection-content-max-width: 800px;
+}
+
+.wf-herosection {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--wf-herosection-min-height);
+  width: 100%;
+  overflow: hidden;
+  background: var(--background-primary, #ffffff);
+}
+
+.wf-herosection-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.wf-herosection-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, var(--wf-herosection-overlay-opacity));
+  z-index: 1;
+}
+
+.wf-herosection-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1280px;
+  padding: 48px 24px;
+  margin: 0 auto;
+}
+
+.wf-herosection-content {
+  max-width: var(--wf-herosection-content-max-width);
+  width: 100%;
+}
+
+.wf-herosection-layout-left .wf-herosection-content {
+  margin-left: 0;
+  margin-right: auto;
+  text-align: left;
+}
+
+.wf-herosection-layout-centered .wf-herosection-content {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .wf-herosection-layout-left .wf-herosection-content {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+}
+
+.wf-herosection-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary, #1a1a1a);
+  background: var(--background-primary, #ffffff);
+  border: 1px solid var(--border-color, #e5e5e5);
+  border-radius: var(--border-radius, 8px);
+}
+
+.wf-herosection-headline {
+  margin: 0 0 24px 0;
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-primary, #1a1a1a);
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+  .wf-herosection-headline {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wf-herosection-headline {
+    font-size: 28px;
+  }
+}
+
+.wf-herosection-subheading {
+  margin: 0 0 32px 0;
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--text-secondary, #737373);
+}
+
+@media (max-width: 768px) {
+  .wf-herosection-subheading {
+    font-size: 18px;
+  }
+}
+
+.wf-herosection-cta-group {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.wf-herosection-layout-left .wf-herosection-cta-group {
+  justify-content: flex-start;
+}
+
+.wf-herosection-layout-centered .wf-herosection-cta-group {
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .wf-herosection-layout-left .wf-herosection-cta-group {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .wf-herosection-cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.wf-herosection-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--border-radius, 8px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .wf-herosection-cta {
+    width: 100%;
+  }
+}
+
+.wf-herosection-cta-primary {
+  background: var(--accent-color, #1a1a1a);
+  color: var(--accent-text-color, #ffffff);
+}
+
+.wf-herosection-cta-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.wf-herosection-cta-primary:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: 2px;
+}
+
+.wf-herosection-cta-primary:active {
+  transform: translateY(0);
+}
+
+.wf-herosection-cta-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.wf-herosection-cta-secondary {
+  background: transparent;
+  color: var(--text-primary, #1a1a1a);
+  border: 1px solid var(--border-color, #e5e5e5);
+}
+
+.wf-herosection-cta-secondary:hover {
+  background: var(--background-secondary, #f5f5f5);
+  transform: translateY(-1px);
+}
+
+.wf-herosection-cta-secondary:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: 2px;
+}
+
+.wf-herosection-cta-secondary:active {
+  transform: translateY(0);
+}
+
+.wf-herosection-cta-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.wf-herosection-size-medium {
+  --wf-herosection-min-height: 500px;
+}
+
+.wf-herosection-size-large {
+  --wf-herosection-min-height: 700px;
+}
+
+.wf-herosection-size-full {
+  --wf-herosection-min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .wf-herosection-container {
+    padding: 32px 20px;
+  }
+
+  .wf-herosection-badge {
+    margin-bottom: 16px;
+  }
+
+  .wf-herosection-headline {
+    margin-bottom: 16px;
+  }
+
+  .wf-herosection-subheading {
+    margin-bottom: 24px;
+  }
+}

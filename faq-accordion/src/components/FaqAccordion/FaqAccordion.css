@@ -1,0 +1,197 @@
+/*
+ * Webflow Site Variables Used:
+ * - --background-primary: Main background color
+ * - --background-secondary: Hover states
+ * - --text-primary: Main text color
+ * - --text-secondary: Subheading text
+ * - --border-color: Item borders and dividers
+ * - --accent-color: Active item highlight
+ * - --border-radius: Corner rounding
+ */
+
+/* Box sizing reset */
+.wf-faqaccordion *,
+.wf-faqaccordion *::before,
+.wf-faqaccordion *::after {
+  box-sizing: border-box;
+}
+
+/* Root element - inherit Webflow typography */
+.wf-faqaccordion {
+  font-family: inherit;
+  color: inherit;
+  line-height: inherit;
+  width: 100%;
+}
+
+/* Header section */
+.wf-faqaccordion-header {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.wf-faqaccordion-heading {
+  margin: 0 0 8px 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary, #1a1a1a);
+  line-height: 1.2;
+}
+
+.wf-faqaccordion-subheading {
+  margin: 0;
+  font-size: 16px;
+  color: var(--text-secondary, #737373);
+  line-height: 1.5;
+}
+
+/* Accordion list container */
+.wf-faqaccordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Individual accordion item */
+.wf-faqaccordion-item {
+  border-bottom: 1px solid var(--border-color, #e5e5e5);
+}
+
+.wf-faqaccordion-item:first-child {
+  border-top: 1px solid var(--border-color, #e5e5e5);
+}
+
+/* Accordion button */
+.wf-faqaccordion-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.wf-faqaccordion-button:hover {
+  background: var(--background-secondary, #f5f5f5);
+}
+
+.wf-faqaccordion-button:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: -2px;
+  background: var(--background-secondary, #f5f5f5);
+}
+
+.wf-faqaccordion-button-left {
+  flex-direction: row;
+}
+
+.wf-faqaccordion-button-right {
+  flex-direction: row;
+}
+
+/* Question text */
+.wf-faqaccordion-question {
+  flex: 1;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: inherit;
+}
+
+/* Icon container */
+.wf-faqaccordion-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.wf-faqaccordion-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.wf-faqaccordion-icon-open {
+  transform: rotate(180deg);
+}
+
+/* Content wrapper with animation */
+.wf-faqaccordion-content-wrapper {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  max-height: 0;
+}
+
+/* Content padding container */
+.wf-faqaccordion-content {
+  padding: 0 24px 20px 24px;
+}
+
+.wf-faqaccordion-button-left + .wf-faqaccordion-content-wrapper .wf-faqaccordion-content {
+  padding-left: 64px;
+}
+
+/* Answer content */
+.wf-faqaccordion-answer {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-secondary, #737373);
+}
+
+.wf-faqaccordion-answer p {
+  margin: 0 0 12px 0;
+}
+
+.wf-faqaccordion-answer p:last-child {
+  margin-bottom: 0;
+}
+
+.wf-faqaccordion-answer ul,
+.wf-faqaccordion-answer ol {
+  margin: 0 0 12px 0;
+  padding-left: 24px;
+}
+
+.wf-faqaccordion-answer li {
+  margin-bottom: 8px;
+}
+
+.wf-faqaccordion-answer li:last-child {
+  margin-bottom: 0;
+}
+
+.wf-faqaccordion-answer a {
+  color: var(--accent-color, #1a1a1a);
+  text-decoration: underline;
+}
+
+.wf-faqaccordion-answer a:hover {
+  text-decoration: none;
+}
+
+.wf-faqaccordion-answer strong {
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+}
+
+/* Active item state */
+.wf-faqaccordion-item-active .wf-faqaccordion-button {
+  background: var(--background-secondary, #f5f5f5);
+}
+
+.wf-faqaccordion-item-active .wf-faqaccordion-question {
+  color: var(--accent-color, #1a1a1a);
+}
+
+.wf-faqaccordion-item-active .wf-faqaccordion-icon {
+  color: var(--accent-color, #1a1a1a);
+}

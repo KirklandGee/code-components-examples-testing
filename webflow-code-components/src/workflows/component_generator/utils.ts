@@ -169,6 +169,11 @@ export default defineConfig({
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>${componentName}</title>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; }
+      body { color: inherit; }
+      h1, h2, h3, h4, h5, h6 { color: inherit; }
+    </style>
   </head>
   <body>
     <div id="root"></div>

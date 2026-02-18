@@ -1,0 +1,17 @@
+{
+  "library": {
+    "name": "FaqAccordion",
+    "components": [
+      "./src/**/*.webflow.@(js|jsx|mjs|ts|tsx)"
+    ],
+    "description": "A vertically stacked accordion component designed for FAQ sections with 5-6 collapsible items. Each item displays a question header with an expand/collapse icon that rotates on interaction. Clicking a question smoothly expands its answer panel with a slide-down animation while automatically collapsing any previously open item, ensuring only one answer is visible at a time. The active item is visually distinguished with an accent color. Fully responsive and keyboard accessible.",
+    "id": "faq-accordion"
+  },
+  "telemetry": {
+    "global": {
+      "allowTelemetry": true,
+      "lastPrompted": 1770657463320,
+      "version": "1.12.0"
+    }
+  }
+}

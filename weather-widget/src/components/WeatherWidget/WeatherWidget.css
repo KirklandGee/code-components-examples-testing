@@ -1,0 +1,273 @@
+/*
+ * Webflow Site Variables Used:
+ * - --background-primary: Widget background
+ * - --background-secondary: Hover states, detail backgrounds
+ * - --text-primary: Main text color
+ * - --text-secondary: Labels and muted text
+ * - --border-color: Widget border and dividers
+ * - --accent-color: Buttons and active states
+ * - --accent-text-color: Text on accent background
+ * - --border-radius: Widget and button rounding
+ */
+
+/* Box sizing reset */
+.wf-weatherwidget *,
+.wf-weatherwidget *::before,
+.wf-weatherwidget *::after {
+  box-sizing: border-box;
+}
+
+/* Root element - inherit Webflow typography */
+.wf-weatherwidget {
+  font-family: inherit;
+  color: inherit;
+  line-height: inherit;
+  --wf-weatherwidget-spacing: 16px;
+}
+
+/* Header */
+.wf-weatherwidget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--wf-weatherwidget-spacing);
+  gap: 12px;
+}
+
+.wf-weatherwidget-heading {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.wf-weatherwidget-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Unit toggle button */
+.wf-weatherwidget-unit-toggle {
+  background: var(--background-secondary, #f5f5f5);
+  border: 1px solid var(--border-color, #e5e5e5);
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: var(--border-radius, 8px);
+  color: var(--text-primary, #1a1a1a);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.wf-weatherwidget-unit-toggle:hover {
+  background: var(--accent-color, #1a1a1a);
+  color: var(--accent-text-color, #ffffff);
+  border-color: var(--accent-color, #1a1a1a);
+}
+
+.wf-weatherwidget-unit-toggle:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: 2px;
+}
+
+/* Refresh button */
+.wf-weatherwidget-refresh-button {
+  background: var(--accent-color, #1a1a1a);
+  color: var(--accent-text-color, #ffffff);
+  border: none;
+  padding: 6px 16px;
+  cursor: pointer;
+  border-radius: var(--border-radius, 8px);
+  font-size: 14px;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.wf-weatherwidget-refresh-button:hover {
+  opacity: 0.9;
+}
+
+.wf-weatherwidget-refresh-button:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: 2px;
+}
+
+.wf-weatherwidget-refresh-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Content container */
+.wf-weatherwidget-content {
+  background: var(--background-primary, #ffffff);
+  border: 1px solid var(--border-color, #e5e5e5);
+  border-radius: var(--border-radius, 8px);
+  padding: var(--wf-weatherwidget-spacing);
+}
+
+/* Loading state */
+.wf-weatherwidget-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  gap: 12px;
+}
+
+.wf-weatherwidget-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border-color, #e5e5e5);
+  border-top-color: var(--accent-color, #1a1a1a);
+  border-radius: 50%;
+  animation: wf-weatherwidget-spin 0.8s linear infinite;
+}
+
+@keyframes wf-weatherwidget-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.wf-weatherwidget-loading-text {
+  margin: 0;
+  color: var(--text-secondary, #737373);
+  font-size: 14px;
+}
+
+/* Error state */
+.wf-weatherwidget-error {
+  padding: 16px;
+  background: var(--background-secondary, #f5f5f5);
+  border-radius: var(--border-radius, 8px);
+}
+
+.wf-weatherwidget-error-text {
+  margin: 0;
+  color: var(--text-primary, #1a1a1a);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Main weather display */
+.wf-weatherwidget-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color, #e5e5e5);
+}
+
+/* Temperature section */
+.wf-weatherwidget-temperature-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wf-weatherwidget-temperature {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.wf-weatherwidget-temperature-value {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--text-primary, #1a1a1a);
+  line-height: 1;
+}
+
+.wf-weatherwidget-temperature-unit {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-secondary, #737373);
+}
+
+/* Condition section */
+.wf-weatherwidget-condition-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wf-weatherwidget-condition {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wf-weatherwidget-icon {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.wf-weatherwidget-condition-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-primary, #1a1a1a);
+  text-transform: capitalize;
+}
+
+/* Labels */
+.wf-weatherwidget-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary, #737373);
+}
+
+/* Details section */
+.wf-weatherwidget-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.wf-weatherwidget-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  background: var(--background-secondary, #f5f5f5);
+  border-radius: var(--border-radius, 8px);
+}
+
+.wf-weatherwidget-detail-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+}
+
+/* Footer */
+.wf-weatherwidget-footer {
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color, #e5e5e5);
+}
+
+.wf-weatherwidget-timestamp {
+  font-size: 12px;
+  color: var(--text-secondary, #737373);
+  display: block;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (min-width: 480px) {
+  .wf-weatherwidget-main {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .wf-weatherwidget-condition {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

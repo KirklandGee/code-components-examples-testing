@@ -48,8 +48,8 @@ Start with a comment block listing all Webflow site variables used:
  */
 ```
 
-### 2. Box Sizing Reset and Root Element Typography Inheritance
-The component MUST include a box-sizing reset scoped to its root, followed by typography inheritance:
+### 2. Box Sizing Reset, Typography Inheritance, and Default Padding
+The component MUST include a box-sizing reset scoped to its root, typography inheritance, and default padding on the root element:
 ```css
 .wf-{{ classPrefix }} *,
 .wf-{{ classPrefix }} *::before,
@@ -61,9 +61,11 @@ The component MUST include a box-sizing reset scoped to its root, followed by ty
   font-family: inherit;
   color: inherit;
   line-height: inherit;
+  padding: 24px;
 }
 ```
-This prevents `width: 100%` elements with padding/border from overflowing their containers.
+The box-sizing reset prevents `width: 100%` elements with padding/border from overflowing their containers.
+The default `padding: 24px` on the root element is CRITICAL because in Webflow, code components are often dropped directly onto the page or into a section without a wrapper div. Without padding, content sits flush against the edges. Designers can always override this in Webflow, but the default should look good out of the box.
 
 ### 3. Site Variables with Fallbacks
 ALL colors and borders MUST use Webflow site variables with fallbacks:
@@ -153,11 +155,12 @@ This is the proven pattern from the working Calendar component:
  * - --border-radius: Calendar and button rounding
  */
 
-/* Root element - inherit Webflow typography */
+/* Root element - inherit Webflow typography + default padding */
 .wf-calendar {
   font-family: inherit;
   color: inherit;
   line-height: inherit;
+  padding: 24px;
   --wf-calendar-cell-size: 36px;
   --wf-calendar-spacing: 4px;
 }
@@ -248,7 +251,7 @@ Read the provided React component code carefully. Identify every className used.
 List all Webflow site variables that will be used in this component.
 
 ### Step 3: Define Root Class
-Start with the root class that inherits typography. Add any component-level custom properties.
+Start with the root class that inherits typography and includes `padding: 24px` for breathing room. Add any component-level custom properties.
 
 ### Step 4: Style Each Element
 For every className in the React component:

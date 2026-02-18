@@ -74,6 +74,16 @@ Create a complete theme switcher with three presets plus custom editing:
    - Page background should change with theme for contrast visibility
    - Clear section headings
 
+### API Configuration Panel
+If the component integrates with external APIs (tokens, keys, endpoints), add an "API Configuration" panel in the header area (below the custom theme editor) with:
+- A text input for each credential or configurable endpoint (e.g. board token, API key, base URL)
+- Each input uses `useState` so it can be edited live
+- Pass the state value to ALL component instances (never hardcode the credential)
+- Include a placeholder hint and brief description for each input
+- Style the panel consistently with the theme editor (same background, border, font sizes)
+
+This is critical because developers need to test with their own API credentials on the dev server.
+
 ### Component Props
 Use these props for the default instance:
 {{ propsJson }}
@@ -108,4 +118,18 @@ Description: {{ description }}
 <props-json>
 {{ propsJson }}
 </props-json>
+
+{% if apiIntegrations %}
+<api-integrations>
+This component uses external APIs. Create editable text inputs in the header for each credential below so developers can test with their own values:
+
+{{ apiIntegrations }}
+
+Each credential input should:
+- Use useState for live editing
+- Pass the state value to ALL component instances via props
+- Never hardcode the credential value
+- Include a helpful placeholder and description
+</api-integrations>
+{% endif %}
 </user>

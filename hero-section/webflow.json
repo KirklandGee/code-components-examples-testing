@@ -1,0 +1,17 @@
+{
+  "library": {
+    "name": "HeroSection",
+    "components": [
+      "./src/**/*.webflow.@(js|jsx|mjs|ts|tsx)"
+    ],
+    "description": "A responsive hero section featuring a large headline, subheading, call-to-action button, and optional background image. The component supports two layout variants: left-aligned (content positioned to the left side) and centered (content centered on the page). The background image can be toggled on or off, with a subtle overlay to ensure text readability. The CTA button includes hover states and transitions. On mobile devices, the layout automatically adjusts to center-aligned for optimal readability regardless of the selected variant.",
+    "id": "hero-section"
+  },
+  "telemetry": {
+    "global": {
+      "allowTelemetry": true,
+      "lastPrompted": 1770657505470,
+      "version": "1.12.0"
+    }
+  }
+}

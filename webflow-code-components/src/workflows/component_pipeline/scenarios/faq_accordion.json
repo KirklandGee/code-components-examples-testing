@@ -1,0 +1,4 @@
+{
+  "description": "An FAQ accordion component with expandable question/answer pairs. Click a question to expand its answer with a smooth height animation. Only one item open at a time by default, with a prop to allow multiple open. Each item has a question heading and rich text answer. Includes an optional search/filter input at the top. Supports up to 10 FAQ items with numbered props for each question and answer.",
+  "complexity": "standard"
+}

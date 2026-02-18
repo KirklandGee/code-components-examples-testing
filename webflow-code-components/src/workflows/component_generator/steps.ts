@@ -328,6 +328,9 @@ export const generateMainTsx = step( {
   outputSchema: CodeOutputSchema,
   fn: async ( input ) => {
     const propsText = serializePropsForPrompt( input.props );
+    const apiIntegrationsText = input.apiIntegrations && input.apiIntegrations.length > 0
+      ? JSON.stringify( input.apiIntegrations, null, 2 )
+      : '';
 
     const { result } = await generateText( {
       prompt: 'generate_main_tsx@v1',
@@ -337,6 +340,7 @@ export const generateMainTsx = step( {
         description: input.description,
         propsText,
         propsJson: JSON.stringify( input.props, null, 2 ),
+        apiIntegrations: apiIntegrationsText,
       },
     } );
 
