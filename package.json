@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "submit-pr": "bash scripts/submit-component-pr.sh"
+  },
   "devDependencies": {
     "@webflow/data-types": "^1.2.0",
     "@webflow/react": "^1.2.0",
