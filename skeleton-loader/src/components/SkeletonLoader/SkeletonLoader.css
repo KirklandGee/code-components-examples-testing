@@ -1,0 +1,110 @@
+/*
+ * Webflow Site Variables Used:
+ * - --background-secondary: Skeleton base color
+ * - --border-color: Shimmer highlight color
+ * - --border-radius: Corner rounding for shapes
+ */
+
+/* Box sizing reset */
+.wf-skeletonloader *,
+.wf-skeletonloader *::before,
+.wf-skeletonloader *::after {
+  box-sizing: border-box;
+}
+
+/* Root element - inherit Webflow typography + default padding */
+.wf-skeletonloader {
+  font-family: inherit;
+  color: inherit;
+  line-height: inherit;
+  padding: 24px;
+  --wf-skeletonloader-width: 100%;
+  --wf-skeletonloader-height: 200px;
+  --wf-skeletonloader-circle-size: 64px;
+  --wf-skeletonloader-line-width: 100%;
+}
+
+/* Shimmer animation keyframes */
+@keyframes wf-skeletonloader-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes wf-skeletonloader-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Base skeleton shape styles */
+.wf-skeletonloader-circle,
+.wf-skeletonloader-rectangle,
+.wf-skeletonloader-text-line {
+  background: var(--background-secondary, #f5f5f5);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer effect overlay */
+.wf-skeletonloader-animated .wf-skeletonloader-circle::after,
+.wf-skeletonloader-animated .wf-skeletonloader-rectangle::after,
+.wf-skeletonloader-animated .wf-skeletonloader-text-line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--border-color, #e5e5e5) 50%,
+    transparent 100%
+  );
+  animation: wf-skeletonloader-shimmer 2s infinite;
+}
+
+/* Pulse animation for non-animated state */
+.wf-skeletonloader:not(.wf-skeletonloader-animated) .wf-skeletonloader-circle,
+.wf-skeletonloader:not(.wf-skeletonloader-animated) .wf-skeletonloader-rectangle,
+.wf-skeletonloader:not(.wf-skeletonloader-animated) .wf-skeletonloader-text-line {
+  animation: wf-skeletonloader-pulse 2s ease-in-out infinite;
+}
+
+/* Circular skeleton */
+.wf-skeletonloader-circle {
+  width: var(--wf-skeletonloader-circle-size);
+  height: var(--wf-skeletonloader-circle-size);
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+
+/* Rectangular skeleton */
+.wf-skeletonloader-rectangle {
+  width: var(--wf-skeletonloader-width);
+  height: var(--wf-skeletonloader-height);
+  border-radius: var(--border-radius, 8px);
+  margin-bottom: 16px;
+}
+
+/* Text lines container */
+.wf-skeletonloader-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Individual text line */
+.wf-skeletonloader-text-line {
+  height: 16px;
+  width: var(--wf-skeletonloader-line-width);
+  border-radius: var(--border-radius, 8px);
+}
