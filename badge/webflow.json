@@ -1,0 +1,10 @@
+{
+  "library": {
+    "name": "Badge",
+    "components": [
+      "./src/**/*.webflow.@(js|jsx|mjs|ts|tsx)"
+    ],
+    "description": "A compact badge component that displays a label with visual styling variants for different semantic meanings. The badge supports four color variants (success, warning, error, info) that apply appropriate background and text colors. Includes an optional close button that appears on the right side when enabled. The component is inline-block by default and works well for tags, status indicators, categories, and labels. The close button includes hover states and can trigger custom actions.",
+    "id": "badge"
+  }
+}
