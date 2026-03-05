@@ -1,0 +1,159 @@
+/*
+ * Webflow Site Variables Used:
+ * - --background-primary: Accordion background
+ * - --background-secondary: Button hover state
+ * - --text-primary: Title and content text
+ * - --text-secondary: Muted text elements
+ * - --border-color: Item borders and dividers
+ * - --accent-color: Focus outline color
+ * - --border-radius: Corner rounding for bordered variant
+ */
+
+/* Box sizing reset */
+.wf-accordion *,
+.wf-accordion *::before,
+.wf-accordion *::after {
+  box-sizing: border-box;
+}
+
+/* Root element - inherit Webflow typography + default padding */
+.wf-accordion {
+  font-family: inherit;
+  color: inherit;
+  line-height: inherit;
+  padding: 24px;
+}
+
+/* Bordered variant container */
+.wf-accordion-bordered {
+  border: 1px solid var(--border-color, #e5e5e5);
+  border-radius: var(--border-radius, 8px);
+  overflow: hidden;
+}
+
+/* Flush variant container */
+.wf-accordion-flush {
+  border: none;
+}
+
+/* Accordion item */
+.wf-accordion-item {
+  background: var(--background-primary, #ffffff);
+}
+
+/* Bordered variant item borders */
+.wf-accordion-bordered .wf-accordion-item + .wf-accordion-item {
+  border-top: 1px solid var(--border-color, #e5e5e5);
+}
+
+/* Flush variant item borders */
+.wf-accordion-flush .wf-accordion-item + .wf-accordion-item {
+  border-top: 1px solid var(--border-color, #e5e5e5);
+}
+
+/* Header wrapper */
+.wf-accordion-header {
+  margin: 0;
+  padding: 0;
+}
+
+/* Accordion button */
+.wf-accordion-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-primary, #1a1a1a);
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.wf-accordion-button:hover {
+  background: var(--background-secondary, #f5f5f5);
+}
+
+.wf-accordion-button:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: -2px;
+  z-index: 1;
+  position: relative;
+}
+
+.wf-accordion-button:active {
+  background: var(--background-secondary, #f5f5f5);
+}
+
+/* Title text */
+.wf-accordion-title {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Chevron icon */
+.wf-accordion-icon {
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.wf-accordion-icon-expanded {
+  transform: rotate(180deg);
+}
+
+/* Content wrapper with slide animation */
+.wf-accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+/* Content body */
+.wf-accordion-body {
+  padding: 0 20px 20px 20px;
+  color: var(--text-primary, #1a1a1a);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Rich text content styling */
+.wf-accordion-body p {
+  margin: 0 0 12px 0;
+}
+
+.wf-accordion-body p:last-child {
+  margin-bottom: 0;
+}
+
+.wf-accordion-body a {
+  color: var(--accent-color, #1a1a1a);
+  text-decoration: underline;
+}
+
+.wf-accordion-body a:hover {
+  text-decoration: none;
+}
+
+.wf-accordion-body ul,
+.wf-accordion-body ol {
+  margin: 0 0 12px 0;
+  padding-left: 24px;
+}
+
+.wf-accordion-body li {
+  margin-bottom: 4px;
+}
+
+.wf-accordion-body strong {
+  font-weight: 600;
+}
+
+.wf-accordion-body em {
+  font-style: italic;
+}

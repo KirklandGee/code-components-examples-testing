@@ -1,0 +1,10 @@
+{
+  "library": {
+    "name": "Accordion",
+    "components": [
+      "./src/**/*.webflow.@(js|jsx|mjs|ts|tsx)"
+    ],
+    "description": "A fully accessible accordion component that displays collapsible content sections with smooth slide animations. Each section consists of a clickable header with a title and an animated chevron icon that rotates 180 degrees when expanded. Supports two expansion modes: 'single' mode where opening one section automatically closes others, and 'multiple' mode where any number of sections can be open simultaneously. Features two visual variants: a 'bordered' style with visible borders around each section, and a 'flush' minimal style with subtle dividers. The first item is expanded by default on initial render. Fully keyboard accessible with Enter and Space key support, and implements proper ARIA attributes for screen readers. Responsive design ensures readability on all screen sizes.",
+    "id": "accordion"
+  }
+}
