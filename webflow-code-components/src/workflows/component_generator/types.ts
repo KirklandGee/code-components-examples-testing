@@ -47,6 +47,7 @@ export const DeterministicChecksSchema = z.object( {
   propsGrouped: z.boolean(),
   ssrFlagCorrect: z.boolean(),
   noCodeFences: z.boolean(),
+  imageLinkPropsCorrect: z.boolean(),
 } );
 
 export const EvaluationSchema = z.object( {

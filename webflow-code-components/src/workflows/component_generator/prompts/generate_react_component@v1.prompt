@@ -110,7 +110,43 @@ text.split(/\\n|\n/)
 ```
 Do NOT use `.split("\n")` alone — it will miss literal `\n` from JSX string attributes and Webflow text fields.
 
-### 11. External API Integrations
+### 11. Webflow Prop Type Shapes
+Webflow passes certain prop types as **objects**, not plain strings. You MUST type these correctly in the interface and use them correctly in JSX — otherwise they render as `[object Object]` at runtime.
+
+| Webflow prop type | TypeScript type in interface | How to use in JSX |
+|---|---|---|
+| `props.Image` | `{ src: string; alt?: string }` | `<img src={image.src} alt={image.alt || fallback} />` |
+| `props.Link` | `{ href?: string; target?: string }` | `<a href={link?.href || "#"} target={link?.target}>` |
+
+**Rules:**
+- NEVER type an Image prop as `string`. Always use `{ src: string; alt?: string }`.
+- NEVER type a Link prop as `string`. Always use `{ href?: string; target?: string }`.
+- Always use optional chaining (`link?.href`) since the prop may be undefined before the user fills it in.
+- Pass `target={link?.target}` to preserve the link target (e.g. `_blank`) the user sets in Webflow.
+- When a Link or Image prop feeds into an internal array/object (e.g. a `Slide` or `Item` interface), match the types there too.
+
+**Example — correct Image and Link usage:**
+{% raw %}
+```tsx
+export interface HeroProps {
+  heroImage?: { src: string; alt?: string };
+  ctaLink?: { href?: string; target?: string };
+}
+
+export default function Hero({ heroImage, ctaLink }: HeroProps) {
+  return (
+    <div className="wf-hero">
+      {heroImage && <img src={heroImage.src} alt={heroImage.alt || ""} className="wf-hero-image" />}
+      <a href={ctaLink?.href || "#"} target={ctaLink?.target} className="wf-hero-cta">
+        Get Started
+      </a>
+    </div>
+  );
+}
+```
+{% endraw %}
+
+### 13. External API Integrations
 When the component needs to fetch data from an external API:
 - Use `useEffect` + `useState` for data fetching (loading → data | error states)
 - Use `fetch()` — do NOT import axios or any HTTP library
@@ -121,7 +157,7 @@ When the component needs to fetch data from an external API:
 - Show an error message if the fetch fails
 - Accept API keys/tokens as props so Webflow designers can configure them in the panel
 
-### 12. Focused and Minimal
+### 14. Focused and Minimal
 - Keep the component focused on its core purpose
 - Don't add unnecessary features beyond what's described
 - Provide sensible default values for ALL optional props so it looks complete out of the box

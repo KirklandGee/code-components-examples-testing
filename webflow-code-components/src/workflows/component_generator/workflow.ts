@@ -50,6 +50,7 @@ export default workflow( {
       propsGrouped: false,
       ssrFlagCorrect: false,
       noCodeFences: false,
+      imageLinkPropsCorrect: false,
     };
     let llmScore = 0;
     let iterations = 0;

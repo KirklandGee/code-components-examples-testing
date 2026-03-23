@@ -298,6 +298,27 @@ export const runDeterministicChecks = step( {
       }
     }
 
+    // 12. Image and Link props typed correctly
+    // props.Image returns {src, alt} and props.Link returns {href, target} — not plain strings.
+    // Find every prop declared as props.Image or props.Link in the webflow declaration and verify
+    // the React component does NOT type that prop as `?: string`.
+    let imageLinkPropsCorrect = true;
+    const imagePropNames = [ ...webflowDeclarationCode.matchAll( /(\w+):\s*props\.Image\s*\(/g ) ].map( m => m[1] );
+    const linkPropNames = [ ...webflowDeclarationCode.matchAll( /(\w+):\s*props\.Link\s*\(/g ) ].map( m => m[1] );
+    for ( const propName of imagePropNames ) {
+      // Match `propName?: string` or `propName: string` in the React interface
+      if ( new RegExp( `${propName}\\??:\\s*string\\b` ).test( reactComponentCode ) ) {
+        imageLinkPropsCorrect = false;
+        failures.push( `Prop "${propName}" uses props.Image but is typed as string in the React component — must be typed as { src: string; alt?: string }` );
+      }
+    }
+    for ( const propName of linkPropNames ) {
+      if ( new RegExp( `${propName}\\??:\\s*string\\b` ).test( reactComponentCode ) ) {
+        imageLinkPropsCorrect = false;
+        failures.push( `Prop "${propName}" uses props.Link but is typed as string in the React component — must be typed as { href?: string; target?: string }` );
+      }
+    }
+
     const checks = {
       classPrefixCorrect,
       typographyInherited,
@@ -310,6 +331,7 @@ export const runDeterministicChecks = step( {
       propsGrouped,
       ssrFlagCorrect,
       noCodeFences,
+      imageLinkPropsCorrect,
     };
 
     const allPassed = Object.values( checks ).every( Boolean );
