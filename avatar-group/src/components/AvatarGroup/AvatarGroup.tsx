@@ -7,23 +7,23 @@ export interface AvatarGroupProps {
   showBorder?: boolean;
   overlapAmount?: "none" | "small" | "medium" | "large";
   maxCount?: number;
-  avatar1Image?: string;
+  avatar1Image?: { src: string; alt?: string };
   avatar1Name?: string;
   avatar1Status?: "none" | "online" | "offline" | "busy";
   avatar1Visible?: boolean;
-  avatar2Image?: string;
+  avatar2Image?: { src: string; alt?: string };
   avatar2Name?: string;
   avatar2Status?: "none" | "online" | "offline" | "busy";
   avatar2Visible?: boolean;
-  avatar3Image?: string;
+  avatar3Image?: { src: string; alt?: string };
   avatar3Name?: string;
   avatar3Status?: "none" | "online" | "offline" | "busy";
   avatar3Visible?: boolean;
-  avatar4Image?: string;
+  avatar4Image?: { src: string; alt?: string };
   avatar4Name?: string;
   avatar4Status?: "none" | "online" | "offline" | "busy";
   avatar4Visible?: boolean;
-  avatar5Image?: string;
+  avatar5Image?: { src: string; alt?: string };
   avatar5Name?: string;
   avatar5Status?: "none" | "online" | "offline" | "busy";
   avatar5Visible?: boolean;
@@ -31,7 +31,7 @@ export interface AvatarGroupProps {
 }
 
 interface Avatar {
-  image?: string;
+  image?: { src: string; alt?: string };
   name: string;
   status: "none" | "online" | "offline" | "busy";
   visible: boolean;
@@ -123,7 +123,8 @@ export default function AvatarGroup({
   );
 
   const visibleAvatars = avatars.filter((avatar) => avatar.visible);
-  const displayAvatars = mode === "single" ? visibleAvatars.slice(0, 1) : visibleAvatars.slice(0, maxCount);
+  // In single mode, always show avatar1 specifically — Visible props only apply in group mode
+  const displayAvatars = mode === "single" ? avatars.slice(0, 1) : visibleAvatars.slice(0, maxCount);
   const overflowCount = totalCount - maxCount;
   const showOverflow = mode === "group" && overflowCount > 0;
 
@@ -153,7 +154,7 @@ export default function AvatarGroup({
             }
           >
             {avatar.image ? (
-              <img src={avatar.image} alt={avatar.name} className="wf-avatargroup-image" />
+              <img src={avatar.image.src} alt={avatar.image.alt || avatar.name} className="wf-avatargroup-image" />
             ) : (
               <span className="wf-avatargroup-initials">{getInitials(avatar.name)}</span>
             )}

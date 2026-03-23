@@ -22,7 +22,7 @@ export default declareComponent(AvatarGroup, {
       options: ["single", "group"],
       defaultValue: "single",
       group: "Style",
-      tooltip: "Display mode for single or grouped avatars"
+      tooltip: "Single: shows only Avatar 1. Group: shows all visible avatars up to Max Count."
     }),
     size: props.Variant({
       name: "Size",
@@ -71,7 +71,7 @@ export default declareComponent(AvatarGroup, {
     avatar1Visible: props.Visibility({
       name: "Visible",
       group: "Avatar 1",
-      tooltip: "Show or hide the first avatar"
+      tooltip: "Show or hide this avatar (in Group mode only)"
     }),
     avatar2Image: props.Image({
       name: "Image",
@@ -94,7 +94,7 @@ export default declareComponent(AvatarGroup, {
     avatar2Visible: props.Visibility({
       name: "Visible",
       group: "Avatar 2",
-      tooltip: "Show or hide the second avatar"
+      tooltip: "Show or hide this avatar (in Group mode only)"
     }),
     avatar3Image: props.Image({
       name: "Image",
@@ -117,7 +117,7 @@ export default declareComponent(AvatarGroup, {
     avatar3Visible: props.Visibility({
       name: "Visible",
       group: "Avatar 3",
-      tooltip: "Show or hide the third avatar"
+      tooltip: "Show or hide this avatar (in Group mode only)"
     }),
     avatar4Image: props.Image({
       name: "Image",
@@ -140,7 +140,7 @@ export default declareComponent(AvatarGroup, {
     avatar4Visible: props.Visibility({
       name: "Visible",
       group: "Avatar 4",
-      tooltip: "Show or hide the fourth avatar"
+      tooltip: "Show or hide this avatar (in Group mode only)"
     }),
     avatar5Image: props.Image({
       name: "Image",
@@ -163,7 +163,7 @@ export default declareComponent(AvatarGroup, {
     avatar5Visible: props.Visibility({
       name: "Visible",
       group: "Avatar 5",
-      tooltip: "Show or hide the fifth avatar"
+      tooltip: "Show or hide this avatar (in Group mode only)"
     }),
     totalCount: props.Number({
       name: "Total Count",
