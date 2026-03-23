@@ -8,7 +8,6 @@ import {
   runDeterministicChecks,
   generateMainTsx,
   generateReadme,
-  generateSimpleDeclaration,
   writeFiles,
 } from './steps.js';
 import { evaluateComponent } from './evaluators.js';
@@ -146,16 +145,6 @@ export default workflow( {
       npmDependencies: input.npmDependencies,
     } );
 
-    // Step 5: Generate simple declaration (client-friendly prop subset)
-    const simpleResult = await generateSimpleDeclaration( {
-      componentName: input.componentName,
-      kebabName,
-      description: input.description,
-      group,
-      fullDeclarationCode: webflowCode,
-      reactComponentCode: reactCode,
-    } );
-
     // Assemble all files into the output map
     const componentDir = `src/components/${input.componentName}`;
     const files: Record<string, string> = {
@@ -164,7 +153,6 @@ export default workflow( {
       [`${componentDir}/${input.componentName}.tsx`]: reactCode,
       [`${componentDir}/${input.componentName}.css`]: cssCode,
       [`${componentDir}/${input.componentName}.webflow.tsx`]: webflowCode,
-      [`${componentDir}/${input.componentName}Simple.webflow.tsx`]: simpleResult.code,
       'README.md': readmeResult.code,
     };
 

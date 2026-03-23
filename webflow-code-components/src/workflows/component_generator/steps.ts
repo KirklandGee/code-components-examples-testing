@@ -14,7 +14,6 @@ import {
   GenerateReadmeInputSchema,
   RunDeterministicChecksInputSchema,
   RunDeterministicChecksOutputSchema,
-  GenerateSimpleDeclarationInputSchema,
   WriteFilesInputSchema,
   WriteFilesOutputSchema,
 } from './types.js';
@@ -384,34 +383,7 @@ export const generateReadme = step( {
   },
 } );
 
-// ─── Step 8: Generate Simple Declaration (LLM) ──────────────────────────────
-
-export const generateSimpleDeclaration = step( {
-  name: 'generate_simple_declaration',
-  description: 'Generate a simplified .webflow.tsx with only core content props for client use',
-  inputSchema: GenerateSimpleDeclarationInputSchema,
-  outputSchema: CodeOutputSchema,
-  fn: async ( input ) => {
-    const { result } = await generateText( {
-      prompt: 'generate_simple_declaration@v1',
-      variables: {
-        componentName: input.componentName,
-        kebabName: input.kebabName,
-        description: input.description,
-        group: input.group,
-        fullDeclarationCode: input.fullDeclarationCode,
-        reactComponentCode: input.reactComponentCode,
-      },
-    } );
-
-    return { code: stripCodeFences( result ) };
-  },
-  options: {
-    retry: { maximumAttempts: 3 },
-  },
-} );
-
-// ─── Step 9: Write Files to Disk ─────────────────────────────────────────────
+// ─── Step 8: Write Files to Disk ─────────────────────────────────────────────
 
 export const writeFiles = step( {
   name: 'write_files',

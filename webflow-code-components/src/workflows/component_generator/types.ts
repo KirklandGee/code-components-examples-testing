@@ -123,17 +123,6 @@ export const GenerateReadmeInputSchema = z.object( {
   npmDependencies: z.record( z.string(), z.string() ).optional(),
 } );
 
-// ─── Simple Declaration Step Schema ─────────────────────────────────────────
-
-export const GenerateSimpleDeclarationInputSchema = z.object( {
-  componentName: z.string(),
-  kebabName: z.string(),
-  description: z.string(),
-  group: z.string(),
-  fullDeclarationCode: z.string(),
-  reactComponentCode: z.string(),
-} );
-
 // ─── Write Files Step Schema ─────────────────────────────────────────────────
 
 export const WriteFilesInputSchema = z.object( {
