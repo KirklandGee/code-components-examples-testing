@@ -17,49 +17,49 @@ export interface CmsFilterSearchProps {
   showCategoryFilters?: boolean;
   enableAnimations?: boolean;
   item1Visible?: boolean;
-  item1Image?: string;
+  item1Image?: { src: string; alt?: string };
   item1Title?: string;
   item1Description?: string;
   item1Category?: string;
-  item1Link?: string;
+  item1Link?: { href?: string; target?: string };
   item2Visible?: boolean;
-  item2Image?: string;
+  item2Image?: { src: string; alt?: string };
   item2Title?: string;
   item2Description?: string;
   item2Category?: string;
-  item2Link?: string;
+  item2Link?: { href?: string; target?: string };
   item3Visible?: boolean;
-  item3Image?: string;
+  item3Image?: { src: string; alt?: string };
   item3Title?: string;
   item3Description?: string;
   item3Category?: string;
-  item3Link?: string;
+  item3Link?: { href?: string; target?: string };
   item4Visible?: boolean;
-  item4Image?: string;
+  item4Image?: { src: string; alt?: string };
   item4Title?: string;
   item4Description?: string;
   item4Category?: string;
-  item4Link?: string;
+  item4Link?: { href?: string; target?: string };
   item5Visible?: boolean;
-  item5Image?: string;
+  item5Image?: { src: string; alt?: string };
   item5Title?: string;
   item5Description?: string;
   item5Category?: string;
-  item5Link?: string;
+  item5Link?: { href?: string; target?: string };
   item6Visible?: boolean;
-  item6Image?: string;
+  item6Image?: { src: string; alt?: string };
   item6Title?: string;
   item6Description?: string;
   item6Category?: string;
-  item6Link?: string;
+  item6Link?: { href?: string; target?: string };
 }
 
 interface CollectionItem {
-  image?: string;
+  image?: { src: string; alt?: string };
   title: string;
   description: string;
   category: string;
-  link?: string;
+  link?: { href?: string; target?: string };
 }
 
 export default function CmsFilterSearch({
@@ -340,9 +340,9 @@ export default function CmsFilterSearch({
           }`}
         >
           {filteredItems.map((item, index) => {
-            const CardWrapper = item.link ? "a" : "div";
-            const cardProps = item.link
-              ? { href: item.link, className: "wf-cmsfiltersearch-card" }
+            const CardWrapper = item.link?.href ? "a" : "div";
+            const cardProps = item.link?.href
+              ? { href: item.link.href, target: item.link.target, className: "wf-cmsfiltersearch-card" }
               : { className: "wf-cmsfiltersearch-card" };
 
             return (
@@ -350,8 +350,8 @@ export default function CmsFilterSearch({
                 {item.image && (
                   <div className="wf-cmsfiltersearch-card-image-wrapper">
                     <img
-                      src={item.image}
-                      alt={item.title}
+                      src={item.image.src}
+                      alt={item.image.alt || item.title}
                       className="wf-cmsfiltersearch-card-image"
                     />
                   </div>
