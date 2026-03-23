@@ -1,23 +1,28 @@
 import { useState } from "react";
 
+interface LinkProp {
+  href?: string;
+  target?: string;
+}
+
 export interface BreadcrumbsProps {
   id?: string;
   separator?: "slash" | "chevron" | "arrow";
-  homeLink?: string;
+  homeLink?: LinkProp;
   level1Label?: string;
-  level1Link?: string;
+  level1Link?: LinkProp;
   level1Visible?: boolean;
   level2Label?: string;
-  level2Link?: string;
+  level2Link?: LinkProp;
   level2Visible?: boolean;
   level3Label?: string;
-  level3Link?: string;
+  level3Link?: LinkProp;
   level3Visible?: boolean;
   level4Label?: string;
-  level4Link?: string;
+  level4Link?: LinkProp;
   level4Visible?: boolean;
   level5Label?: string;
-  level5Link?: string;
+  level5Link?: LinkProp;
   level5Visible?: boolean;
   currentPageLabel?: string;
 }
@@ -25,21 +30,21 @@ export interface BreadcrumbsProps {
 export default function Breadcrumbs({
   id,
   separator = "chevron",
-  homeLink = "/",
+  homeLink,
   level1Label = "Products",
-  level1Link = "#",
+  level1Link,
   level1Visible = true,
   level2Label = "Electronics",
-  level2Link = "#",
+  level2Link,
   level2Visible = true,
   level3Label = "Laptops",
-  level3Link = "#",
+  level3Link,
   level3Visible = true,
   level4Label = "Gaming",
-  level4Link = "#",
+  level4Link,
   level4Visible = true,
   level5Label = "High Performance",
-  level5Link = "#",
+  level5Link,
   level5Visible = true,
   currentPageLabel = "Gaming Laptop X1",
 }: BreadcrumbsProps) {
@@ -70,7 +75,7 @@ export default function Breadcrumbs({
   const renderDesktopBreadcrumbs = () => (
     <ol className="wf-breadcrumbs-list wf-breadcrumbs-desktop">
       <li className="wf-breadcrumbs-item">
-        <a href={homeLink} className="wf-breadcrumbs-link wf-breadcrumbs-home">
+        <a href={homeLink?.href || "/"} target={homeLink?.target} className="wf-breadcrumbs-link wf-breadcrumbs-home">
           <svg
             className="wf-breadcrumbs-home-icon"
             width="16"
@@ -94,7 +99,7 @@ export default function Breadcrumbs({
       {levels.map((level, index) => (
         <li key={index} className="wf-breadcrumbs-item">
           {renderSeparator()}
-          <a href={level.link} className="wf-breadcrumbs-link">
+          <a href={level.link?.href || "#"} target={level.link?.target} className="wf-breadcrumbs-link">
             {level.label}
           </a>
         </li>
@@ -114,7 +119,8 @@ export default function Breadcrumbs({
         <ol className="wf-breadcrumbs-list wf-breadcrumbs-mobile">
           <li className="wf-breadcrumbs-item">
             <a
-              href={homeLink}
+              href={homeLink?.href || "/"}
+              target={homeLink?.target}
               className="wf-breadcrumbs-link wf-breadcrumbs-home"
             >
               <svg
@@ -140,7 +146,7 @@ export default function Breadcrumbs({
           {levels.map((level, index) => (
             <li key={index} className="wf-breadcrumbs-item">
               {renderSeparator()}
-              <a href={level.link} className="wf-breadcrumbs-link">
+              <a href={level.link?.href || "#"} target={level.link?.target} className="wf-breadcrumbs-link">
                 {level.label}
               </a>
             </li>
@@ -162,7 +168,7 @@ export default function Breadcrumbs({
     return (
       <ol className="wf-breadcrumbs-list wf-breadcrumbs-mobile">
         <li className="wf-breadcrumbs-item">
-          <a href={homeLink} className="wf-breadcrumbs-link wf-breadcrumbs-home">
+          <a href={homeLink?.href || "/"} target={homeLink?.target} className="wf-breadcrumbs-link wf-breadcrumbs-home">
             <svg
               className="wf-breadcrumbs-home-icon"
               width="16"
@@ -185,7 +191,7 @@ export default function Breadcrumbs({
         </li>
         <li className="wf-breadcrumbs-item">
           {renderSeparator()}
-          <a href={firstLevel.link} className="wf-breadcrumbs-link">
+          <a href={firstLevel.link?.href || "#"} target={firstLevel.link?.target} className="wf-breadcrumbs-link">
             {firstLevel.label}
           </a>
         </li>
@@ -204,7 +210,7 @@ export default function Breadcrumbs({
               <ul className="wf-breadcrumbs-ellipsis-list">
                 {middleLevels.map((level, index) => (
                   <li key={index} className="wf-breadcrumbs-ellipsis-item">
-                    <a href={level.link} className="wf-breadcrumbs-link">
+                    <a href={level.link?.href || "#"} target={level.link?.target} className="wf-breadcrumbs-link">
                       {level.label}
                     </a>
                   </li>
@@ -216,7 +222,7 @@ export default function Breadcrumbs({
         {lastTwoLevels.map((level, index) => (
           <li key={index} className="wf-breadcrumbs-item">
             {renderSeparator()}
-            <a href={level.link} className="wf-breadcrumbs-link">
+            <a href={level.link?.href || "#"} target={level.link?.target} className="wf-breadcrumbs-link">
               {level.label}
             </a>
           </li>
