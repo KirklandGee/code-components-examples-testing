@@ -12,98 +12,98 @@ export interface CarouselSliderProps {
   showArrows?: boolean;
   showDots?: boolean;
   slide1Visible?: boolean;
-  slide1Image?: string;
+  slide1Image?: { src: string; alt?: string };
   slide1Title?: string;
   slide1Description?: string;
   slide1CtaText?: string;
-  slide1CtaLink?: string;
+  slide1CtaLink?: { href?: string; target?: string };
   slide1ShowCta?: boolean;
   slide2Visible?: boolean;
-  slide2Image?: string;
+  slide2Image?: { src: string; alt?: string };
   slide2Title?: string;
   slide2Description?: string;
   slide2CtaText?: string;
-  slide2CtaLink?: string;
+  slide2CtaLink?: { href?: string; target?: string };
   slide2ShowCta?: boolean;
   slide3Visible?: boolean;
-  slide3Image?: string;
+  slide3Image?: { src: string; alt?: string };
   slide3Title?: string;
   slide3Description?: string;
   slide3CtaText?: string;
-  slide3CtaLink?: string;
+  slide3CtaLink?: { href?: string; target?: string };
   slide3ShowCta?: boolean;
   slide4Visible?: boolean;
-  slide4Image?: string;
+  slide4Image?: { src: string; alt?: string };
   slide4Title?: string;
   slide4Description?: string;
   slide4CtaText?: string;
-  slide4CtaLink?: string;
+  slide4CtaLink?: { href?: string; target?: string };
   slide4ShowCta?: boolean;
   slide5Visible?: boolean;
-  slide5Image?: string;
+  slide5Image?: { src: string; alt?: string };
   slide5Title?: string;
   slide5Description?: string;
   slide5CtaText?: string;
-  slide5CtaLink?: string;
+  slide5CtaLink?: { href?: string; target?: string };
   slide5ShowCta?: boolean;
   slide6Visible?: boolean;
-  slide6Image?: string;
+  slide6Image?: { src: string; alt?: string };
   slide6Title?: string;
   slide6Description?: string;
   slide6CtaText?: string;
-  slide6CtaLink?: string;
+  slide6CtaLink?: { href?: string; target?: string };
   slide6ShowCta?: boolean;
   slide7Visible?: boolean;
-  slide7Image?: string;
+  slide7Image?: { src: string; alt?: string };
   slide7Title?: string;
   slide7Description?: string;
   slide7CtaText?: string;
-  slide7CtaLink?: string;
+  slide7CtaLink?: { href?: string; target?: string };
   slide7ShowCta?: boolean;
   slide8Visible?: boolean;
-  slide8Image?: string;
+  slide8Image?: { src: string; alt?: string };
   slide8Title?: string;
   slide8Description?: string;
   slide8CtaText?: string;
-  slide8CtaLink?: string;
+  slide8CtaLink?: { href?: string; target?: string };
   slide8ShowCta?: boolean;
   slide9Visible?: boolean;
-  slide9Image?: string;
+  slide9Image?: { src: string; alt?: string };
   slide9Title?: string;
   slide9Description?: string;
   slide9CtaText?: string;
-  slide9CtaLink?: string;
+  slide9CtaLink?: { href?: string; target?: string };
   slide9ShowCta?: boolean;
   slide10Visible?: boolean;
-  slide10Image?: string;
+  slide10Image?: { src: string; alt?: string };
   slide10Title?: string;
   slide10Description?: string;
   slide10CtaText?: string;
-  slide10CtaLink?: string;
+  slide10CtaLink?: { href?: string; target?: string };
   slide10ShowCta?: boolean;
   slide11Visible?: boolean;
-  slide11Image?: string;
+  slide11Image?: { src: string; alt?: string };
   slide11Title?: string;
   slide11Description?: string;
   slide11CtaText?: string;
-  slide11CtaLink?: string;
+  slide11CtaLink?: { href?: string; target?: string };
   slide11ShowCta?: boolean;
   slide12Visible?: boolean;
-  slide12Image?: string;
+  slide12Image?: { src: string; alt?: string };
   slide12Title?: string;
   slide12Description?: string;
   slide12CtaText?: string;
-  slide12CtaLink?: string;
+  slide12CtaLink?: { href?: string; target?: string };
   slide12ShowCta?: boolean;
 }
 
 interface Slide {
   visible: boolean;
-  image?: string;
+  image?: { src: string; alt?: string };
   title: string;
   description: string;
   ctaText: string;
-  ctaLink?: string;
+  ctaLink?: { href?: string; target?: string };
   showCta: boolean;
 }
 
@@ -342,8 +342,8 @@ export default function CarouselSlider({
                 {slide.image && (
                   <div className="wf-carouselslider-image-wrapper">
                     <img
-                      src={slide.image}
-                      alt={slide.title}
+                      src={slide.image.src}
+                      alt={slide.image.alt || slide.title}
                       className="wf-carouselslider-image"
                     />
                   </div>
@@ -353,7 +353,8 @@ export default function CarouselSlider({
                   <p className="wf-carouselslider-description">{slide.description}</p>
                   {slide.showCta && (
                     <a
-                      href={slide.ctaLink || "#"}
+                      href={slide.ctaLink?.href || "#"}
+                      target={slide.ctaLink?.target}
                       className="wf-carouselslider-cta"
                     >
                       {slide.ctaText}
