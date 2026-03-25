@@ -47,6 +47,7 @@ const componentPipeline: any = workflow( {
         passed: validation.passed,
         errorCount: validation.errorCount,
         errors: validation.errors,
+        staticChecks: validation.staticChecks,
       },
     };
   },

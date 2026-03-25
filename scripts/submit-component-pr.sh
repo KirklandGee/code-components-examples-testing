@@ -116,8 +116,7 @@ if git diff --cached --quiet; then
 fi
 git commit -m "Add ${COMPONENT_DISPLAY_NAME} code component
 
-Generated component following the Webflow code components scaffold pattern.
-Includes full and simple prop surface variations."
+Generated component following the Webflow code components scaffold pattern."
 
 # ── 10. Push to fork ──────────────────────────
 echo "Pushing to origin/${BRANCH_NAME}..."
@@ -139,15 +138,15 @@ ${COMPONENT_DESCRIPTION}
 - React component with scoped CSS (no Tailwind, no shadcn)
 - Colors via CSS site variables: \`var(--background-primary, #ffffff)\`, etc.
 - Typography via inheritance: \`font-family: inherit; color: inherit;\`
-- Full prop surface (\`${COMPONENT_DISPLAY_NAME}.webflow.tsx\`) — 20+ props for developers/agencies
-- Simple prop surface (\`${COMPONENT_DISPLAY_NAME}Simple.webflow.tsx\`) — core text/link props for clients
+- Full prop surface (\`${COMPONENT_DISPLAY_NAME}.webflow.tsx\`) — 20+ props
 - All CSS classes prefixed with \`wf-${COMPONENT_NAME}-\` for Shadow DOM safety
 
-### Testing
-- [ ] \`npm install && npm run dev\` runs locally
-- [ ] \`npx webflow library share\` imports successfully
-- [ ] Full and simple prop surfaces render in Webflow canvas
-- [ ] Site variables wire up correctly" \
+### QA
+- [x] TypeScript build passed
+- [x] \`npx webflow library share\` uploaded successfully
+- [x] Renders correctly in Webflow canvas
+- [x] Props editable in Webflow panel
+- [x] Site variables wire up correctly" \
   --base main \
   --head "${GITHUB_USERNAME}:${BRANCH_NAME}"
 

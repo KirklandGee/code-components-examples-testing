@@ -23,6 +23,15 @@ export const WorkflowOutputSchema = z.object( {
     passed: z.boolean(),
     errorCount: z.number(),
     errors: z.array( z.string() ),
+    staticChecks: z.object( {
+      passed: z.boolean(),
+      issueCount: z.number(),
+      checks: z.array( z.object( {
+        name: z.string(),
+        passed: z.boolean(),
+        issues: z.array( z.string() ),
+      } ) ),
+    } ),
   } ),
 } );
 

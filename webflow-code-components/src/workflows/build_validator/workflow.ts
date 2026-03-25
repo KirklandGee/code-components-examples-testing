@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { workflow } from '@output.ai/core';
-import { installDeps, runTsc } from './steps.js';
+import { installDeps, runTsc, runStaticChecks } from './steps.js';
 import { WorkflowInputSchema, WorkflowOutputSchema } from './types.js';
 
 const buildValidator: any = workflow( {
   name: 'build_validator',
-  description: 'Validate a generated component by installing dependencies and running tsc --noEmit',
+  description: 'Validate a generated component: install dependencies, run tsc --noEmit, and run static code quality checks',
   inputSchema: WorkflowInputSchema,
   outputSchema: WorkflowOutputSchema,
   fn: async ( input ) => {
@@ -19,16 +19,25 @@ const buildValidator: any = workflow( {
         passed: false,
         errorCount: 1,
         errors: [ `npm install failed: ${installResult.error ?? 'unknown error'}` ],
+        staticChecks: { passed: false, issueCount: 0, checks: [] },
       };
     }
 
     // Step 2: Run TypeScript compiler
     const tscResult = await runTsc( { outputDir } );
 
+    // Step 3: Static code quality checks (runs regardless of tsc result)
+    const staticResult = await runStaticChecks( { outputDir, kebabName: input.kebabName } );
+
     return {
-      passed: tscResult.passed,
+      passed: tscResult.passed && staticResult.passed,
       errorCount: tscResult.errorCount,
       errors: tscResult.errors,
+      staticChecks: {
+        passed: staticResult.passed,
+        issueCount: staticResult.issueCount,
+        checks: staticResult.checks,
+      },
     };
   },
   options: {
