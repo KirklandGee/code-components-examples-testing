@@ -167,7 +167,9 @@ export default function FaqAccordion({
                 aria-hidden={!isOpen}
               >
                 <div
-                  ref={(el) => (contentRefs.current[index] = el)}
+                  ref={(el) => {
+                    contentRefs.current[index] = el;
+                  }}
                   className="wf-faqaccordion-content"
                 >
                   <div className="wf-faqaccordion-answer">{item.answer}</div>
