@@ -4,6 +4,18 @@
   themes: light --default;
 }
 
+/*
+ * Override DaisyUI error tokens so validation states match the site.
+ * Wire --error-color / --error-text-color on the Webflow site to brand them.
+ * Applied outside @layer so it beats DaisyUI's theme defaults, and repeated
+ * selectors bump specificity above :root,[data-theme=light].
+ */
+:root:root,
+[data-theme="light"][data-theme="light"] {
+  --color-error: var(--error-color, #dc2626);
+  --color-error-content: var(--error-text-color, #ffffff);
+}
+
 /* Compact badge styling - target both links and images */
 .prose a[href=""] img[src*="shields.io"],
 .prose img[src*="shields.io"],
