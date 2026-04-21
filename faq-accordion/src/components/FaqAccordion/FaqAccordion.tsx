@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export interface FaqAccordionProps {
   id?: string;
@@ -70,6 +70,11 @@ export default function FaqAccordion({
   const [openIndex, setOpenIndex] = useState<number | null>(
     defaultOpen > 0 && defaultOpen <= visibleItems.length ? defaultOpen - 1 : null
   );
+  const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    contentRefs.current = contentRefs.current.slice(0, visibleItems.length);
+  }, [visibleItems.length]);
 
   const toggleItem = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -91,6 +96,9 @@ export default function FaqAccordion({
       <div className="wf-faqaccordion-list">
         {visibleItems.map((item, index) => {
           const isOpen = openIndex === index;
+          const contentHeight = isOpen && contentRefs.current[index]
+            ? contentRefs.current[index]!.scrollHeight
+            : 0;
 
           return (
             <div
@@ -152,28 +160,16 @@ export default function FaqAccordion({
               </button>
               <div
                 id={`faq-content-${index}`}
-                className={`wf-faqaccordion-content-wrapper ${isOpen ? "wf-faqaccordion-content-wrapper-open" : ""}`}
+                className="wf-faqaccordion-content-wrapper"
+                style={{
+                  maxHeight: `${contentHeight}px`,
+                }}
                 aria-hidden={!isOpen}
               >
-                <div className="wf-faqaccordion-content">
-                  <div
-                    className="wf-faqaccordion-answer"
-                    style={{
-                      fontFamily: "monospace",
-                      fontSize: "11px",
-                      whiteSpace: "pre-wrap",
-                    }}
-                  >
-                    {`DEBUG — typeof: ${typeof item.answer} | keys: ${
-                      item.answer && typeof item.answer === "object"
-                        ? Object.keys(item.answer as object).join(",")
-                        : "n/a"
-                    } | string-peek: ${
-                      typeof item.answer === "string"
-                        ? String(item.answer).slice(0, 60)
-                        : "(not a string)"
-                    }`}
-                  </div>
+                <div
+                  ref={(el) => (contentRefs.current[index] = el)}
+                  className="wf-faqaccordion-content"
+                >
                   <div className="wf-faqaccordion-answer">{item.answer}</div>
                 </div>
               </div>
