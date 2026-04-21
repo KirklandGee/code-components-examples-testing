@@ -47,7 +47,8 @@ export default function TooltipHoverCard({
   const [effectivePlacement, setEffectivePlacement] = useState(placement);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<number | null>(null);
+  const showTimeoutRef = useRef<number | null>(null);
+  const hideTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     setEffectivePlacement(placement);
@@ -68,47 +69,76 @@ export default function TooltipHoverCard({
       right: triggerRect.right + contentRect.width + gap > window.innerWidth,
     };
 
-    if (overflows[placement]) {
-      const flipped = flipMap[placement];
-      if (!overflows[flipped]) setEffectivePlacement(flipped);
+    const flipped = flipMap[placement];
+    if (overflows[placement] && !overflows[flipped]) {
+      setEffectivePlacement(flipped);
+    } else {
+      setEffectivePlacement(placement);
     }
   }, [isVisible, placement, autoFlip]);
 
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
-    timeoutRef.current = window.setTimeout(() => {
+  const cancelHide = () => {
+    if (hideTimeoutRef.current) {
+      window.clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+  };
+
+  const cancelShow = () => {
+    if (showTimeoutRef.current) {
+      window.clearTimeout(showTimeoutRef.current);
+      showTimeoutRef.current = null;
+    }
+  };
+
+  const scheduleShow = () => {
+    cancelHide();
+    cancelShow();
+    showTimeoutRef.current = window.setTimeout(() => {
       setIsVisible(true);
+      showTimeoutRef.current = null;
     }, hoverDelay);
   };
 
-  const handleMouseLeave = () => {
-    if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+  const scheduleHide = () => {
+    cancelShow();
+    cancelHide();
+    // Small grace period in hoverCard mode so the cursor can cross the gap to the card
+    const delay = mode === "hoverCard" ? 120 : 0;
+    hideTimeoutRef.current = window.setTimeout(() => {
+      setIsVisible(false);
+      hideTimeoutRef.current = null;
+    }, delay);
+  };
+
+  const handleFocus = () => {
+    cancelHide();
+    setIsVisible(true);
+  };
+
+  const handleBlur = () => {
     setIsVisible(false);
   };
 
-  const handleFocus = () => setIsVisible(true);
-  const handleBlur = () => setIsVisible(false);
-
   useEffect(() => {
     return () => {
-      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+      cancelShow();
+      cancelHide();
     };
   }, []);
 
   return (
     <div
       id={id}
-      className="wf-tooltiphovercard"
+      className={`wf-tooltiphovercard${isVisible ? " wf-tooltiphovercard--open" : ""}`}
       style={{ "--wf-tooltiphovercard-max-width": `${maxWidth}px` } as React.CSSProperties}
-      onMouseEnter={mode === "hoverCard" ? handleMouseEnter : undefined}
-      onMouseLeave={mode === "hoverCard" ? handleMouseLeave : undefined}
+      onMouseEnter={scheduleShow}
+      onMouseLeave={scheduleHide}
     >
       <button
         ref={triggerRef}
         type="button"
         className="wf-tooltiphovercard-trigger"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
         onFocus={handleFocus}
         onBlur={handleBlur}
         aria-label={ariaLabel}
@@ -117,38 +147,37 @@ export default function TooltipHoverCard({
         {triggerText}
       </button>
 
-      {isVisible && (
-        <div
-          ref={contentRef}
-          id={id ? `${id}-content` : undefined}
-          className={`wf-tooltiphovercard-content wf-tooltiphovercard-content--${mode} wf-tooltiphovercard-content--${theme} wf-tooltiphovercard-content--${effectivePlacement}`}
-          role={mode === "tooltip" ? "tooltip" : undefined}
-        >
-          {mode === "tooltip" ? (
-            <div className="wf-tooltiphovercard-tooltip">{tooltipText}</div>
-          ) : (
-            <div className="wf-tooltiphovercard-hovercard">
-              {showCardImage && cardImage?.src && (
-                <div className="wf-tooltiphovercard-hovercard-image-wrapper">
-                  <img
-                    src={cardImage.src}
-                    alt={cardImage.alt || ""}
-                    className="wf-tooltiphovercard-hovercard-image"
-                  />
-                </div>
-              )}
-              <div className="wf-tooltiphovercard-hovercard-body">
-                <h3 className="wf-tooltiphovercard-hovercard-title">{cardTitle}</h3>
-                <div className="wf-tooltiphovercard-hovercard-description">
-                  {cardDescription}
-                </div>
+      <div
+        ref={contentRef}
+        id={id ? `${id}-content` : undefined}
+        className={`wf-tooltiphovercard-content wf-tooltiphovercard-content--${mode} wf-tooltiphovercard-content--${theme} wf-tooltiphovercard-content--${effectivePlacement}`}
+        role={mode === "tooltip" ? "tooltip" : undefined}
+        aria-hidden={!isVisible}
+      >
+        {mode === "tooltip" ? (
+          <div className="wf-tooltiphovercard-tooltip">{tooltipText}</div>
+        ) : (
+          <div className="wf-tooltiphovercard-hovercard">
+            {showCardImage && cardImage?.src && (
+              <div className="wf-tooltiphovercard-hovercard-image-wrapper">
+                <img
+                  src={cardImage.src}
+                  alt={cardImage.alt || ""}
+                  className="wf-tooltiphovercard-hovercard-image"
+                />
+              </div>
+            )}
+            <div className="wf-tooltiphovercard-hovercard-body">
+              <h3 className="wf-tooltiphovercard-hovercard-title">{cardTitle}</h3>
+              <div className="wf-tooltiphovercard-hovercard-description">
+                {cardDescription}
               </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {showArrow && <div className="wf-tooltiphovercard-arrow" />}
-        </div>
-      )}
+        {showArrow && <div className="wf-tooltiphovercard-arrow" />}
+      </div>
     </div>
   );
 }

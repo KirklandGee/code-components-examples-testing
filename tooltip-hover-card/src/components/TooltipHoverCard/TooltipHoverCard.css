@@ -58,17 +58,19 @@
   max-width: var(--wf-tooltiphovercard-max-width);
   border-radius: var(--border-radius, 8px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  animation: wf-tooltiphovercard-fadein 0.15s ease-out;
+  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  transition: opacity 0.15s ease-out, visibility 0.15s ease-out;
 }
 
-.wf-tooltiphovercard-content--hoverCard {
+.wf-tooltiphovercard--open .wf-tooltiphovercard-content {
+  opacity: 1;
+  visibility: visible;
+}
+
+.wf-tooltiphovercard--open .wf-tooltiphovercard-content--hoverCard {
   pointer-events: auto;
-}
-
-@keyframes wf-tooltiphovercard-fadein {
-  from { opacity: 0; transform: translate(var(--wf-tooltiphovercard-tx, 0), var(--wf-tooltiphovercard-ty, -4px)); }
-  to { opacity: 1; transform: translate(var(--wf-tooltiphovercard-tx, 0), 0); }
 }
 
 /* Placement offsets */
