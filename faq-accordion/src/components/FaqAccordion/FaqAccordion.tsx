@@ -156,6 +156,24 @@ export default function FaqAccordion({
                 aria-hidden={!isOpen}
               >
                 <div className="wf-faqaccordion-content">
+                  <div
+                    className="wf-faqaccordion-answer"
+                    style={{
+                      fontFamily: "monospace",
+                      fontSize: "11px",
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
+                    {`DEBUG — typeof: ${typeof item.answer} | keys: ${
+                      item.answer && typeof item.answer === "object"
+                        ? Object.keys(item.answer as object).join(",")
+                        : "n/a"
+                    } | string-peek: ${
+                      typeof item.answer === "string"
+                        ? String(item.answer).slice(0, 60)
+                        : "(not a string)"
+                    }`}
+                  </div>
                   <div className="wf-faqaccordion-answer">{item.answer}</div>
                 </div>
               </div>
