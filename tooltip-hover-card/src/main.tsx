@@ -230,7 +230,7 @@ function App() {
                 tooltipText="Click to see more"
                 cardTitle="Product Information"
                 cardDescription="<p><strong>Premium Quality</strong></p><p>This product features advanced technology and exceptional craftsmanship. Perfect for professionals and enthusiasts alike.</p>"
-                cardImage="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop"
+                cardImage={{ src: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop" }}
                 showCardImage={true}
                 hoverDelay={300}
                 showArrow={true}

@@ -58,6 +58,7 @@ export default declareComponent(TooltipHoverCard, {
     }),
     cardDescription: props.RichText({
       name: "Card Description",
+      defaultValue: "This hover card provides detailed contextual information with formatting support for better readability.",
       group: "Hover Card",
       tooltip: "Rich text content with formatting support for hover card body"
     }),
