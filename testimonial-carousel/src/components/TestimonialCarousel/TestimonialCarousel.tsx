@@ -204,9 +204,16 @@ export default function TestimonialCarousel({
                     <path d="M0 32V16C0 7.168 5.504 0 16 0v6.4C11.328 6.4 8 9.728 8 14.4V16h8v16H0zm24 0V16c0-8.832 5.504-16 16-16v6.4c-4.672 0-8 3.328-8 8V16h8v16H24z" />
                   </svg>
                 </div>
-                <div className="wf-testimonialcarousel-text">
-                  {testimonial.text}
-                </div>
+                {typeof testimonial.text === "string" ? (
+                  <div
+                    className="wf-testimonialcarousel-text"
+                    dangerouslySetInnerHTML={{ __html: testimonial.text }}
+                  />
+                ) : (
+                  <div className="wf-testimonialcarousel-text">
+                    {testimonial.text}
+                  </div>
+                )}
                 <div className="wf-testimonialcarousel-author">
                   {testimonial.avatar?.src && (
                     <img

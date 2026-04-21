@@ -172,7 +172,14 @@ export default function FaqAccordion({
                   }}
                   className="wf-faqaccordion-content"
                 >
-                  <div className="wf-faqaccordion-answer">{item.answer}</div>
+                  {typeof item.answer === "string" ? (
+                    <div
+                      className="wf-faqaccordion-answer"
+                      dangerouslySetInnerHTML={{ __html: item.answer }}
+                    />
+                  ) : (
+                    <div className="wf-faqaccordion-answer">{item.answer}</div>
+                  )}
                 </div>
               </div>
             </div>
