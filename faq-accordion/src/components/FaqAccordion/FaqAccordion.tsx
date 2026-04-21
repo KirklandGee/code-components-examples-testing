@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 
 export interface FaqAccordionProps {
   id?: string;
@@ -70,11 +70,6 @@ export default function FaqAccordion({
   const [openIndex, setOpenIndex] = useState<number | null>(
     defaultOpen > 0 && defaultOpen <= visibleItems.length ? defaultOpen - 1 : null
   );
-  const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    contentRefs.current = contentRefs.current.slice(0, visibleItems.length);
-  }, [visibleItems.length]);
 
   const toggleItem = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -96,9 +91,6 @@ export default function FaqAccordion({
       <div className="wf-faqaccordion-list">
         {visibleItems.map((item, index) => {
           const isOpen = openIndex === index;
-          const contentHeight = isOpen && contentRefs.current[index]
-            ? contentRefs.current[index]!.scrollHeight
-            : 0;
 
           return (
             <div
@@ -160,18 +152,10 @@ export default function FaqAccordion({
               </button>
               <div
                 id={`faq-content-${index}`}
-                className="wf-faqaccordion-content-wrapper"
-                style={{
-                  maxHeight: `${contentHeight}px`,
-                }}
+                className={`wf-faqaccordion-content-wrapper ${isOpen ? "wf-faqaccordion-content-wrapper-open" : ""}`}
                 aria-hidden={!isOpen}
               >
-                <div
-                  ref={(el) => {
-                    contentRefs.current[index] = el;
-                  }}
-                  className="wf-faqaccordion-content"
-                >
+                <div className="wf-faqaccordion-content">
                   <div className="wf-faqaccordion-answer">{item.answer}</div>
                 </div>
               </div>

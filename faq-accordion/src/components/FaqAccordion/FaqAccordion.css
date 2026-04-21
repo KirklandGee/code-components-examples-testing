@@ -124,16 +124,30 @@
   transform: rotate(180deg);
 }
 
-/* Content wrapper with animation */
+/* Content wrapper with CSS grid auto-animation */
 .wf-faqaccordion-content-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.wf-faqaccordion-content-wrapper-open {
+  grid-template-rows: 1fr;
+}
+
+.wf-faqaccordion-content-wrapper > * {
   overflow: hidden;
-  transition: max-height 0.3s ease;
-  max-height: 0;
+  min-height: 0;
 }
 
 /* Content padding container */
 .wf-faqaccordion-content {
   padding: 0 24px 20px 24px;
+}
+
+.wf-faqaccordion-content-wrapper:not(.wf-faqaccordion-content-wrapper-open) .wf-faqaccordion-content {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .wf-faqaccordion-button-left + .wf-faqaccordion-content-wrapper .wf-faqaccordion-content {
