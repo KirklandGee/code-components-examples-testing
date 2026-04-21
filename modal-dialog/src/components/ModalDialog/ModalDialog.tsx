@@ -8,7 +8,6 @@ export interface ModalDialogProps {
   triggerButtonText?: string;
   modalTitle?: React.ReactNode;
   bodyContent?: React.ReactNode;
-  contentSlot?: React.ReactNode;
   showCloseButton?: boolean;
   closeButtonLabel?: string;
   animationDuration?: number;
@@ -24,7 +23,6 @@ export default function ModalDialog({
   triggerButtonText = "Open Modal",
   modalTitle = "Modal Title",
   bodyContent = "This is the modal body content. You can add any text, formatting, or information here.",
-  contentSlot,
   showCloseButton = true,
   closeButtonLabel = "Close modal",
   animationDuration = 300,
@@ -168,11 +166,7 @@ export default function ModalDialog({
               )}
             </div>
             <div className="wf-modaldialog-body">
-              {contentSlot ? (
-                <div className="wf-modaldialog-slot">{contentSlot}</div>
-              ) : (
-                <div className="wf-modaldialog-content">{bodyContent}</div>
-              )}
+              <div className="wf-modaldialog-content">{bodyContent}</div>
             </div>
           </div>
         </div>

@@ -54,11 +54,6 @@ export default declareComponent(ModalDialog, {
       group: "Content",
       tooltip: "Rich text content displayed in the modal body"
     }),
-    contentSlot: props.Slot({
-      name: "Content Slot",
-      group: "Content",
-      tooltip: "Optional slot for custom component content instead of rich text"
-    }),
     showCloseButton: props.Visibility({
       name: "Show Close Button",
       group: "Display",
