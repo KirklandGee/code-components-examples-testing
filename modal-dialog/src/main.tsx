@@ -81,8 +81,8 @@ function App() {
       <div style={{
         position: 'sticky',
         top: 0,
-        backgroundColor: activeTheme === 'dark' ? '#1a1a1a' : '#ffffff',
-        borderBottom: `1px solid ${activeTheme === 'dark' ? '#2a2a2a' : '#e5e5e5'}`,
+        backgroundColor: '#ffffff',
+        borderBottom: `1px solid ${'#e5e5e5'}`,
         padding: '20px',
         zIndex: 1000,
         boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
@@ -92,7 +92,7 @@ function App() {
             margin: '0 0 20px 0',
             fontSize: '24px',
             fontWeight: '600',
-            color: activeTheme === 'dark' ? '#fafafa' : '#1a1a1a'
+            color: '#1a1a1a'
           }}>
             ModalDialog Component Preview
           </h1>
@@ -103,7 +103,7 @@ function App() {
               marginBottom: '8px',
               fontSize: '14px',
               fontWeight: '500',
-              color: activeTheme === 'dark' ? '#fafafa' : '#1a1a1a'
+              color: '#1a1a1a'
             }}>
               Theme:
             </label>
@@ -114,10 +114,10 @@ function App() {
                   onClick={() => handleThemeChange(theme)}
                   style={{
                     padding: '8px 16px',
-                    border: `2px solid ${activeTheme === theme ? currentVars['--accent-color'] : (activeTheme === 'dark' ? '#2a2a2a' : '#e5e5e5')}`,
+                    border: `2px solid ${activeTheme === theme ? currentVars['--accent-color'] : ('#e5e5e5')}`,
                     borderRadius: '6px',
                     backgroundColor: activeTheme === theme ? currentVars['--accent-color'] : (activeTheme === 'dark' ? '#0a0a0a' : '#ffffff'),
-                    color: activeTheme === theme ? currentVars['--accent-text-color'] : (activeTheme === 'dark' ? '#fafafa' : '#1a1a1a'),
+                    color: activeTheme === theme ? currentVars['--accent-text-color'] : ('#1a1a1a'),
                     cursor: 'pointer',
                     fontSize: '14px',
                     fontWeight: '500',
@@ -134,15 +134,15 @@ function App() {
           {activeTheme === 'custom' && (
             <div style={{
               padding: '16px',
-              backgroundColor: activeTheme === 'dark' ? '#0a0a0a' : '#f9fafb',
+              backgroundColor: '#f9fafb',
               borderRadius: '8px',
-              border: `1px solid ${activeTheme === 'dark' ? '#2a2a2a' : '#e5e5e5'}`
+              border: `1px solid ${'#e5e5e5'}`
             }}>
               <h3 style={{
                 margin: '0 0 16px 0',
                 fontSize: '16px',
                 fontWeight: '600',
-                color: activeTheme === 'dark' ? '#fafafa' : '#1a1a1a'
+                color: '#1a1a1a'
               }}>
                 Custom Theme Editor
               </h3>
@@ -158,7 +158,7 @@ function App() {
                       marginBottom: '4px',
                       fontSize: '12px',
                       fontWeight: '500',
-                      color: activeTheme === 'dark' ? '#a3a3a3' : '#737373'
+                      color: '#737373'
                     }}>
                       {varName}
                     </label>
@@ -169,10 +169,10 @@ function App() {
                       style={{
                         width: '100%',
                         padding: varName === '--border-radius' ? '6px 8px' : '4px',
-                        border: `1px solid ${activeTheme === 'dark' ? '#2a2a2a' : '#e5e5e5'}`,
+                        border: `1px solid ${'#e5e5e5'}`,
                         borderRadius: '4px',
-                        backgroundColor: activeTheme === 'dark' ? '#1a1a1a' : '#ffffff',
-                        color: activeTheme === 'dark' ? '#fafafa' : '#1a1a1a',
+                        backgroundColor: '#ffffff',
+                        color: '#1a1a1a',
                         fontSize: '14px',
                         cursor: 'pointer'
                       }}

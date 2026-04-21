@@ -50,6 +50,7 @@ export default declareComponent(ModalDialog, {
     }),
     bodyContent: props.RichText({
       name: "Body Content",
+      defaultValue: "This is the modal body content. You can add any text, formatting, or information here.",
       group: "Content",
       tooltip: "Rich text content displayed in the modal body"
     }),

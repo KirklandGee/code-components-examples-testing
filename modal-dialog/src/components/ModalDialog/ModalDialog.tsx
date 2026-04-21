@@ -6,8 +6,8 @@ export interface ModalDialogProps {
   maxWidth?: "small" | "medium" | "large";
   closeOnBackdropClick?: boolean;
   triggerButtonText?: string;
-  modalTitle?: string;
-  bodyContent?: string;
+  modalTitle?: React.ReactNode;
+  bodyContent?: React.ReactNode;
   contentSlot?: React.ReactNode;
   showCloseButton?: boolean;
   closeButtonLabel?: string;
@@ -171,10 +171,7 @@ export default function ModalDialog({
               {contentSlot ? (
                 <div className="wf-modaldialog-slot">{contentSlot}</div>
               ) : (
-                <div
-                  className="wf-modaldialog-content"
-                  dangerouslySetInnerHTML={{ __html: bodyContent }}
-                />
+                <div className="wf-modaldialog-content">{bodyContent}</div>
               )}
             </div>
           </div>
