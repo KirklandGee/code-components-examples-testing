@@ -86,7 +86,7 @@ export default declareComponent(WeatherWidget, {
     }),
     errorInvalidKeyText: props.Text({
       name: "Invalid Key Error",
-      defaultValue: "Invalid API key. Please check your credentials.",
+      defaultValue: "Invalid API key. New OpenWeatherMap keys can take up to 2 hours to activate.",
       group: "Content",
       tooltip: "Error message for invalid API key"
     }),
