@@ -52,9 +52,15 @@
   padding: 8px 0 56px 0;
 }
 
+.wf-testimonialcarousel-swiper .swiper-slide {
+  height: auto;
+  display: flex;
+}
+
 .wf-testimonialcarousel-card {
   display: flex;
   flex-direction: column;
+  width: 100%;
   height: 100%;
   padding: 32px;
   background: var(--background-primary, #ffffff);
