@@ -50,7 +50,7 @@ export default declareComponent(FaqAccordion, {
     }),
     item1Answer: props.RichText({
       name: "Answer",
-      defaultValue: "<p>We offer a 30-day money-back guarantee on all purchases. If you're not completely satisfied, contact our support team for a full refund.</p>",
+      defaultValue: "We offer a 30-day money-back guarantee on all purchases. If you're not completely satisfied, contact our support team for a full refund.",
       group: "Item 1",
       tooltip: "First item answer content with formatting support"
     }),
@@ -67,7 +67,7 @@ export default declareComponent(FaqAccordion, {
     }),
     item2Answer: props.RichText({
       name: "Answer",
-      defaultValue: "<p>Standard shipping typically takes 5-7 business days. Express shipping options are available at checkout for delivery within 2-3 business days.</p>",
+      defaultValue: "Standard shipping typically takes 5-7 business days. Express shipping options are available at checkout for delivery within 2-3 business days.",
       group: "Item 2",
       tooltip: "Second item answer content with formatting support"
     }),
@@ -84,7 +84,7 @@ export default declareComponent(FaqAccordion, {
     }),
     item3Answer: props.RichText({
       name: "Answer",
-      defaultValue: "<p>Yes! Our customer support team is available 24/7 via email, live chat, and phone. We're here to help with any questions or concerns.</p>",
+      defaultValue: "Yes! Our customer support team is available 24/7 via email, live chat, and phone. We're here to help with any questions or concerns.",
       group: "Item 3",
       tooltip: "Third item answer content with formatting support"
     }),
@@ -101,7 +101,7 @@ export default declareComponent(FaqAccordion, {
     }),
     item4Answer: props.RichText({
       name: "Answer",
-      defaultValue: "<p>Absolutely! You can upgrade or downgrade your subscription plan at any time from your account settings. Changes take effect immediately.</p>",
+      defaultValue: "Absolutely! You can upgrade or downgrade your subscription plan at any time from your account settings. Changes take effect immediately.",
       group: "Item 4",
       tooltip: "Fourth item answer content with formatting support"
     }),
@@ -118,7 +118,7 @@ export default declareComponent(FaqAccordion, {
     }),
     item5Answer: props.RichText({
       name: "Answer",
-      defaultValue: "<p>Security is our top priority. We use industry-standard encryption and comply with all major data protection regulations including GDPR and CCPA.</p>",
+      defaultValue: "Security is our top priority. We use industry-standard encryption and comply with all major data protection regulations including GDPR and CCPA.",
       group: "Item 5",
       tooltip: "Fifth item answer content with formatting support"
     }),
@@ -135,7 +135,7 @@ export default declareComponent(FaqAccordion, {
     }),
     item6Answer: props.RichText({
       name: "Answer",
-      defaultValue: "<p>You can cancel your account at any time from your account settings. No questions asked, and you'll retain access until the end of your billing period.</p>",
+      defaultValue: "You can cancel your account at any time from your account settings. No questions asked, and you'll retain access until the end of your billing period.",
       group: "Item 6",
       tooltip: "Sixth item answer content with formatting support"
     }),
