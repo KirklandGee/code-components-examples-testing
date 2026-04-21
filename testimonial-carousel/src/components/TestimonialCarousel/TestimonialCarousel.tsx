@@ -137,6 +137,7 @@ export default function TestimonialCarousel({
     if (swiperRef.current && prevButtonRef.current && nextButtonRef.current) {
       const swiper = swiperRef.current;
       swiper.params.navigation = {
+        ...(swiper.params.navigation as object),
         prevEl: prevButtonRef.current,
         nextEl: nextButtonRef.current,
       };
