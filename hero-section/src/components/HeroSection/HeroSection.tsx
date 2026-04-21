@@ -15,6 +15,7 @@ export interface HeroSectionProps {
   showBackgroundImage?: boolean;
   backgroundImage?: PropValues[PropType.Image];
   overlayOpacity?: "none" | "light" | "medium" | "dark";
+  textOnImage?: "light" | "dark";
   showBadge?: boolean;
   badgeText?: string;
   contentMaxWidth?: "narrow" | "medium" | "wide";
@@ -53,6 +54,7 @@ export default function HeroSection({
   showBackgroundImage = false,
   backgroundImage,
   overlayOpacity = "medium",
+  textOnImage = "light",
   showBadge = false,
   badgeText = "New Release",
   contentMaxWidth = "medium",
@@ -60,6 +62,10 @@ export default function HeroSection({
   const minHeight = sizeMap[size];
   const overlayValue = overlayOpacityMap[overlayOpacity];
   const maxWidth = contentMaxWidthMap[contentMaxWidth];
+  const hasBackgroundImage = Boolean(showBackgroundImage && backgroundImage?.src);
+  const onImageClass = hasBackgroundImage
+    ? ` wf-herosection-on-image wf-herosection-on-image-${textOnImage}`
+    : "";
 
   const openLink = (link?: { href?: string; target?: string }) => {
     if (!link?.href || link.href === "#") return;
@@ -76,7 +82,7 @@ export default function HeroSection({
   return (
     <section
       id={id}
-      className={`wf-herosection wf-herosection-layout-${layout} wf-herosection-size-${size}`}
+      className={`wf-herosection wf-herosection-layout-${layout} wf-herosection-size-${size}${onImageClass}`}
       style={
         {
           "--wf-herosection-min-height": minHeight,
@@ -85,12 +91,12 @@ export default function HeroSection({
         } as React.CSSProperties
       }
     >
-      {showBackgroundImage && backgroundImage?.src && (
+      {hasBackgroundImage && (
         <div
           className="wf-herosection-background"
-          style={{ backgroundImage: `url(${backgroundImage.src})` }}
-          role={backgroundImage.alt ? "img" : undefined}
-          aria-label={backgroundImage.alt || undefined}
+          style={{ backgroundImage: `url(${backgroundImage!.src})` }}
+          role={backgroundImage!.alt ? "img" : undefined}
+          aria-label={backgroundImage!.alt || undefined}
         >
           <div className="wf-herosection-overlay" />
         </div>

@@ -88,6 +88,13 @@ export default declareComponent(HeroSection, {
       group: "Style",
       tooltip: "Background overlay darkness level"
     }),
+    textOnImage: props.Variant({
+      name: "Text on Image",
+      options: ["light", "dark"],
+      defaultValue: "light",
+      group: "Style",
+      tooltip: "Forces light or dark text when a background image is shown. Only applies when Show Background Image is on."
+    }),
     showBadge: props.Visibility({
       name: "Show Badge",
       group: "Display",
