@@ -111,38 +111,90 @@ text.split(/\\n|\n/)
 Do NOT use `.split("\n")` alone — it will miss literal `\n` from JSX string attributes and Webflow text fields.
 
 ### 11. Webflow Prop Type Shapes
-Webflow passes certain prop types as **objects**, not plain strings. You MUST type these correctly in the interface and use them correctly in JSX — otherwise they render as `[object Object]` at runtime.
+Webflow passes certain prop types as **objects**, not plain strings. You MUST type these correctly in the interface and use them correctly in JSX — otherwise they render as `[object Object]` at runtime or break slot projection entirely.
 
 | Webflow prop type | TypeScript type in interface | How to use in JSX |
 |---|---|---|
-| `props.Image` | `{ src: string; alt?: string }` | `<img src={image.src} alt={image.alt || fallback} />` |
-| `props.Link` | `{ href?: string; target?: string }` | `<a href={link?.href || "#"} target={link?.target}>` |
+| `props.Image` | `{ src: string; alt?: string }` | `<img src={image.src} alt={image.alt \|\| fallback} />` |
+| `props.Link` | `{ href?: string; target?: string }` | `<a href={link?.href \|\| "#"} target={link?.target}>` |
+| `props.RichText` | `React.ReactNode` | `{richTextProp}` — render directly as a child, never via `dangerouslySetInnerHTML` |
+| `props.TextNode` | `React.ReactNode` | `{textNodeProp}` — render directly as a child |
+| `props.Slot` | `React.ReactNode` | `{slotProp}` — render directly as a child |
 
 **Rules:**
 - NEVER type an Image prop as `string`. Always use `{ src: string; alt?: string }`.
 - NEVER type a Link prop as `string`. Always use `{ href?: string; target?: string }`.
-- Always use optional chaining (`link?.href`) since the prop may be undefined before the user fills it in.
-- Pass `target={link?.target}` to preserve the link target (e.g. `_blank`) the user sets in Webflow.
-- When a Link or Image prop feeds into an internal array/object (e.g. a `Slide` or `Item` interface), match the types there too.
+- NEVER type a RichText prop as `string`. Always use `React.ReactNode`. Although the static `PropValues[PropType.RichText]` type is `string`, at **runtime** Webflow hands the component a React slot element (an object with `{$$typeof, type, key, ref, props}`). Typing it as `string` and then using it with `dangerouslySetInnerHTML={{ __html: prop }}` feeds an object into `__html` and the body renders blank.
+- NEVER use `dangerouslySetInnerHTML` with a Webflow prop. Render it with JSX children: `<div>{richTextProp}</div>`. The slot element renders itself correctly, and the Webflow rich text editor fills it with the user's content.
+- Always use optional chaining (`link?.href`, `image?.src`) since the prop may be undefined before the user fills it in.
+- When a Link/Image/RichText prop feeds into an internal array/object (e.g. a `Slide` or `Item` interface), match the types there too.
+- **Do not rely on React string defaults for Webflow-provided props.** React's default parameter values only apply when the prop value is `undefined`. Webflow always passes a value (a slot element for RichText, `{src: ""}` for empty Image, etc.), so defaults on the React side are silently ignored in Webflow. The `defaultValue` on the Webflow declaration side is what actually populates the prop — make sure every Text / TextNode / RichText prop has one there.
 
-**Example — correct Image and Link usage:**
+**Example — correct Image, Link, and RichText usage:**
 {% raw %}
 ```tsx
 export interface HeroProps {
-  heroImage?: { src: string; alt?: string };
-  ctaLink?: { href?: string; target?: string };
+  heading?: React.ReactNode;         // TextNode
+  body?: React.ReactNode;            // RichText
+  heroImage?: { src: string; alt?: string };  // Image
+  ctaLink?: { href?: string; target?: string }; // Link
 }
 
-export default function Hero({ heroImage, ctaLink }: HeroProps) {
+export default function Hero({ heading, body, heroImage, ctaLink }: HeroProps) {
   return (
     <div className="wf-hero">
-      {heroImage && <img src={heroImage.src} alt={heroImage.alt || ""} className="wf-hero-image" />}
+      <h1 className="wf-hero-heading">{heading}</h1>
+      <div className="wf-hero-body">{body}</div>
+      {heroImage?.src && (
+        <img src={heroImage.src} alt={heroImage.alt || ""} className="wf-hero-image" />
+      )}
       <a href={ctaLink?.href || "#"} target={ctaLink?.target} className="wf-hero-cta">
         Get Started
       </a>
     </div>
   );
 }
+```
+{% endraw %}
+
+### 12. Overlay / Popover / Tooltip Positioning
+Webflow code components render inside Shadow DOM nested inside the Designer's iframe canvas. This breaks the common `position: fixed` + `getBoundingClientRect()` pattern — transformed ancestors change the containing block, and the overlay ends up far off-screen relative to the visible canvas.
+
+**Rules for any component that shows an element next to a trigger (tooltip, popover, hover card, dropdown, menu):**
+- Give the wrapper `position: relative` in CSS.
+- Give the overlay `position: absolute` and position it via CSS placement classes (`top`, `bottom`, `left`, `right` with `calc(100% + gap)`). No JS coordinate math needed for the common case.
+- If you need auto-flip (overflow detection), measure once on open against `window.innerWidth`/`window.innerHeight`, then just swap the placement class — do not drive `top`/`left` from state.
+- **Always keep the overlay mounted**, toggle visibility with a class on the wrapper and CSS `opacity` + `visibility` transitions. Conditional rendering (`{isVisible && <overlay>}`) combined with mount-time animations can leave the overlay stuck after the first open/close cycle.
+- Put hover handlers on the **wrapper**, not on the trigger button. The overlay is a sibling of the trigger — if `onMouseLeave` is on the trigger, moving the cursor from the trigger onto the overlay fires leave and the overlay vanishes before the user reaches it. Wrapping both in a shared `onMouseEnter` / `onMouseLeave` handler is the simplest reliable approach; add a small hide grace period (100–150ms) for the cursor-gap case.
+
+**Example — tooltip/popover shell:**
+{% raw %}
+```tsx
+const [open, setOpen] = useState(false);
+return (
+  <div
+    className={`wf-thing${open ? " wf-thing--open" : ""}`}
+    onMouseEnter={() => setOpen(true)}
+    onMouseLeave={() => setOpen(false)}
+  >
+    <button className="wf-thing-trigger">{triggerText}</button>
+    <div className="wf-thing-content" aria-hidden={!open}>{content}</div>
+  </div>
+);
+```
+{% endraw %}
+
+CSS (abbreviated):
+{% raw %}
+```css
+.wf-thing { position: relative; display: inline-block; }
+.wf-thing-content {
+  position: absolute; bottom: calc(100% + 8px); left: 50%;
+  transform: translateX(-50%);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.15s, visibility 0.15s;
+}
+.wf-thing--open .wf-thing-content { opacity: 1; visibility: visible; }
 ```
 {% endraw %}
 

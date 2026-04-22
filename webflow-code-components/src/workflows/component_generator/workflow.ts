@@ -51,6 +51,7 @@ export default workflow( {
       ssrFlagCorrect: false,
       noCodeFences: false,
       imageLinkPropsCorrect: false,
+      richTextHandledCorrectly: false,
     };
     let llmScore = 0;
     let iterations = 0;

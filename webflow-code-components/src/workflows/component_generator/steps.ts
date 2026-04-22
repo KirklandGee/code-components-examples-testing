@@ -319,6 +319,76 @@ export const runDeterministicChecks = step( {
       }
     }
 
+    // 13. RichText props handled correctly
+    // Three things we've seen go wrong in production:
+    //   (a) props.RichText declared without a defaultValue → Webflow hands the component an empty
+    //       slot element, the React string default silently doesn't fire (because the prop is NOT
+    //       undefined), and the component renders blank on first drop.
+    //   (b) The React component types the prop as `string` and then pushes it into
+    //       dangerouslySetInnerHTML={{ __html: prop }} → at runtime the value is a React element,
+    //       __html receives an object, nothing readable renders.
+    //   (c) Any dangerouslySetInnerHTML on a Webflow-provided prop — always the wrong tool.
+    let richTextHandledCorrectly = true;
+
+    // Use brace-depth counting (same pattern as propsGrouped) to extract each props.RichText block
+    const richTextPropNames: string[] = [];
+    const richTextStartRegex = /(\w+):\s*props\.RichText\s*\(\{/g;
+    let rtMatch;
+    while ( ( rtMatch = richTextStartRegex.exec( webflowDeclarationCode ) ) !== null ) {
+      const propName = rtMatch[1];
+      const startIdx = rtMatch.index + rtMatch[0].length - 1;
+      let depth = 1;
+      let inString = false;
+      let stringChar = '';
+      let blockEnd = -1;
+      for ( let ci = startIdx + 1; ci < webflowDeclarationCode.length && depth > 0; ci++ ) {
+        const ch = webflowDeclarationCode[ci];
+        const prev = ci > 0 ? webflowDeclarationCode[ci - 1] : '';
+        if ( inString ) {
+          if ( ch === stringChar && prev !== '\\' ) inString = false;
+        } else {
+          if ( ch === '"' || ch === '\'' || ch === '`' ) {
+            inString = true;
+            stringChar = ch;
+          } else if ( ch === '{' ) {
+            depth++;
+          } else if ( ch === '}' ) {
+            depth--;
+            if ( depth === 0 ) blockEnd = ci;
+          }
+        }
+      }
+      richTextPropNames.push( propName );
+      if ( blockEnd > 0 ) {
+        const block = webflowDeclarationCode.slice( startIdx, blockEnd + 1 );
+        if ( !/defaultValue\s*:/.test( block ) ) {
+          richTextHandledCorrectly = false;
+          failures.push( `props.RichText "${propName}" is missing defaultValue — Webflow passes an empty slot element otherwise and React's default parameter value never fires, so the component renders blank on drop` );
+        }
+      }
+    }
+
+    // Check that RichText props aren't typed as string and aren't fed into dangerouslySetInnerHTML
+    for ( const propName of richTextPropNames ) {
+      if ( new RegExp( `${propName}\\??:\\s*string\\b` ).test( reactComponentCode ) ) {
+        richTextHandledCorrectly = false;
+        failures.push( `Prop "${propName}" uses props.RichText but is typed as string in the React component — must be typed as React.ReactNode (at runtime Webflow passes a React slot element, not a string)` );
+      }
+      if ( new RegExp( `dangerouslySetInnerHTML\\s*=\\s*\\{\\s*\\{\\s*__html\\s*:\\s*${propName}` ).test( reactComponentCode ) ) {
+        richTextHandledCorrectly = false;
+        failures.push( `Prop "${propName}" is a props.RichText value being fed to dangerouslySetInnerHTML — render it as a React child ({${propName}}) instead; at runtime it is a React element, not an HTML string` );
+      }
+    }
+
+    // Also flag dangerouslySetInnerHTML use on any prop value, period — no Webflow-provided prop
+    // belongs inside __html.
+    const dangerousHTMLUsages = reactComponentCode.match( /dangerouslySetInnerHTML\s*=\s*\{\s*\{\s*__html\s*:\s*\w+/g ) || [];
+    if ( dangerousHTMLUsages.length > 0 && richTextHandledCorrectly ) {
+      // Only flag if not already flagged above; dangerouslySetInnerHTML on any Webflow prop is suspect
+      richTextHandledCorrectly = false;
+      failures.push( `Found dangerouslySetInnerHTML in the React component. Webflow provides RichText/TextNode/Slot props as React elements at runtime — render them with {propName} as a child, never via __html.` );
+    }
+
     const checks = {
       classPrefixCorrect,
       typographyInherited,
@@ -332,6 +402,7 @@ export const runDeterministicChecks = step( {
       ssrFlagCorrect,
       noCodeFences,
       imageLinkPropsCorrect,
+      richTextHandledCorrectly,
     };
 
     const allPassed = Object.values( checks ).every( Boolean );
