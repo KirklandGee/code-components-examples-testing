@@ -1,0 +1,218 @@
+/*
+ * Webflow Site Variables Used:
+ * - --background-primary: Component background
+ * - --text-primary: Main text color for numbers and labels
+ * - --text-secondary: Subheading and description text
+ * - --border-color: Divider lines and dots
+ * - --accent-color: Number color emphasis
+ * - --border-radius: Corner rounding
+ */
+
+.wf-statscounter *,
+.wf-statscounter *::before,
+.wf-statscounter *::after {
+  box-sizing: border-box;
+}
+
+.wf-statscounter {
+  font-family: inherit;
+  color: inherit;
+  line-height: inherit;
+  padding: 24px;
+  width: 100%;
+}
+
+/* Header section */
+.wf-statscounter-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.wf-statscounter-heading {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary, #1a1a1a);
+  margin: 0 0 12px 0;
+}
+
+.wf-statscounter-subheading {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-secondary, #737373);
+  margin: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Grid container */
+.wf-statscounter-grid {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* Layout: row (horizontal) */
+.wf-statscounter--layout-row .wf-statscounter-grid {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* Layout: grid (always wraps) */
+.wf-statscounter--layout-grid .wf-statscounter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 48px;
+}
+
+/* Individual stat item */
+.wf-statscounter-item {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Divider styles - line */
+.wf-statscounter--divider-line .wf-statscounter-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -24px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border-color, #e5e5e5);
+}
+
+/* Divider styles - dot */
+.wf-statscounter--divider-dot .wf-statscounter-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border-color, #e5e5e5);
+}
+
+/* Number container */
+.wf-statscounter-number {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent-color, #1a1a1a);
+}
+
+/* Number size variants */
+.wf-statscounter--size-medium .wf-statscounter-number {
+  font-size: 36px;
+}
+
+.wf-statscounter--size-large .wf-statscounter-number {
+  font-size: 48px;
+}
+
+.wf-statscounter--size-xlarge .wf-statscounter-number {
+  font-size: 64px;
+}
+
+/* Prefix and suffix */
+.wf-statscounter-prefix,
+.wf-statscounter-suffix {
+  font-size: 0.7em;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+/* Value */
+.wf-statscounter-value {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Label */
+.wf-statscounter-label {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-primary, #1a1a1a);
+  margin-top: 4px;
+}
+
+/* Description */
+.wf-statscounter-description {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary, #737373);
+}
+
+/* Alignment variants */
+.wf-statscounter--align-left .wf-statscounter-item {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.wf-statscounter--align-left .wf-statscounter-number {
+  justify-content: flex-start;
+}
+
+.wf-statscounter--align-center .wf-statscounter-item {
+  align-items: center;
+  text-align: center;
+}
+
+.wf-statscounter--align-center .wf-statscounter-number {
+  justify-content: center;
+}
+
+.wf-statscounter--align-right .wf-statscounter-item {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.wf-statscounter--align-right .wf-statscounter-number {
+  justify-content: flex-end;
+}
+
+/* Responsive: stack on narrow screens for row layout */
+@media (max-width: 768px) {
+  .wf-statscounter--layout-row .wf-statscounter-grid {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .wf-statscounter--layout-row .wf-statscounter-item::after {
+    display: none;
+  }
+
+  .wf-statscounter-header {
+    margin-bottom: 32px;
+  }
+
+  .wf-statscounter-heading {
+    font-size: 24px;
+  }
+
+  .wf-statscounter-subheading {
+    font-size: 14px;
+  }
+
+  .wf-statscounter--size-medium .wf-statscounter-number {
+    font-size: 32px;
+  }
+
+  .wf-statscounter--size-large .wf-statscounter-number {
+    font-size: 40px;
+  }
+
+  .wf-statscounter--size-xlarge .wf-statscounter-number {
+    font-size: 48px;
+  }
+}

@@ -1,0 +1,160 @@
+/*
+ * Webflow Site Variables Used:
+ * - --text-primary: Heading text color
+ * - --text-secondary: Logo default color (when grayscale is off)
+ * - --background-primary: Component background
+ * - --border-color: Optional borders or dividers
+ * - --accent-color: Logo hover accent (when grayscale is on)
+ */
+
+/* Box sizing reset */
+.wf-logomarquee *,
+.wf-logomarquee *::before,
+.wf-logomarquee *::after {
+  box-sizing: border-box;
+}
+
+/* Root element - inherit typography + default padding */
+.wf-logomarquee {
+  font-family: inherit;
+  color: inherit;
+  line-height: inherit;
+  padding: 24px;
+  --wf-logomarquee-logo-height: 40px;
+  --wf-logomarquee-logo-gap: 64px;
+}
+
+/* Heading */
+.wf-logomarquee-heading {
+  text-align: center;
+  margin-bottom: 32px;
+  color: var(--text-primary, #1a1a1a);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Container - overflow hidden to clip the scrolling track */
+.wf-logomarquee-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+/* Track - the animated element that holds both groups */
+.wf-logomarquee-track {
+  display: flex;
+  width: fit-content;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+/* Pause on hover */
+.wf-logomarquee--pause-on-hover .wf-logomarquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Group - each contains one full set of logos */
+.wf-logomarquee-group {
+  display: flex;
+  align-items: center;
+  gap: var(--wf-logomarquee-logo-gap);
+  flex-shrink: 0;
+}
+
+/* Logo wrapper (non-linked) */
+.wf-logomarquee-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: var(--wf-logomarquee-logo-height);
+}
+
+/* Logo link wrapper */
+.wf-logomarquee-logo-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: var(--wf-logomarquee-logo-height);
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.wf-logomarquee-logo-link:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.wf-logomarquee-logo-link:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Logo image */
+.wf-logomarquee-logo-image {
+  height: var(--wf-logomarquee-logo-height);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  transition: filter 0.3s;
+}
+
+/* Grayscale mode */
+.wf-logomarquee--grayscale .wf-logomarquee-logo-image {
+  filter: grayscale(100%);
+  opacity: 0.6;
+}
+
+.wf-logomarquee--grayscale .wf-logomarquee-logo:hover .wf-logomarquee-logo-image,
+.wf-logomarquee--grayscale .wf-logomarquee-logo-link:hover .wf-logomarquee-logo-image {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+/* Fade edges using CSS mask */
+.wf-logomarquee--fade-edges .wf-logomarquee-container {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+}
+
+/* Responsive adjustments - tighten gaps on narrow screens */
+@media (max-width: 768px) {
+  .wf-logomarquee {
+    --wf-logomarquee-logo-gap: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wf-logomarquee {
+    --wf-logomarquee-logo-gap: 32px;
+    --wf-logomarquee-logo-height: 32px;
+  }
+  
+  .wf-logomarquee-heading {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .wf-logomarquee-track {
+    animation: none !important;
+  }
+}
