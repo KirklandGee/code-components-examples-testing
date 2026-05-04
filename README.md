@@ -1,5 +1,13 @@
 # Webflow Code Component Examples
 
+> **⚠️ This is a working fork.** It started as [Webflow-Examples/code-components-examples](https://github.com/Webflow-Examples/code-components-examples) and now hosts an LLM-driven component generator (`webflow-code-components/`) plus a growing library of generated and human-QA'd components.
+>
+> **If you're picking up this work, start here:** [`HANDOFF.md`](./HANDOFF.md) — the master handoff doc with current state, branches, open issues, next steps, and the GrowthX repo-move plan.
+>
+> **If you're QA'ing a generated component:** [`docs/qa-lessons.md`](./docs/qa-lessons.md) — every bug pattern we've seen and how to spot it.
+
+---
+
 A collection of projects demonstrating how to bring code components built in React into Webflow via DevLink. Each example is a self-contained project that showcases different patterns and use cases for building interactive components that seamlessly integrate with Webflow. You can run a Devlink CLI command that will import the component into Webflow so you can try it on your Webflow sites.
 
 ## DevLink

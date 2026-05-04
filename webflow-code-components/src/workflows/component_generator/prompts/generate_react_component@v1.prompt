@@ -124,7 +124,7 @@ Webflow passes certain prop types as **objects**, not plain strings. You MUST ty
 **Rules:**
 - NEVER type an Image prop as `string`. Always use `{ src: string; alt?: string }`.
 - NEVER type a Link prop as `string`. Always use `{ href?: string; target?: string }`.
-- NEVER type a RichText prop as `string`. Always use `React.ReactNode`. Although the static `PropValues[PropType.RichText]` type is `string`, at **runtime** Webflow hands the component a React slot element (an object with `{$$typeof, type, key, ref, props}`). Typing it as `string` and then using it with `dangerouslySetInnerHTML={{ __html: prop }}` feeds an object into `__html` and the body renders blank.
+- NEVER type a RichText prop as `string`. Always use `React.ReactNode`. Although the static `PropValues[PropType.RichText]` type is `string`, at **runtime** Webflow hands the component a React slot element (an object with `$$typeof`, `type`, `key`, `ref`, `props`). Typing it as `string` and then using it with `dangerouslySetInnerHTML={ __html: prop }` feeds an object into `__html` and the body renders blank.
 - NEVER use `dangerouslySetInnerHTML` with a Webflow prop. Render it with JSX children: `<div>{richTextProp}</div>`. The slot element renders itself correctly, and the Webflow rich text editor fills it with the user's content.
 - Always use optional chaining (`link?.href`, `image?.src`) since the prop may be undefined before the user fills it in.
 - When a Link/Image/RichText prop feeds into an internal array/object (e.g. a `Slide` or `Item` interface), match the types there too.
