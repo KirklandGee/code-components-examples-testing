@@ -6,5 +6,12 @@
     ],
     "description": "A live GitHub repository card that pulls public repo stats directly from api.github.com with no authentication required — just owner and repo name. Displays the repo name, description, primary language with a color dot, star count, fork count, watcher count, latest release tag and date, top contributors as a stacked avatar row, and a prominent 'View on GitHub' CTA. Star / fork counts animate up from 0 on first render. Compact or full layout variants, light or dark theme, and configurable toggles for every metadata section so designers can trim what they don't need. Perfect for open-source project marketing sites, developer-tool landing pages, and 'built with' attributions. Graceful loading, error (with retry), and rate-limit states; the component detects 403-with-X-RateLimit-Remaining=0 specifically and suggests waiting 60 minutes. Client-side cache respects the configured interval to keep requests under GitHub's anonymous 60-req/hr-per-IP limit.",
     "id": "github-repo-card"
+  },
+  "telemetry": {
+    "global": {
+      "allowTelemetry": true,
+      "lastPrompted": 1776885810753,
+      "version": "1.14.0"
+    }
   }
 }

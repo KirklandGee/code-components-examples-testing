@@ -6,5 +6,12 @@
     ],
     "description": "A responsive grid of recent Instagram posts fetched via an RSS-to-JSON bridge. Because Instagram's Basic Display API was deprecated in December 2024, this component consumes a JSON Feed v1 URL produced by a free service like rss.app or rsshub.app — the designer pastes in the generated feed URL and the component handles fetching, parsing, and rendering. Supports a configurable post count (up to 24), 2 / 3 / 4 column grid on desktop with responsive collapse on mobile, square / portrait / original aspect ratios, and one of four hover effects (none, zoom, overlay, fade). Each post shows the image, optional truncated caption, and optional relative date; clicking a post opens the original on instagram.com in a new tab. Includes a header with a profile link and a 'Follow on Instagram' CTA. Skeleton loading state, friendly error state with retry, and empty state when the feed is currently empty. Client-side cache keeps the quota-friendly request rate gentle.",
     "id": "instagram-feed"
+  },
+  "telemetry": {
+    "global": {
+      "allowTelemetry": true,
+      "lastPrompted": 1776885768612,
+      "version": "1.14.0"
+    }
   }
 }
