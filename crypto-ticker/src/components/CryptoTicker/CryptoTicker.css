@@ -1,0 +1,310 @@
+/*
+ * Webflow Site Variables Used:
+ * - --background-primary: Card backgrounds and main container
+ * - --background-secondary: Hover states and loading background
+ * - --text-primary: Coin names, prices, and main text
+ * - --text-secondary: Symbols, subheading, and muted text
+ * - --border-color: Card borders and dividers
+ * - --accent-color: Retry button background
+ * - --accent-text-color: Retry button text
+ * - --border-radius: Card and button rounding
+ */
+
+.wf-cryptoticker *,
+.wf-cryptoticker *::before,
+.wf-cryptoticker *::after {
+  box-sizing: border-box;
+}
+
+.wf-cryptoticker {
+  font-family: inherit;
+  color: inherit;
+  line-height: inherit;
+  padding: 24px;
+}
+
+/* Header */
+.wf-cryptoticker-header {
+  margin-bottom: 24px;
+}
+
+.wf-cryptoticker-heading {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.wf-cryptoticker-subheading {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-secondary, #737373);
+}
+
+/* Card Containers */
+.wf-cryptoticker-cards {
+  display: flex;
+  gap: 16px;
+}
+
+.wf-cryptoticker-cards--row {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.wf-cryptoticker-cards--grid {
+  display: grid;
+  gap: 16px;
+}
+
+.wf-cryptoticker-cards--cols-2 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.wf-cryptoticker-cards--cols-3 {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.wf-cryptoticker-cards--cols-4 {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+@media (min-width: 768px) {
+  .wf-cryptoticker-cards--cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .wf-cryptoticker-cards--cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .wf-cryptoticker-cards--cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Ticker Layout */
+.wf-cryptoticker-ticker-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.wf-cryptoticker-ticker-track {
+  display: flex;
+  gap: 16px;
+  animation: wf-cryptoticker-scroll 30s linear infinite;
+  width: fit-content;
+}
+
+.wf-cryptoticker-ticker-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes wf-cryptoticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Card Base */
+.wf-cryptoticker-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--border-radius, 8px);
+  min-width: 200px;
+  transition: all 0.2s ease;
+}
+
+.wf-cryptoticker-cards--row .wf-cryptoticker-card {
+  flex: 1 1 200px;
+  max-width: 280px;
+}
+
+.wf-cryptoticker-ticker-track .wf-cryptoticker-card {
+  flex-shrink: 0;
+}
+
+/* Card Styles */
+.wf-cryptoticker-card--elevated {
+  background: var(--background-primary, #ffffff);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.wf-cryptoticker-card--elevated:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.wf-cryptoticker-card--outlined {
+  background: var(--background-primary, #ffffff);
+  border: 1px solid var(--border-color, #e5e5e5);
+}
+
+.wf-cryptoticker-card--outlined:hover {
+  border-color: var(--text-secondary, #737373);
+}
+
+.wf-cryptoticker-card--minimal {
+  background: transparent;
+  border: none;
+}
+
+.wf-cryptoticker-card--minimal:hover {
+  background: var(--background-secondary, #f5f5f5);
+}
+
+/* Flash Animations */
+.wf-cryptoticker-card--flash-up {
+  animation: wf-cryptoticker-flash-green 0.5s ease;
+}
+
+.wf-cryptoticker-card--flash-down {
+  animation: wf-cryptoticker-flash-red 0.5s ease;
+}
+
+@keyframes wf-cryptoticker-flash-green {
+  0%, 100% {
+    background-color: var(--background-primary, #ffffff);
+  }
+  50% {
+    background-color: rgba(34, 197, 94, 0.2);
+  }
+}
+
+@keyframes wf-cryptoticker-flash-red {
+  0%, 100% {
+    background-color: var(--background-primary, #ffffff);
+  }
+  50% {
+    background-color: rgba(239, 68, 68, 0.2);
+  }
+}
+
+/* Card Content */
+.wf-cryptoticker-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.wf-cryptoticker-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wf-cryptoticker-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.wf-cryptoticker-symbol {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary, #737373);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.wf-cryptoticker-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary, #1a1a1a);
+  margin-top: auto;
+}
+
+.wf-cryptoticker-change {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: calc(var(--border-radius, 8px) / 2);
+  font-size: 12px;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.wf-cryptoticker-change--positive {
+  background: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+}
+
+.wf-cryptoticker-change--negative {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+/* Loading State */
+.wf-cryptoticker-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  font-size: 16px;
+  color: var(--text-secondary, #737373);
+  background: var(--background-secondary, #f5f5f5);
+  border-radius: var(--border-radius, 8px);
+}
+
+/* Error State */
+.wf-cryptoticker-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 24px;
+  background: var(--background-secondary, #f5f5f5);
+  border-radius: var(--border-radius, 8px);
+  text-align: center;
+}
+
+.wf-cryptoticker-error-message {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-primary, #1a1a1a);
+  max-width: 400px;
+}
+
+.wf-cryptoticker-retry {
+  padding: 10px 20px;
+  background: var(--accent-color, #1a1a1a);
+  color: var(--accent-text-color, #ffffff);
+  border: none;
+  border-radius: var(--border-radius, 8px);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.wf-cryptoticker-retry:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.wf-cryptoticker-retry:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: 2px;
+}
+
+.wf-cryptoticker-retry:active {
+  transform: translateY(0);
+}
+
+/* Empty State */
+.wf-cryptoticker-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  font-size: 14px;
+  color: var(--text-secondary, #737373);
+  background: var(--background-secondary, #f5f5f5);
+  border-radius: var(--border-radius, 8px);
+}

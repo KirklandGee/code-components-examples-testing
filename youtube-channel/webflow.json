@@ -1,0 +1,10 @@
+{
+  "library": {
+    "name": "YouTubeChannel",
+    "components": [
+      "./src/**/*.webflow.@(js|jsx|mjs|ts|tsx)"
+    ],
+    "description": "A live YouTube channel widget that fetches and displays the latest videos from any public channel using the YouTube Data API v3. Shows the channel avatar, channel name, and live subscriber count in a header row, followed by a responsive grid of the N most recent videos. Each video card shows the video thumbnail (16:9), title, publish date (as a relative 'X days ago' string), and view count. Clicking a video opens it on YouTube in a new tab. Includes a prominent 'Subscribe' CTA that deep-links to the channel's subscribe-confirmation page. Configurable layout (grid, row, list), column count, and which metadata pieces to display. Graceful loading state with skeleton cards, error state with retry, and empty state when the channel has no public videos. Caches responses client-side for the configured interval to avoid burning through the YouTube API quota. Inherits typography from the Webflow site and uses site color variables for text and accent colors with sensible fallbacks.",
+    "id": "youtube-channel"
+  }
+}

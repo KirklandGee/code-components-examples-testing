@@ -1,0 +1,10 @@
+{
+  "library": {
+    "name": "CryptoTicker",
+    "components": [
+      "./src/**/*.webflow.@(js|jsx|mjs|ts|tsx)"
+    ],
+    "description": "A live crypto price ticker that pulls real-time prices and 24-hour change percentages from CoinGecko's free public API (no auth required). Supports 1 to 8 configurable coins by CoinGecko ID (bitcoin, ethereum, solana, cardano, etc.). Displays each coin as a card with the official coin icon, symbol, current price in the selected fiat currency, and a 24-hour percent change badge that is green for positive and red for negative moves. Auto-refreshes on a configurable interval; when a price changes the card briefly flashes green (up) or red (down) to draw attention. Three layout modes: row (horizontal cards), grid (responsive multi-column), and ticker (horizontal scrolling marquee style). Configurable decimal precision, optional 24-hour change display, and optional animated price update flash. Graceful loading, error (with retry), and rate-limit-awareness. Inherits typography from the site and uses site color variables for background and text with sensible fallbacks. Perfect for fintech, DeFi, and crypto-native marketing sites.",
+    "id": "crypto-ticker"
+  }
+}

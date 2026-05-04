@@ -1,0 +1,396 @@
+/*
+ * Webflow Site Variables Used:
+ * - --background-primary: Card background
+ * - --background-secondary: Hover states, secondary backgrounds
+ * - --text-primary: Main text color
+ * - --text-secondary: Muted text, labels, metadata
+ * - --border-color: Card borders and dividers
+ * - --accent-color: Links, CTA background
+ * - --accent-text-color: Text on accent background
+ * - --border-radius: Corner rounding for card and buttons
+ */
+
+.wf-githubrepocard *,
+.wf-githubrepocard *::before,
+.wf-githubrepocard *::after {
+  box-sizing: border-box;
+}
+
+.wf-githubrepocard {
+  font-family: inherit;
+  color: inherit;
+  line-height: inherit;
+  padding: 24px;
+}
+
+/* Root container with layout and theme variants */
+.wf-githubrepocard {
+  background: var(--background-primary, #ffffff);
+  border-radius: var(--border-radius, 8px);
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Card style variants */
+.wf-githubrepocard--outlined {
+  border: 1px solid var(--border-color, #e5e5e5);
+}
+
+.wf-githubrepocard--elevated {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.wf-githubrepocard--minimal {
+  border: none;
+  box-shadow: none;
+}
+
+/* Layout variants */
+.wf-githubrepocard--compact {
+  gap: 12px;
+  max-width: 360px;
+}
+
+.wf-githubrepocard--full {
+  gap: 16px;
+}
+
+/* Theme variants */
+.wf-githubrepocard--dark {
+  background: #1a1a1a;
+  color: #ffffff;
+  border-color: #333333;
+}
+
+.wf-githubrepocard--dark .wf-githubrepocard-name {
+  color: #ffffff;
+}
+
+.wf-githubrepocard--dark .wf-githubrepocard-description,
+.wf-githubrepocard--dark .wf-githubrepocard-last-commit-label,
+.wf-githubrepocard--dark .wf-githubrepocard-contributors-label {
+  color: #a3a3a3;
+}
+
+.wf-githubrepocard--dark .wf-githubrepocard-fork-badge {
+  background: #333333;
+  color: #a3a3a3;
+}
+
+.wf-githubrepocard--dark .wf-githubrepocard-icon {
+  fill: #a3a3a3;
+}
+
+.wf-githubrepocard--dark .wf-githubrepocard-cta {
+  background: #ffffff;
+  color: #1a1a1a;
+}
+
+.wf-githubrepocard--dark .wf-githubrepocard-cta:hover {
+  background: #f5f5f5;
+}
+
+/* Header */
+.wf-githubrepocard-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wf-githubrepocard-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--accent-color, #1a1a1a);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.wf-githubrepocard-name:hover {
+  opacity: 0.7;
+}
+
+.wf-githubrepocard-name:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.wf-githubrepocard-fork-badge {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  background: var(--background-secondary, #f5f5f5);
+  color: var(--text-secondary, #737373);
+  border-radius: 12px;
+}
+
+/* Description */
+.wf-githubrepocard-description {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary, #737373);
+  margin: 0;
+}
+
+/* Metadata row */
+.wf-githubrepocard-metadata {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.wf-githubrepocard-language {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wf-githubrepocard-language-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.wf-githubrepocard-language-name {
+  font-size: 14px;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.wf-githubrepocard-stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wf-githubrepocard-icon {
+  width: 16px;
+  height: 16px;
+  fill: var(--text-secondary, #737373);
+  flex-shrink: 0;
+}
+
+.wf-githubrepocard-stat-value {
+  font-size: 14px;
+  color: var(--text-primary, #1a1a1a);
+}
+
+/* Last commit */
+.wf-githubrepocard-last-commit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.wf-githubrepocard-last-commit-label {
+  color: var(--text-secondary, #737373);
+}
+
+.wf-githubrepocard-last-commit-date {
+  color: var(--text-primary, #1a1a1a);
+}
+
+/* Release */
+.wf-githubrepocard-release {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wf-githubrepocard-release-tag {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent-color, #1a1a1a);
+  text-decoration: none;
+  padding: 4px 8px;
+  background: var(--background-secondary, #f5f5f5);
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.wf-githubrepocard-release-tag:hover {
+  background: var(--border-color, #e5e5e5);
+}
+
+.wf-githubrepocard-release-tag:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: 2px;
+}
+
+.wf-githubrepocard-release-date {
+  font-size: 14px;
+  color: var(--text-secondary, #737373);
+}
+
+/* Contributors */
+.wf-githubrepocard-contributors {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wf-githubrepocard-contributors-label {
+  font-size: 14px;
+  color: var(--text-secondary, #737373);
+}
+
+.wf-githubrepocard-contributors-avatars {
+  display: flex;
+  align-items: center;
+  gap: -8px;
+}
+
+.wf-githubrepocard-contributor-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--background-primary, #ffffff);
+  transition: transform 0.2s;
+  margin-left: -8px;
+}
+
+.wf-githubrepocard-contributor-avatar:first-child {
+  margin-left: 0;
+}
+
+.wf-githubrepocard-contributor-avatar:hover {
+  transform: translateY(-2px);
+  z-index: 1;
+}
+
+.wf-githubrepocard-contributor-avatar:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: 2px;
+  z-index: 2;
+}
+
+.wf-githubrepocard-contributor-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* CTA button */
+.wf-githubrepocard-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--accent-color, #1a1a1a);
+  color: var(--accent-text-color, #ffffff);
+  text-decoration: none;
+  border-radius: var(--border-radius, 8px);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s, transform 0.2s;
+  align-self: flex-start;
+}
+
+.wf-githubrepocard-cta:hover {
+  background: var(--text-primary, #1a1a1a);
+  transform: translateY(-1px);
+}
+
+.wf-githubrepocard-cta:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: 2px;
+}
+
+.wf-githubrepocard-cta:active {
+  transform: translateY(0);
+}
+
+.wf-githubrepocard-cta-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* Loading state */
+.wf-githubrepocard-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 48px 24px;
+}
+
+.wf-githubrepocard-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color, #e5e5e5);
+  border-top-color: var(--accent-color, #1a1a1a);
+  border-radius: 50%;
+  animation: wf-githubrepocard-spin 0.8s linear infinite;
+}
+
+@keyframes wf-githubrepocard-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.wf-githubrepocard-loading-text {
+  font-size: 14px;
+  color: var(--text-secondary, #737373);
+  margin: 0;
+}
+
+/* Error state */
+.wf-githubrepocard-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.wf-githubrepocard-error-text {
+  font-size: 14px;
+  color: var(--text-secondary, #737373);
+  margin: 0;
+  max-width: 320px;
+}
+
+.wf-githubrepocard-retry {
+  padding: 8px 16px;
+  background: var(--accent-color, #1a1a1a);
+  color: var(--accent-text-color, #ffffff);
+  border: none;
+  border-radius: var(--border-radius, 8px);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.wf-githubrepocard-retry:hover {
+  background: var(--text-primary, #1a1a1a);
+}
+
+.wf-githubrepocard-retry:focus-visible {
+  outline: 2px solid var(--accent-color, #1a1a1a);
+  outline-offset: 2px;
+}
+
+.wf-githubrepocard-retry:active {
+  transform: translateY(1px);
+}
+
+.wf-githubrepocard-retry:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
