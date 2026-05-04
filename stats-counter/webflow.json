@@ -6,5 +6,12 @@
     ],
     "description": "A horizontal or grid bar of animated stat counters. Each stat displays a large number with optional prefix (e.g. $) and suffix (e.g. +, %, K, M), a label, and an optional one-line description. When the component scrolls into view it triggers a smooth count-up animation from 0 to each stat's target value using requestAnimationFrame and easeOutExpo timing. Supports 3 to 6 stats with individual visibility toggles, configurable animation duration, choice of no / line / dot dividers between stats, and left / center / right text alignment. Uses IntersectionObserver so the animation only fires once per viewport entry. Fully responsive — collapses to a vertical stack on narrow screens when in row layout. Inherits typography from the Webflow site and uses site color variables for the accent and divider colors with sensible fallbacks.",
     "id": "stats-counter"
+  },
+  "telemetry": {
+    "global": {
+      "allowTelemetry": true,
+      "lastPrompted": 1776885214355,
+      "version": "1.14.0"
+    }
   }
 }
