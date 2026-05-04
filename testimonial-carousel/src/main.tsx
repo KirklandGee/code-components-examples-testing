@@ -188,31 +188,31 @@ function App() {
               testimonial1AuthorName="Sarah Johnson"
               testimonial1AuthorRole="Marketing Director"
               testimonial1AuthorCompany="TechCorp Inc."
-              testimonial1Avatar="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop"
+              testimonial1Avatar={{ src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop" }}
               testimonial1Visible={true}
               testimonial2Text="Outstanding service and support. We've seen a 300% increase in productivity since implementing this solution."
               testimonial2AuthorName="Michael Chen"
               testimonial2AuthorRole="CEO"
               testimonial2AuthorCompany="Growth Solutions"
-              testimonial2Avatar="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop"
+              testimonial2Avatar={{ src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop" }}
               testimonial2Visible={true}
               testimonial3Text="The best investment we've made this year. Intuitive, powerful, and reliable. Highly recommended!"
               testimonial3AuthorName="Emily Rodriguez"
               testimonial3AuthorRole="Product Manager"
               testimonial3AuthorCompany="Innovate Labs"
-              testimonial3Avatar="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop"
+              testimonial3Avatar={{ src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop" }}
               testimonial3Visible={true}
               testimonial4Text="Exceptional quality and attention to detail. Our clients have noticed the difference immediately."
               testimonial4AuthorName="David Thompson"
               testimonial4AuthorRole="Operations Lead"
               testimonial4AuthorCompany="Premier Services"
-              testimonial4Avatar="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop"
+              testimonial4Avatar={{ src: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop" }}
               testimonial4Visible={true}
               testimonial5Text="A game-changer for our business. Simple to use yet incredibly powerful. Worth every penny."
               testimonial5AuthorName="Jessica Williams"
               testimonial5AuthorRole="Founder"
               testimonial5AuthorCompany="Startup Studio"
-              testimonial5Avatar="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop"
+              testimonial5Avatar={{ src: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop" }}
               testimonial5Visible={true}
             />
           </section>
@@ -232,19 +232,19 @@ function App() {
               testimonial1AuthorName="Alex Martinez"
               testimonial1AuthorRole="CTO"
               testimonial1AuthorCompany="Digital Ventures"
-              testimonial1Avatar="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop"
+              testimonial1Avatar={{ src: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop" }}
               testimonial1Visible={true}
               testimonial2Text="The ROI we've seen is incredible. This solution paid for itself within the first month."
               testimonial2AuthorName="Rachel Green"
               testimonial2AuthorRole="Finance Director"
               testimonial2AuthorCompany="Capital Group"
-              testimonial2Avatar="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop"
+              testimonial2Avatar={{ src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop" }}
               testimonial2Visible={true}
               testimonial3Text="Customer support is top-notch. They're always available and genuinely care about our success."
               testimonial3AuthorName="James Wilson"
               testimonial3AuthorRole="VP Operations"
               testimonial3AuthorCompany="Enterprise Solutions"
-              testimonial3Avatar="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop"
+              testimonial3Avatar={{ src: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop" }}
               testimonial3Visible={true}
               testimonial4Visible={false}
               testimonial5Visible={false}

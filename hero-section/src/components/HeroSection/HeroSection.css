@@ -237,6 +237,55 @@
   transform: none;
 }
 
+.wf-herosection-on-image-light .wf-herosection-headline,
+.wf-herosection-on-image-light .wf-herosection-subheading,
+.wf-herosection-on-image-light .wf-herosection-badge,
+.wf-herosection-on-image-light .wf-herosection-cta-secondary {
+  color: #ffffff;
+}
+
+.wf-herosection-on-image-light .wf-herosection-subheading {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.wf-herosection-on-image-light .wf-herosection-badge {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.wf-herosection-on-image-light .wf-herosection-cta-secondary {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.wf-herosection-on-image-light .wf-herosection-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.wf-herosection-on-image-dark .wf-herosection-headline,
+.wf-herosection-on-image-dark .wf-herosection-subheading,
+.wf-herosection-on-image-dark .wf-herosection-badge,
+.wf-herosection-on-image-dark .wf-herosection-cta-secondary {
+  color: #1a1a1a;
+}
+
+.wf-herosection-on-image-dark .wf-herosection-subheading {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.wf-herosection-on-image-dark .wf-herosection-badge {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.wf-herosection-on-image-dark .wf-herosection-cta-secondary {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.wf-herosection-on-image-dark .wf-herosection-cta-secondary:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
 .wf-herosection-size-medium {
   --wf-herosection-min-height: 500px;
 }

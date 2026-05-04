@@ -47,7 +47,7 @@ export default function WeatherWidget({
   lastUpdatedLabel = "Last updated:",
   refreshButtonText = "Refresh",
   loadingText = "Loading weather data...",
-  errorInvalidKeyText = "Invalid API key. Please check your credentials.",
+  errorInvalidKeyText = "Invalid API key. New OpenWeatherMap keys can take up to 2 hours to activate.",
   errorCityNotFoundText = "City not found. Please check the city name.",
   errorGenericText = "Unable to fetch weather data. Please try again.",
   fahrenheitSymbol = "°F",
@@ -62,10 +62,11 @@ export default function WeatherWidget({
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const fetchWeatherData = async () => {
-    if (!apiKey) {
+    const trimmedKey = apiKey.trim();
+    if (!trimmedKey) {
       setError(errorInvalidKeyText);
       setLoading(false);
       return;
@@ -79,7 +80,8 @@ export default function WeatherWidget({
       const response = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
           cityName
-        )}&units=${units}&appid=${apiKey}`
+        )}&units=${units}&appid=${trimmedKey}`,
+        { cache: "no-store" }
       );
 
       if (!response.ok) {

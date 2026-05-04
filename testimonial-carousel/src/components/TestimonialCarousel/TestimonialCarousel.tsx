@@ -2,6 +2,9 @@ import { useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
+import type { PropValues, PropType } from "@webflow/data-types";
+
+type Avatar = PropValues[PropType.Image];
 
 export interface TestimonialCarouselProps {
   id?: string;
@@ -15,31 +18,31 @@ export interface TestimonialCarouselProps {
   testimonial1AuthorName?: string;
   testimonial1AuthorRole?: string;
   testimonial1AuthorCompany?: string;
-  testimonial1Avatar?: string;
+  testimonial1Avatar?: Avatar;
   testimonial1Visible?: boolean;
   testimonial2Text?: React.ReactNode;
   testimonial2AuthorName?: string;
   testimonial2AuthorRole?: string;
   testimonial2AuthorCompany?: string;
-  testimonial2Avatar?: string;
+  testimonial2Avatar?: Avatar;
   testimonial2Visible?: boolean;
   testimonial3Text?: React.ReactNode;
   testimonial3AuthorName?: string;
   testimonial3AuthorRole?: string;
   testimonial3AuthorCompany?: string;
-  testimonial3Avatar?: string;
+  testimonial3Avatar?: Avatar;
   testimonial3Visible?: boolean;
   testimonial4Text?: React.ReactNode;
   testimonial4AuthorName?: string;
   testimonial4AuthorRole?: string;
   testimonial4AuthorCompany?: string;
-  testimonial4Avatar?: string;
+  testimonial4Avatar?: Avatar;
   testimonial4Visible?: boolean;
   testimonial5Text?: React.ReactNode;
   testimonial5AuthorName?: string;
   testimonial5AuthorRole?: string;
   testimonial5AuthorCompany?: string;
-  testimonial5Avatar?: string;
+  testimonial5Avatar?: Avatar;
   testimonial5Visible?: boolean;
 }
 
@@ -134,6 +137,7 @@ export default function TestimonialCarousel({
     if (swiperRef.current && prevButtonRef.current && nextButtonRef.current) {
       const swiper = swiperRef.current;
       swiper.params.navigation = {
+        ...(swiper.params.navigation as object),
         prevEl: prevButtonRef.current,
         nextEl: nextButtonRef.current,
       };
@@ -204,10 +208,10 @@ export default function TestimonialCarousel({
                   {testimonial.text}
                 </div>
                 <div className="wf-testimonialcarousel-author">
-                  {testimonial.avatar && (
+                  {testimonial.avatar?.src && (
                     <img
-                      src={testimonial.avatar}
-                      alt={testimonial.authorName}
+                      src={testimonial.avatar.src}
+                      alt={testimonial.avatar.alt || testimonial.authorName}
                       className="wf-testimonialcarousel-avatar"
                     />
                   )}

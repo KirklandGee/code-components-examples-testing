@@ -1,4 +1,5 @@
 import React from "react";
+import type { PropValues, PropType } from "@webflow/data-types";
 
 export interface HeroSectionProps {
   id?: string;
@@ -7,13 +8,14 @@ export interface HeroSectionProps {
   headline?: React.ReactNode;
   subheading?: string;
   ctaText?: string;
-  ctaLink?: string;
+  ctaLink?: PropValues[PropType.Link];
   showSecondaryCta?: boolean;
   secondaryCtaText?: string;
-  secondaryCtaLink?: string;
+  secondaryCtaLink?: PropValues[PropType.Link];
   showBackgroundImage?: boolean;
-  backgroundImage?: string;
+  backgroundImage?: PropValues[PropType.Image];
   overlayOpacity?: "none" | "light" | "medium" | "dark";
+  textOnImage?: "light" | "dark";
   showBadge?: boolean;
   badgeText?: string;
   contentMaxWidth?: "narrow" | "medium" | "wide";
@@ -45,13 +47,14 @@ export default function HeroSection({
   headline = "Build Something Amazing",
   subheading = "Create powerful experiences that drive results and delight your customers",
   ctaText = "Get Started",
-  ctaLink = "#",
+  ctaLink,
   showSecondaryCta = false,
   secondaryCtaText = "Learn More",
-  secondaryCtaLink = "#",
+  secondaryCtaLink,
   showBackgroundImage = false,
   backgroundImage,
   overlayOpacity = "medium",
+  textOnImage = "light",
   showBadge = false,
   badgeText = "New Release",
   contentMaxWidth = "medium",
@@ -59,23 +62,27 @@ export default function HeroSection({
   const minHeight = sizeMap[size];
   const overlayValue = overlayOpacityMap[overlayOpacity];
   const maxWidth = contentMaxWidthMap[contentMaxWidth];
+  const hasBackgroundImage = Boolean(showBackgroundImage && backgroundImage?.src);
+  const onImageClass = hasBackgroundImage
+    ? ` wf-herosection-on-image wf-herosection-on-image-${textOnImage}`
+    : "";
 
-  const handleCtaClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (ctaLink && ctaLink !== "#") {
-      window.location.href = ctaLink;
+  const openLink = (link?: { href?: string; target?: string }) => {
+    if (!link?.href || link.href === "#") return;
+    if (link.target === "_blank") {
+      window.open(link.href, "_blank", "noopener,noreferrer");
+    } else {
+      window.location.href = link.href;
     }
   };
 
-  const handleSecondaryCtaClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (secondaryCtaLink && secondaryCtaLink !== "#") {
-      window.location.href = secondaryCtaLink;
-    }
-  };
+  const handleCtaClick = () => openLink(ctaLink);
+  const handleSecondaryCtaClick = () => openLink(secondaryCtaLink);
 
   return (
     <section
       id={id}
-      className={`wf-herosection wf-herosection-layout-${layout} wf-herosection-size-${size}`}
+      className={`wf-herosection wf-herosection-layout-${layout} wf-herosection-size-${size}${onImageClass}`}
       style={
         {
           "--wf-herosection-min-height": minHeight,
@@ -84,10 +91,12 @@ export default function HeroSection({
         } as React.CSSProperties
       }
     >
-      {showBackgroundImage && backgroundImage && (
+      {hasBackgroundImage && (
         <div
           className="wf-herosection-background"
-          style={{ backgroundImage: `url(${backgroundImage})` }}
+          style={{ backgroundImage: `url(${backgroundImage!.src})` }}
+          role={backgroundImage!.alt ? "img" : undefined}
+          aria-label={backgroundImage!.alt || undefined}
         >
           <div className="wf-herosection-overlay" />
         </div>

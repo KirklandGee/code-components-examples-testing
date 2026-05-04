@@ -1,6 +1,9 @@
 import TestimonialCarousel from "./TestimonialCarousel";
 import { props } from "@webflow/data-types";
 import { declareComponent } from "@webflow/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import "./TestimonialCarousel.css";
 
 export default declareComponent(TestimonialCarousel, {
@@ -55,6 +58,7 @@ export default declareComponent(TestimonialCarousel, {
     }),
     testimonial1Text: props.RichText({
       name: "Text",
+      defaultValue: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
       group: "Testimonial 1",
       tooltip: "First testimonial quote text"
     }),
@@ -88,6 +92,7 @@ export default declareComponent(TestimonialCarousel, {
     }),
     testimonial2Text: props.RichText({
       name: "Text",
+      defaultValue: "Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate.",
       group: "Testimonial 2",
       tooltip: "Second testimonial quote text"
     }),
@@ -121,6 +126,7 @@ export default declareComponent(TestimonialCarousel, {
     }),
     testimonial3Text: props.RichText({
       name: "Text",
+      defaultValue: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis.",
       group: "Testimonial 3",
       tooltip: "Third testimonial quote text"
     }),
@@ -154,6 +160,7 @@ export default declareComponent(TestimonialCarousel, {
     }),
     testimonial4Text: props.RichText({
       name: "Text",
+      defaultValue: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem.",
       group: "Testimonial 4",
       tooltip: "Fourth testimonial quote text"
     }),
@@ -187,6 +194,7 @@ export default declareComponent(TestimonialCarousel, {
     }),
     testimonial5Text: props.RichText({
       name: "Text",
+      defaultValue: "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora.",
       group: "Testimonial 5",
       tooltip: "Fifth testimonial quote text"
     }),
