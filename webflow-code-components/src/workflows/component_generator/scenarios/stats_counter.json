@@ -1,0 +1,60 @@
+{
+  "componentName": "StatsCounter",
+  "description": "A horizontal or grid bar of animated stat counters. Each stat displays a large number with optional prefix (e.g. $) and suffix (e.g. +, %, K, M), a label, and an optional one-line description. When the component scrolls into view it triggers a smooth count-up animation from 0 to each stat's target value using requestAnimationFrame and easeOutExpo timing. Supports 3 to 6 stats with individual visibility toggles, configurable animation duration, choice of no / line / dot dividers between stats, and left / center / right text alignment. Uses IntersectionObserver so the animation only fires once per viewport entry. Fully responsive — collapses to a vertical stack on narrow screens when in row layout. Inherits typography from the Webflow site and uses site color variables for the accent and divider colors with sensible fallbacks.",
+  "props": [
+    { "name": "id", "type": "Id", "description": "HTML ID for targeting with CSS or JavaScript", "group": "Settings" },
+    { "name": "layout", "type": "Variant", "description": "Arrangement of stats — row (horizontal) or grid (wraps on narrow screens)", "options": ["row", "grid"], "defaultValue": "row", "group": "Style" },
+    { "name": "alignment", "type": "Variant", "description": "Text alignment within each stat cell", "options": ["left", "center", "right"], "defaultValue": "center", "group": "Style" },
+    { "name": "dividerStyle", "type": "Variant", "description": "Visual separator between stats", "options": ["none", "line", "dot"], "defaultValue": "line", "group": "Style" },
+    { "name": "numberSize", "type": "Variant", "description": "Size scale for the big stat number", "options": ["medium", "large", "xlarge"], "defaultValue": "large", "group": "Style" },
+    { "name": "heading", "type": "TextNode", "description": "Optional main heading above the stats", "defaultValue": "By the Numbers", "group": "Content" },
+    { "name": "subheading", "type": "Text", "description": "Optional subheading below the main heading", "defaultValue": "A snapshot of what we've built together", "group": "Content" },
+    { "name": "showHeading", "type": "Boolean", "description": "Show or hide the heading and subheading block", "defaultValue": true, "group": "Display" },
+    { "name": "animationDuration", "type": "Number", "description": "Count-up animation duration in milliseconds", "defaultValue": 2000, "group": "Behavior" },
+    { "name": "animateOnScroll", "type": "Boolean", "description": "Trigger the animation when the component scrolls into view (otherwise animate on mount)", "defaultValue": true, "group": "Behavior" },
+    { "name": "animateOnce", "type": "Boolean", "description": "Only animate the first time the component enters the viewport", "defaultValue": true, "group": "Behavior" },
+
+    { "name": "stat1Value", "type": "Number", "description": "First stat target value (the number the counter counts up to)", "defaultValue": 12000, "group": "Stat 1" },
+    { "name": "stat1Prefix", "type": "Text", "description": "Text shown before the number (e.g. $, ~)", "defaultValue": "", "group": "Stat 1" },
+    { "name": "stat1Suffix", "type": "Text", "description": "Text shown after the number (e.g. +, %, K, M, /mo)", "defaultValue": "+", "group": "Stat 1" },
+    { "name": "stat1Label", "type": "Text", "description": "Short label shown below the number", "defaultValue": "Happy customers", "group": "Stat 1" },
+    { "name": "stat1Description", "type": "Text", "description": "Optional supporting caption below the label", "defaultValue": "Across 40 countries", "group": "Stat 1" },
+    { "name": "stat1Visible", "type": "Visibility", "description": "Show or hide the first stat", "group": "Stat 1" },
+
+    { "name": "stat2Value", "type": "Number", "description": "Second stat target value", "defaultValue": 98, "group": "Stat 2" },
+    { "name": "stat2Prefix", "type": "Text", "description": "Text shown before the number", "defaultValue": "", "group": "Stat 2" },
+    { "name": "stat2Suffix", "type": "Text", "description": "Text shown after the number", "defaultValue": "%", "group": "Stat 2" },
+    { "name": "stat2Label", "type": "Text", "description": "Short label shown below the number", "defaultValue": "Customer satisfaction", "group": "Stat 2" },
+    { "name": "stat2Description", "type": "Text", "description": "Optional supporting caption below the label", "defaultValue": "Based on annual NPS survey", "group": "Stat 2" },
+    { "name": "stat2Visible", "type": "Visibility", "description": "Show or hide the second stat", "group": "Stat 2" },
+
+    { "name": "stat3Value", "type": "Number", "description": "Third stat target value", "defaultValue": 250, "group": "Stat 3" },
+    { "name": "stat3Prefix", "type": "Text", "description": "Text shown before the number", "defaultValue": "$", "group": "Stat 3" },
+    { "name": "stat3Suffix", "type": "Text", "description": "Text shown after the number", "defaultValue": "M", "group": "Stat 3" },
+    { "name": "stat3Label", "type": "Text", "description": "Short label shown below the number", "defaultValue": "Funding raised", "group": "Stat 3" },
+    { "name": "stat3Description", "type": "Text", "description": "Optional supporting caption below the label", "defaultValue": "Series C lead by Sequoia", "group": "Stat 3" },
+    { "name": "stat3Visible", "type": "Visibility", "description": "Show or hide the third stat", "group": "Stat 3" },
+
+    { "name": "stat4Value", "type": "Number", "description": "Fourth stat target value", "defaultValue": 150, "group": "Stat 4" },
+    { "name": "stat4Prefix", "type": "Text", "description": "Text shown before the number", "defaultValue": "", "group": "Stat 4" },
+    { "name": "stat4Suffix", "type": "Text", "description": "Text shown after the number", "defaultValue": "", "group": "Stat 4" },
+    { "name": "stat4Label", "type": "Text", "description": "Short label shown below the number", "defaultValue": "Team members", "group": "Stat 4" },
+    { "name": "stat4Description", "type": "Text", "description": "Optional supporting caption below the label", "defaultValue": "Remote-first across 12 time zones", "group": "Stat 4" },
+    { "name": "stat4Visible", "type": "Visibility", "description": "Show or hide the fourth stat", "group": "Stat 4" },
+
+    { "name": "stat5Value", "type": "Number", "description": "Fifth stat target value", "defaultValue": 0, "group": "Stat 5" },
+    { "name": "stat5Prefix", "type": "Text", "description": "Text shown before the number", "defaultValue": "", "group": "Stat 5" },
+    { "name": "stat5Suffix", "type": "Text", "description": "Text shown after the number", "defaultValue": "", "group": "Stat 5" },
+    { "name": "stat5Label", "type": "Text", "description": "Short label shown below the number", "defaultValue": "Awards won", "group": "Stat 5" },
+    { "name": "stat5Description", "type": "Text", "description": "Optional supporting caption below the label", "defaultValue": "", "group": "Stat 5" },
+    { "name": "stat5Visible", "type": "Visibility", "description": "Show or hide the fifth stat", "group": "Stat 5" },
+
+    { "name": "stat6Value", "type": "Number", "description": "Sixth stat target value", "defaultValue": 0, "group": "Stat 6" },
+    { "name": "stat6Prefix", "type": "Text", "description": "Text shown before the number", "defaultValue": "", "group": "Stat 6" },
+    { "name": "stat6Suffix", "type": "Text", "description": "Text shown after the number", "defaultValue": "", "group": "Stat 6" },
+    { "name": "stat6Label", "type": "Text", "description": "Short label shown below the number", "defaultValue": "", "group": "Stat 6" },
+    { "name": "stat6Description", "type": "Text", "description": "Optional supporting caption below the label", "defaultValue": "", "group": "Stat 6" },
+    { "name": "stat6Visible", "type": "Visibility", "description": "Show or hide the sixth stat", "group": "Stat 6" }
+  ],
+  "group": "Marketing"
+}

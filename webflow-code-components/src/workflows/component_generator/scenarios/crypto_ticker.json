@@ -1,0 +1,46 @@
+{
+  "componentName": "CryptoTicker",
+  "description": "A live crypto price ticker that pulls real-time prices and 24-hour change percentages from CoinGecko's free public API (no auth required). Supports 1 to 8 configurable coins by CoinGecko ID (bitcoin, ethereum, solana, cardano, etc.). Displays each coin as a card with the official coin icon, symbol, current price in the selected fiat currency, and a 24-hour percent change badge that is green for positive and red for negative moves. Auto-refreshes on a configurable interval; when a price changes the card briefly flashes green (up) or red (down) to draw attention. Three layout modes: row (horizontal cards), grid (responsive multi-column), and ticker (horizontal scrolling marquee style). Configurable decimal precision, optional 24-hour change display, and optional animated price update flash. Graceful loading, error (with retry), and rate-limit-awareness. Inherits typography from the site and uses site color variables for background and text with sensible fallbacks. Perfect for fintech, DeFi, and crypto-native marketing sites.",
+  "props": [
+    { "name": "id", "type": "Id", "description": "HTML ID for targeting with CSS or JavaScript", "group": "Settings" },
+    { "name": "coinIds", "type": "Text", "description": "Comma-separated list of CoinGecko coin IDs (find them at coingecko.com/en/coins — the ID is the slug in the URL, not the symbol). Example: bitcoin,ethereum,solana,cardano", "defaultValue": "bitcoin,ethereum,solana,cardano,dogecoin", "group": "Settings" },
+    { "name": "vsCurrency", "type": "Text", "description": "Fiat currency to price the coins in, as a CoinGecko currency code (usd, eur, gbp, jpy, cad, aud, inr, brl, btc, eth, etc.)", "defaultValue": "usd", "group": "Settings" },
+
+    { "name": "heading", "type": "TextNode", "description": "Optional heading above the ticker", "defaultValue": "Live crypto prices", "group": "Content" },
+    { "name": "subheading", "type": "Text", "description": "Optional subheading below the main heading", "defaultValue": "Auto-refreshed from CoinGecko", "group": "Content" },
+    { "name": "showHeading", "type": "Boolean", "description": "Show or hide the heading block", "defaultValue": true, "group": "Display" },
+
+    { "name": "layout", "type": "Variant", "description": "Arrangement of coin cards", "options": ["row", "grid", "ticker"], "defaultValue": "grid", "group": "Style" },
+    { "name": "columns", "type": "Variant", "description": "Grid columns on desktop (grid layout only)", "options": ["2", "3", "4"], "defaultValue": "4", "group": "Style" },
+    { "name": "cardStyle", "type": "Variant", "description": "Card surface treatment", "options": ["elevated", "outlined", "minimal"], "defaultValue": "outlined", "group": "Style" },
+    { "name": "showIcon", "type": "Boolean", "description": "Show each coin's official icon on its card", "defaultValue": true, "group": "Style" },
+    { "name": "showSymbol", "type": "Boolean", "description": "Show the ticker symbol (e.g. BTC, ETH)", "defaultValue": true, "group": "Style" },
+    { "name": "showName", "type": "Boolean", "description": "Show the full coin name (e.g. Bitcoin)", "defaultValue": true, "group": "Style" },
+    { "name": "show24hChange", "type": "Boolean", "description": "Show the 24-hour percent change badge (green up, red down)", "defaultValue": true, "group": "Style" },
+    { "name": "decimals", "type": "Number", "description": "Number of decimals to show on the price (auto-shrinks for high-value coins like BTC to 2)", "defaultValue": 2, "group": "Style" },
+
+    { "name": "refreshInterval", "type": "Number", "description": "Auto-refresh interval in seconds (CoinGecko free tier allows ~30 req/min — use 30+ here)", "defaultValue": 60, "group": "Behavior" },
+    { "name": "animateOnUpdate", "type": "Boolean", "description": "Briefly flash cards green or red when prices tick up or down", "defaultValue": true, "group": "Behavior" },
+    { "name": "pauseWhenHidden", "type": "Boolean", "description": "Pause the refresh loop when the tab is in the background (saves quota and battery)", "defaultValue": true, "group": "Behavior" },
+
+    { "name": "loadingText", "type": "Text", "description": "Text shown during the initial load", "defaultValue": "Loading prices…", "group": "States" },
+    { "name": "errorText", "type": "Text", "description": "Message shown when the API call fails", "defaultValue": "Couldn't fetch crypto prices right now. Please try again shortly.", "group": "States" },
+    { "name": "rateLimitText", "type": "Text", "description": "Message shown when CoinGecko returns 429 (rate limited)", "defaultValue": "Too many requests. We'll back off and retry in a moment.", "group": "States" },
+    { "name": "retryButtonText", "type": "Text", "description": "Text on the retry button", "defaultValue": "Retry", "group": "States" }
+  ],
+  "group": "Data Display",
+  "apiIntegrations": [
+    {
+      "service": "CoinGecko — markets (price + 24h change + icon in a single call)",
+      "endpoint": "https://api.coingecko.com/api/v3/coins/markets?vs_currency={vsCurrency}&ids={coinIds}&price_change_percentage=24h",
+      "authMethod": "none",
+      "requiredParams": {
+        "vs_currency": "Any supported fiat or crypto currency code (usd, eur, btc, etc.)",
+        "ids": "Comma-separated list of CoinGecko coin IDs (not symbols)",
+        "price_change_percentage": "Must be '24h' to populate price_change_percentage_24h in the response"
+      },
+      "responseShape": "interface CoinMarket {\n  id: string;            // CoinGecko slug, e.g. 'bitcoin'\n  symbol: string;        // ticker symbol, e.g. 'btc' (lowercase — uppercase it for display)\n  name: string;          // display name, e.g. 'Bitcoin'\n  image: string;         // icon URL (from coingecko CDN)\n  current_price: number; // in vs_currency\n  market_cap: number;\n  market_cap_rank: number;\n  price_change_24h: number;\n  price_change_percentage_24h: number | null;  // null on brand-new coins — treat as 0 and suppress the change badge for that card\n  last_updated: string;  // ISO 8601\n}\n// the endpoint returns Array<CoinMarket>",
+      "notes": "ONE CALL FETCHES EVERYTHING: this endpoint gives price, 24h change, icon URL, name, and symbol in a single request — don't call coins/list or coins/{id} separately, you don't need them.\n\nSORT YOURSELF: CoinGecko ignores the order of IDs in the query and returns them by market cap. To preserve the order the designer typed, sort the response array client-side to match the coinIds input order.\n\nRATE LIMITS: free tier is ~30 calls/minute per IP, with bursts sometimes tolerated. If you get a 429, exponentially back off (e.g. double the refresh interval for the next call) and surface rateLimitText; don't hammer.\n\nPRICE FORMATTING: high-value coins (bitcoin > $1,000) should use 2 decimals regardless of the decimals prop; low-value coins (< $1, e.g. shiba-inu) should use 6–8 decimals automatically. Implement a format helper that clamps decimals based on magnitude.\n\nPRICE-CHANGE ANIMATION: store the previous price in a ref and compare on each fetch. If the new price is higher, toggle a 'flash-up' CSS class for 500ms; if lower, 'flash-down'. Debounce so rapid updates don't feel jittery.\n\nSYMBOL CASE: the API returns symbol lowercase (e.g. 'btc'). Uppercase it for display ('BTC').\n\nBACKGROUND TAB: wrap the setInterval refresh in a document.visibilityState check when pauseWhenHidden is true — clearInterval on hidden, restart on visible.\n\nIMAGE CACHE: CoinGecko CDN images are stable and cacheable; no special handling needed."
+    }
+  ]
+}

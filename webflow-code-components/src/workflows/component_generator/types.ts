@@ -48,6 +48,7 @@ export const DeterministicChecksSchema = z.object( {
   ssrFlagCorrect: z.boolean(),
   noCodeFences: z.boolean(),
   imageLinkPropsCorrect: z.boolean(),
+  richTextHandledCorrectly: z.boolean(),
 } );
 
 export const EvaluationSchema = z.object( {

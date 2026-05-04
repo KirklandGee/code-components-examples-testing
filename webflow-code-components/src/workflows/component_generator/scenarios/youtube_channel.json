@@ -1,0 +1,79 @@
+{
+  "componentName": "YouTubeChannel",
+  "description": "A live YouTube channel widget that fetches and displays the latest videos from any public channel using the YouTube Data API v3. Shows the channel avatar, channel name, and live subscriber count in a header row, followed by a responsive grid of the N most recent videos. Each video card shows the video thumbnail (16:9), title, publish date (as a relative 'X days ago' string), and view count. Clicking a video opens it on YouTube in a new tab. Includes a prominent 'Subscribe' CTA that deep-links to the channel's subscribe-confirmation page. Configurable layout (grid, row, list), column count, and which metadata pieces to display. Graceful loading state with skeleton cards, error state with retry, and empty state when the channel has no public videos. Caches responses client-side for the configured interval to avoid burning through the YouTube API quota. Inherits typography from the Webflow site and uses site color variables for text and accent colors with sensible fallbacks.",
+  "props": [
+    { "name": "id", "type": "Id", "description": "HTML ID for targeting with CSS or JavaScript", "group": "Settings" },
+    { "name": "apiKey", "type": "Text", "description": "YouTube Data API v3 key (create at console.cloud.google.com). The key is sent as a query parameter and only needs read access to the public YouTube Data API.", "defaultValue": "", "group": "Settings" },
+    { "name": "channelId", "type": "Text", "description": "YouTube channel ID (starts with UC, e.g. UCsBjURrPoezykLs9EqgamOA). Find it in the channel URL or via youtube.com/account_advanced.", "defaultValue": "UCsBjURrPoezykLs9EqgamOA", "group": "Settings" },
+
+    { "name": "heading", "type": "TextNode", "description": "Optional heading shown above the channel header", "defaultValue": "Latest from our channel", "group": "Content" },
+    { "name": "subheading", "type": "Text", "description": "Optional subheading below the main heading", "defaultValue": "Subscribe to stay in the loop", "group": "Content" },
+    { "name": "showHeading", "type": "Boolean", "description": "Show or hide the heading and subheading", "defaultValue": true, "group": "Display" },
+
+    { "name": "layout", "type": "Variant", "description": "Arrangement of video cards", "options": ["grid", "row", "list"], "defaultValue": "grid", "group": "Style" },
+    { "name": "columns", "type": "Variant", "description": "Number of columns on desktop (grid layout only)", "options": ["2", "3", "4"], "defaultValue": "3", "group": "Style" },
+    { "name": "cardStyle", "type": "Variant", "description": "Visual style of video cards", "options": ["elevated", "outlined", "minimal"], "defaultValue": "minimal", "group": "Style" },
+    { "name": "maxVideos", "type": "Number", "description": "Maximum number of recent videos to fetch and display (1–12)", "defaultValue": 6, "group": "Behavior" },
+    { "name": "refreshInterval", "type": "Number", "description": "Client-side cache duration in minutes (0 disables caching, 10+ recommended to protect API quota)", "defaultValue": 15, "group": "Behavior" },
+    { "name": "openInNewTab", "type": "Boolean", "description": "Open video and subscribe links in a new browser tab", "defaultValue": true, "group": "Behavior" },
+
+    { "name": "showChannelAvatar", "type": "Boolean", "description": "Display the channel avatar in the header", "defaultValue": true, "group": "Channel Header" },
+    { "name": "showChannelName", "type": "Boolean", "description": "Display the channel name in the header", "defaultValue": true, "group": "Channel Header" },
+    { "name": "showSubscriberCount", "type": "Boolean", "description": "Display the live subscriber count pill", "defaultValue": true, "group": "Channel Header" },
+    { "name": "subscriberSuffix", "type": "Text", "description": "Text appended to the formatted subscriber count (e.g. 'subscribers')", "defaultValue": "subscribers", "group": "Channel Header" },
+    { "name": "showSubscribeButton", "type": "Boolean", "description": "Show a Subscribe CTA that deep-links to YouTube's subscribe confirmation", "defaultValue": true, "group": "Channel Header" },
+    { "name": "subscribeButtonText", "type": "Text", "description": "Text on the Subscribe CTA", "defaultValue": "Subscribe", "group": "Channel Header" },
+
+    { "name": "showVideoTitle", "type": "Boolean", "description": "Show each video's title on its card", "defaultValue": true, "group": "Video Cards" },
+    { "name": "showPublishDate", "type": "Boolean", "description": "Show each video's publish date (as 'X days / weeks / months ago')", "defaultValue": true, "group": "Video Cards" },
+    { "name": "showViewCount", "type": "Boolean", "description": "Show each video's view count (e.g. '12K views')", "defaultValue": true, "group": "Video Cards" },
+    { "name": "showDurationBadge", "type": "Boolean", "description": "Show a small duration badge on the thumbnail (e.g. '5:42')", "defaultValue": true, "group": "Video Cards" },
+
+    { "name": "loadingText", "type": "Text", "description": "Text shown while videos are loading", "defaultValue": "Loading latest videos…", "group": "States" },
+    { "name": "errorText", "type": "Text", "description": "Message shown when the API call fails", "defaultValue": "Couldn't load videos right now. Please try again shortly.", "group": "States" },
+    { "name": "retryButtonText", "type": "Text", "description": "Text on the retry button in the error state", "defaultValue": "Retry", "group": "States" },
+    { "name": "emptyStateText", "type": "Text", "description": "Message shown when the channel has no public videos", "defaultValue": "No videos published yet — check back soon.", "group": "States" }
+  ],
+  "group": "Data Display",
+  "apiIntegrations": [
+    {
+      "service": "YouTube Data API v3 — channels.list",
+      "endpoint": "https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id={channelId}&key={apiKey}",
+      "authMethod": "api-key-query",
+      "authParamName": "apiKey",
+      "requiredParams": {
+        "part": "Must be 'snippet,statistics' to get the avatar (snippet.thumbnails.default.url), title (snippet.title), and subscriberCount (statistics.subscriberCount)",
+        "id": "The channel ID (starts with UC)"
+      },
+      "responseShape": "interface ChannelsResponse {\n  items: Array<{\n    id: string;\n    snippet: {\n      title: string;\n      customUrl?: string;\n      thumbnails: {\n        default: { url: string; width: number; height: number };\n        medium?: { url: string; width: number; height: number };\n        high?: { url: string; width: number; height: number };\n      };\n    };\n    statistics: {\n      subscriberCount: string;  // returned as a stringified integer\n      videoCount: string;\n      viewCount: string;\n      hiddenSubscriberCount?: boolean;\n    };\n  }>;\n}",
+      "notes": "NUMBERS COME BACK AS STRINGS. subscriberCount, videoCount, and viewCount are all stringified integers — parseInt before formatting. If hiddenSubscriberCount is true, subscriberCount will be '0' and you should fall back to hiding that pill entirely. This endpoint is cheap (1 quota unit). Cache the channel info alongside the video list using the refreshInterval prop."
+    },
+    {
+      "service": "YouTube Data API v3 — search.list (latest videos)",
+      "endpoint": "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId={channelId}&order=date&maxResults={maxVideos}&type=video&key={apiKey}",
+      "authMethod": "api-key-query",
+      "authParamName": "apiKey",
+      "requiredParams": {
+        "part": "Must be 'snippet' to get title, thumbnails, and publishedAt",
+        "channelId": "The channel ID",
+        "order": "Must be 'date' to get newest-first",
+        "type": "Must be 'video' to exclude playlists and channels",
+        "maxResults": "1–50 (we clamp to the maxVideos prop)"
+      },
+      "responseShape": "interface SearchResponse {\n  items: Array<{\n    id: { kind: string; videoId: string };\n    snippet: {\n      publishedAt: string; // ISO 8601\n      channelId: string;\n      title: string;\n      description: string;\n      thumbnails: {\n        default: { url: string; width: number; height: number };\n        medium: { url: string; width: number; height: number };\n        high: { url: string; width: number; height: number };\n      };\n      channelTitle: string;\n    };\n  }>;\n}",
+      "notes": "EXPENSIVE ENDPOINT — search.list costs 100 quota units per call. That's why the refreshInterval prop matters; the default 10k daily quota = 100 calls/day without caching. After fetching the search results, collect the videoIds and call videos.list below in a SINGLE batched request for view counts and durations — don't loop per video."
+    },
+    {
+      "service": "YouTube Data API v3 — videos.list (stats and duration for the result set)",
+      "endpoint": "https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id={videoIds}&key={apiKey}",
+      "authMethod": "api-key-query",
+      "authParamName": "apiKey",
+      "requiredParams": {
+        "part": "Must be 'statistics,contentDetails' for viewCount and duration",
+        "id": "Comma-separated list of video IDs (up to 50 in one call)"
+      },
+      "responseShape": "interface VideosResponse {\n  items: Array<{\n    id: string;\n    statistics: {\n      viewCount: string;\n      likeCount?: string;\n      commentCount?: string;\n    };\n    contentDetails: {\n      duration: string; // ISO 8601 e.g. 'PT5M42S'\n    };\n  }>;\n}",
+      "notes": "DURATION PARSING: contentDetails.duration is ISO 8601 (PT#H#M#S). Write a small parseDuration helper that returns a display string like '5:42' or '1:05:30'. Again, numbers come back as strings — parseInt first. VIEW COUNT FORMATTING: format large numbers like '12K' / '3.4M' using Intl.NumberFormat with notation: 'compact'. COMBINE calls: run channels.list and search.list in parallel (Promise.all), then chain videos.list once you have the videoIds, so you finish in two sequential HTTP hops, not three."
+    }
+  ]
+}

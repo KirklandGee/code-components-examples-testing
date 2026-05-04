@@ -44,6 +44,17 @@ import "./{{ componentName }}.css";
 
 **CRITICAL**: The CSS import MUST be in the `.webflow.tsx` file, NOT in the React component.
 
+**External library CSS**: If the React component uses a library that ships its own CSS (Swiper, react-day-picker, react-select, etc.), import that CSS here in the `.webflow.tsx` **before** the component's own CSS so cascade order is predictable. Example for Swiper:
+
+```tsx
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "./{{ componentName }}.css";
+```
+
+Without these imports the library's DOM renders but looks broken (slides stack vertically, arrows missing, etc.). The React component must not import library CSS — keep all CSS imports in the declaration file.
+
 ### 2. SSR Detection
 Set `ssr: false` if the React component code contains ANY of:
 - `useState` or `useEffect` hooks
@@ -69,18 +80,22 @@ This allows Webflow Designer to apply tag-based styles to these elements.
 | Input Type | Webflow Declaration | Required Config | Default Group |
 |------------|---------------------|-----------------|---------------|
 | Id | `props.Id({})` | None | Settings |
-| Variant | `props.Variant({ options: [...], defaultValue: "..." })` | options array | Style |
+| Variant | `props.Variant({ options: [...], defaultValue: "..." })` | options array, defaultValue | Style |
 | Boolean | `props.Boolean({ defaultValue: true/false })` | defaultValue | Display |
 | Visibility | `props.Visibility({})` | None | Display |
 | Number | `props.Number({ defaultValue: N })` | defaultValue | Style |
 | Text | `props.Text({ defaultValue: "..." })` | defaultValue | Content |
 | TextNode | `props.TextNode({ defaultValue: "..." })` | defaultValue | Content |
-| RichText | `props.RichText({})` | None | Content |
-| Slot | `props.Slot({})` | None | Content |
+| RichText | `props.RichText({ defaultValue: "..." })` | **defaultValue (REQUIRED)** | Content |
 | Image | `props.Image({})` | None | Content |
 | Link | `props.Link({})` | None | Content |
+| Slot | `props.Slot({})` | None | Content |
 
 **Note on Text vs TextNode**: Use `props.TextNode()` for primary/prominent text that designers will want to edit directly on the canvas (headings, titles, CTAs). Use `props.Text()` for text configured in the properties panel (labels, tooltips, secondary text). Link props return `{ href, target }` — if the React component expects separate `href`/`target` props, a wrapper component may be needed (see Webflow docs).
+
+**RichText defaultValue is REQUIRED**. Without a `defaultValue`, Webflow provides the React component with an empty slot element. Because the prop is *not* `undefined`, any default parameter on the React side is silently ignored, and the component renders blank out of the box. Always supply a plain-text `defaultValue` (a sentence or two of realistic copy — avoid HTML tags unless you need specific formatting) so the component looks complete the moment a designer drops it on the page.
+
+**When NOT to use props.Slot()**: Avoid `props.Slot()` for optional fallback content (e.g. "Slot for custom content, otherwise show the RichText prop"). A Slot runtime value is always a truthy React element, so the ternary `slotProp ? <custom/> : <richText/>` always picks the slot branch even when the designer hasn't added children, and the Properties panel only shows "Empty" with no useful editor. Use `props.Slot()` only when true composition is needed (e.g. a card wrapper that accepts arbitrary children). For editable body content, use `props.RichText()` with a `defaultValue` instead.
 
 ### 5. Prop Configuration
 
@@ -177,9 +192,11 @@ export default declareComponent(Calendar, {
 - Groups must be one of: Settings, Style, Display, Content, Behavior
 - EVERY prop in the React component's interface MUST be declared — do not skip any
 - Text content props → `props.Text()` with a meaningful defaultValue
+- RichText content props → `props.RichText({ defaultValue: "..." })` — **defaultValue is REQUIRED** (plain text, one to three sentences of realistic copy)
 - Link/URL props → `props.Link()`
 - Image props → `props.Image()`
 - Show/hide toggles → `props.Boolean()` or `props.Visibility()`
+- Do not introduce `props.Slot()` unless the React component truly needs composable children; prefer `props.RichText()` with a defaultValue for editable body content
 </system>
 
 <user>

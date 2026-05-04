@@ -128,6 +128,12 @@ export default defineConfig({
       useDefineForClassFields: true,
       lib: [ 'ES2022', 'DOM', 'DOM.Iterable' ],
       module: 'ESNext',
+      // `vite/client` ships the module declarations for side-effect *.css
+      // imports (required by noUncheckedSideEffectImports below) and for
+      // import.meta.env. It lives in the `vite` package itself, not @types,
+      // so we have to name it explicitly here — the triple-slash reference
+      // in src/vite-env.d.ts alone isn't enough under strict settings.
+      types: [ 'vite/client' ],
       skipLibCheck: true,
       moduleResolution: 'bundler',
       allowImportingTsExtensions: true,
@@ -185,6 +191,24 @@ export default defineConfig({
   const viteEnvDts = `/// <reference types="vite/client" />
 `;
 
+  const gitignore = `# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Webflow CLI state
+.webflow/
+
+# Editor / OS cruft
+.DS_Store
+*.log
+
+# TS incremental build info
+*.tsbuildinfo
+`;
+
   return {
     'package.json': packageJson,
     'webflow.json': webflowJson,
@@ -193,6 +217,7 @@ export default defineConfig({
     'tsconfig.app.json': tsconfigAppJson,
     'tsconfig.node.json': tsconfigNodeJson,
     'index.html': indexHtml,
+    '.gitignore': gitignore,
     'src/vite-env.d.ts': viteEnvDts,
   };
 }

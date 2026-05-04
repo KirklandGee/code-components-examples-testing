@@ -1,0 +1,61 @@
+{
+  "componentName": "GithubRepoCard",
+  "description": "A live GitHub repository card that pulls public repo stats directly from api.github.com with no authentication required — just owner and repo name. Displays the repo name, description, primary language with a color dot, star count, fork count, watcher count, latest release tag and date, top contributors as a stacked avatar row, and a prominent 'View on GitHub' CTA. Star / fork counts animate up from 0 on first render. Compact or full layout variants, light or dark theme, and configurable toggles for every metadata section so designers can trim what they don't need. Perfect for open-source project marketing sites, developer-tool landing pages, and 'built with' attributions. Graceful loading, error (with retry), and rate-limit states; the component detects 403-with-X-RateLimit-Remaining=0 specifically and suggests waiting 60 minutes. Client-side cache respects the configured interval to keep requests under GitHub's anonymous 60-req/hr-per-IP limit.",
+  "props": [
+    { "name": "id", "type": "Id", "description": "HTML ID for targeting with CSS or JavaScript", "group": "Settings" },
+    { "name": "owner", "type": "Text", "description": "GitHub username or organization that owns the repo (the part before the slash in the repo URL)", "defaultValue": "facebook", "group": "Settings" },
+    { "name": "repo", "type": "Text", "description": "Repository name (the part after the slash in the repo URL)", "defaultValue": "react", "group": "Settings" },
+
+    { "name": "layout", "type": "Variant", "description": "Card size and density", "options": ["compact", "full"], "defaultValue": "full", "group": "Style" },
+    { "name": "theme", "type": "Variant", "description": "Visual theme", "options": ["light", "dark"], "defaultValue": "light", "group": "Style" },
+    { "name": "cardStyle", "type": "Variant", "description": "Border / shadow treatment", "options": ["elevated", "outlined", "minimal"], "defaultValue": "outlined", "group": "Style" },
+
+    { "name": "showDescription", "type": "Boolean", "description": "Show the repo description below the name", "defaultValue": true, "group": "Metadata" },
+    { "name": "showLanguage", "type": "Boolean", "description": "Show the primary language with its color dot", "defaultValue": true, "group": "Metadata" },
+    { "name": "showStars", "type": "Boolean", "description": "Show the star count", "defaultValue": true, "group": "Metadata" },
+    { "name": "showForks", "type": "Boolean", "description": "Show the fork count", "defaultValue": true, "group": "Metadata" },
+    { "name": "showWatchers", "type": "Boolean", "description": "Show the watcher count", "defaultValue": false, "group": "Metadata" },
+    { "name": "showOpenIssues", "type": "Boolean", "description": "Show the open-issue count", "defaultValue": false, "group": "Metadata" },
+    { "name": "showLatestRelease", "type": "Boolean", "description": "Show the latest release tag and publish date (hides silently if the repo has no releases)", "defaultValue": true, "group": "Metadata" },
+    { "name": "showLastCommit", "type": "Boolean", "description": "Show the date of the most recent push to the default branch", "defaultValue": true, "group": "Metadata" },
+    { "name": "showContributors", "type": "Boolean", "description": "Show the top contributors as a stacked avatar row", "defaultValue": true, "group": "Metadata" },
+    { "name": "maxContributors", "type": "Number", "description": "Maximum number of contributor avatars to stack (overflow collapses to a +N pill)", "defaultValue": 5, "group": "Metadata" },
+
+    { "name": "animateCounts", "type": "Boolean", "description": "Animate star / fork / watcher counts counting up from 0 on first render", "defaultValue": true, "group": "Behavior" },
+    { "name": "refreshInterval", "type": "Number", "description": "Client-side cache duration in minutes (0 disables caching, 5+ recommended to stay under GitHub's anonymous 60-req/hr-per-IP limit)", "defaultValue": 10, "group": "Behavior" },
+    { "name": "openInNewTab", "type": "Boolean", "description": "Open GitHub links in a new browser tab", "defaultValue": true, "group": "Behavior" },
+
+    { "name": "showCta", "type": "Boolean", "description": "Show the 'View on GitHub' CTA", "defaultValue": true, "group": "CTA" },
+    { "name": "ctaText", "type": "Text", "description": "Text on the CTA button", "defaultValue": "View on GitHub", "group": "CTA" },
+
+    { "name": "loadingText", "type": "Text", "description": "Text shown while the repo is loading", "defaultValue": "Loading repository…", "group": "States" },
+    { "name": "errorText", "type": "Text", "description": "Generic error message (shown for 4xx / 5xx that isn't a 404 or rate limit)", "defaultValue": "Couldn't load this repository right now. Please try again shortly.", "group": "States" },
+    { "name": "notFoundText", "type": "Text", "description": "Message shown for a 404 — owner/repo combination doesn't exist or is private", "defaultValue": "Repository not found. Check the owner and repo names.", "group": "States" },
+    { "name": "rateLimitText", "type": "Text", "description": "Message shown when GitHub returns 403 with X-RateLimit-Remaining=0", "defaultValue": "GitHub rate limit reached. Please wait a few minutes before trying again.", "group": "States" },
+    { "name": "retryButtonText", "type": "Text", "description": "Text on the retry button", "defaultValue": "Retry", "group": "States" }
+  ],
+  "group": "Developer",
+  "apiIntegrations": [
+    {
+      "service": "GitHub REST API — Repository",
+      "endpoint": "https://api.github.com/repos/{owner}/{repo}",
+      "authMethod": "none",
+      "responseShape": "interface GitHubRepo {\n  id: number;\n  name: string;\n  full_name: string;\n  owner: { login: string; avatar_url: string; html_url: string };\n  html_url: string;\n  description: string | null;\n  fork: boolean;\n  created_at: string;\n  updated_at: string;\n  pushed_at: string;\n  homepage: string | null;\n  size: number;\n  stargazers_count: number;\n  watchers_count: number;\n  language: string | null;\n  forks_count: number;\n  open_issues_count: number;\n  license?: { key: string; name: string; spdx_id: string } | null;\n  default_branch: string;\n  topics?: string[];\n}",
+      "notes": "No auth needed for public repos. The unauthenticated rate limit is 60 requests/hr per IP — respect refreshInterval. HANDLE THESE STATUS CODES: 200 (render normally), 404 (show notFoundText), 403 with X-RateLimit-Remaining=0 header (show rateLimitText), anything else (show errorText)."
+    },
+    {
+      "service": "GitHub REST API — Contributors",
+      "endpoint": "https://api.github.com/repos/{owner}/{repo}/contributors?per_page={maxContributors}",
+      "authMethod": "none",
+      "responseShape": "interface GitHubContributor {\n  login: string;\n  id: number;\n  avatar_url: string;\n  html_url: string;\n  contributions: number;\n  type: 'User' | 'Bot';\n}\n// endpoint returns an array of GitHubContributor",
+      "notes": "Only fetch when showContributors is true. Filter out type === 'Bot' client-side so the dependabot avatar doesn't show. Skip this call entirely (don't even fire it) when showContributors is false to save rate-limit budget. This endpoint can return a 204 No Content for empty repos — handle that as an empty array, not an error."
+    },
+    {
+      "service": "GitHub REST API — Latest Release",
+      "endpoint": "https://api.github.com/repos/{owner}/{repo}/releases/latest",
+      "authMethod": "none",
+      "responseShape": "interface GitHubRelease {\n  id: number;\n  tag_name: string;\n  name: string;\n  body?: string;\n  published_at: string;\n  html_url: string;\n  prerelease: boolean;\n  draft: boolean;\n}",
+      "notes": "Only fetch when showLatestRelease is true. A 404 from this endpoint is NORMAL — it means the repo has no releases yet. In that case, silently hide the release section; do NOT surface an error. Any other 4xx/5xx should be logged but also silently hidden (the core repo card is more important than the release section)."
+    }
+  ]
+}

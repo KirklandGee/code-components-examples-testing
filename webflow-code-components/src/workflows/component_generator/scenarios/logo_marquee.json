@@ -1,0 +1,66 @@
+{
+  "componentName": "LogoMarquee",
+  "description": "An infinite horizontal scrolling strip of client / partner / press logos — the classic 'trusted by' trust bar. Uses a pure-CSS keyframe animation (no JavaScript tick) with a duplicated row so the loop is seamless. Configurable direction (left or right), speed in seconds-per-loop, pause on hover, optional grayscale filter that restores color on hover, and optional fade-to-transparent edges via a CSS mask. Each of the 12 logo slots accepts an image, optional link, and individual visibility toggle so designers can trim unused slots. Logos are sized to a configurable height with auto width, so any aspect ratio stays balanced. Optional heading above the marquee (e.g. 'Trusted by teams at 500+ companies'). Responsive: speeds up and tightens gaps on narrow screens so the marquee never looks empty. Respects prefers-reduced-motion by pausing the animation for users who've opted out of motion.",
+  "props": [
+    { "name": "id", "type": "Id", "description": "HTML ID for targeting with CSS or JavaScript", "group": "Settings" },
+    { "name": "heading", "type": "TextNode", "description": "Optional heading above the logo strip (e.g. 'Trusted by')", "defaultValue": "Trusted by teams at", "group": "Content" },
+    { "name": "showHeading", "type": "Boolean", "description": "Show or hide the heading", "defaultValue": true, "group": "Display" },
+    { "name": "direction", "type": "Variant", "description": "Direction of the marquee scroll", "options": ["left", "right"], "defaultValue": "left", "group": "Behavior" },
+    { "name": "speed", "type": "Number", "description": "Duration of one full loop in seconds — lower is faster", "defaultValue": 40, "group": "Behavior" },
+    { "name": "pauseOnHover", "type": "Boolean", "description": "Pause the animation while the user is hovering the marquee", "defaultValue": true, "group": "Behavior" },
+    { "name": "grayscale", "type": "Boolean", "description": "Render logos in grayscale; they regain color on hover", "defaultValue": true, "group": "Style" },
+    { "name": "fadeEdges", "type": "Boolean", "description": "Fade the left and right edges to transparent using a CSS mask", "defaultValue": true, "group": "Style" },
+    { "name": "logoHeight", "type": "Number", "description": "Height of each logo in pixels (width scales proportionally)", "defaultValue": 40, "group": "Style" },
+    { "name": "logoGap", "type": "Number", "description": "Gap between logos in pixels", "defaultValue": 64, "group": "Style" },
+    { "name": "ariaLabel", "type": "Text", "description": "Accessible label describing the marquee for screen readers", "defaultValue": "Partner and customer logos", "group": "Settings" },
+
+    { "name": "logo1", "type": "Image", "description": "First logo image", "group": "Logo 1" },
+    { "name": "logo1Link", "type": "Link", "description": "Optional link for the first logo", "group": "Logo 1" },
+    { "name": "logo1Visible", "type": "Visibility", "description": "Show or hide the first logo", "group": "Logo 1" },
+
+    { "name": "logo2", "type": "Image", "description": "Second logo image", "group": "Logo 2" },
+    { "name": "logo2Link", "type": "Link", "description": "Optional link for the second logo", "group": "Logo 2" },
+    { "name": "logo2Visible", "type": "Visibility", "description": "Show or hide the second logo", "group": "Logo 2" },
+
+    { "name": "logo3", "type": "Image", "description": "Third logo image", "group": "Logo 3" },
+    { "name": "logo3Link", "type": "Link", "description": "Optional link for the third logo", "group": "Logo 3" },
+    { "name": "logo3Visible", "type": "Visibility", "description": "Show or hide the third logo", "group": "Logo 3" },
+
+    { "name": "logo4", "type": "Image", "description": "Fourth logo image", "group": "Logo 4" },
+    { "name": "logo4Link", "type": "Link", "description": "Optional link for the fourth logo", "group": "Logo 4" },
+    { "name": "logo4Visible", "type": "Visibility", "description": "Show or hide the fourth logo", "group": "Logo 4" },
+
+    { "name": "logo5", "type": "Image", "description": "Fifth logo image", "group": "Logo 5" },
+    { "name": "logo5Link", "type": "Link", "description": "Optional link for the fifth logo", "group": "Logo 5" },
+    { "name": "logo5Visible", "type": "Visibility", "description": "Show or hide the fifth logo", "group": "Logo 5" },
+
+    { "name": "logo6", "type": "Image", "description": "Sixth logo image", "group": "Logo 6" },
+    { "name": "logo6Link", "type": "Link", "description": "Optional link for the sixth logo", "group": "Logo 6" },
+    { "name": "logo6Visible", "type": "Visibility", "description": "Show or hide the sixth logo", "group": "Logo 6" },
+
+    { "name": "logo7", "type": "Image", "description": "Seventh logo image", "group": "Logo 7" },
+    { "name": "logo7Link", "type": "Link", "description": "Optional link for the seventh logo", "group": "Logo 7" },
+    { "name": "logo7Visible", "type": "Visibility", "description": "Show or hide the seventh logo", "group": "Logo 7" },
+
+    { "name": "logo8", "type": "Image", "description": "Eighth logo image", "group": "Logo 8" },
+    { "name": "logo8Link", "type": "Link", "description": "Optional link for the eighth logo", "group": "Logo 8" },
+    { "name": "logo8Visible", "type": "Visibility", "description": "Show or hide the eighth logo", "group": "Logo 8" },
+
+    { "name": "logo9", "type": "Image", "description": "Ninth logo image", "group": "Logo 9" },
+    { "name": "logo9Link", "type": "Link", "description": "Optional link for the ninth logo", "group": "Logo 9" },
+    { "name": "logo9Visible", "type": "Visibility", "description": "Show or hide the ninth logo", "group": "Logo 9" },
+
+    { "name": "logo10", "type": "Image", "description": "Tenth logo image", "group": "Logo 10" },
+    { "name": "logo10Link", "type": "Link", "description": "Optional link for the tenth logo", "group": "Logo 10" },
+    { "name": "logo10Visible", "type": "Visibility", "description": "Show or hide the tenth logo", "group": "Logo 10" },
+
+    { "name": "logo11", "type": "Image", "description": "Eleventh logo image", "group": "Logo 11" },
+    { "name": "logo11Link", "type": "Link", "description": "Optional link for the eleventh logo", "group": "Logo 11" },
+    { "name": "logo11Visible", "type": "Visibility", "description": "Show or hide the eleventh logo", "group": "Logo 11" },
+
+    { "name": "logo12", "type": "Image", "description": "Twelfth logo image", "group": "Logo 12" },
+    { "name": "logo12Link", "type": "Link", "description": "Optional link for the twelfth logo", "group": "Logo 12" },
+    { "name": "logo12Visible", "type": "Visibility", "description": "Show or hide the twelfth logo", "group": "Logo 12" }
+  ],
+  "group": "Marketing"
+}

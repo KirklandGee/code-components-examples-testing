@@ -1,0 +1,45 @@
+{
+  "componentName": "InstagramFeed",
+  "description": "A responsive grid of recent Instagram posts fetched via an RSS-to-JSON bridge. Because Instagram's Basic Display API was deprecated in December 2024, this component consumes a JSON Feed v1 URL produced by a free service like rss.app or rsshub.app — the designer pastes in the generated feed URL and the component handles fetching, parsing, and rendering. Supports a configurable post count (up to 24), 2 / 3 / 4 column grid on desktop with responsive collapse on mobile, square / portrait / original aspect ratios, and one of four hover effects (none, zoom, overlay, fade). Each post shows the image, optional truncated caption, and optional relative date; clicking a post opens the original on instagram.com in a new tab. Includes a header with a profile link and a 'Follow on Instagram' CTA. Skeleton loading state, friendly error state with retry, and empty state when the feed is currently empty. Client-side cache keeps the quota-friendly request rate gentle.",
+  "props": [
+    { "name": "id", "type": "Id", "description": "HTML ID for targeting with CSS or JavaScript", "group": "Settings" },
+    { "name": "feedUrl", "type": "Text", "description": "JSON Feed URL from an RSS-to-JSON bridge. Generate one for any public Instagram account at rss.app (free tier) by pointing it at instagram.com/{handle} and copying the JSON URL. Must return JSON Feed v1 format.", "defaultValue": "https://rss.app/feeds/json/example.json", "group": "Settings" },
+    { "name": "profileUrl", "type": "Link", "description": "Link to the Instagram profile (e.g. https://www.instagram.com/yourhandle/)", "group": "Settings" },
+
+    { "name": "heading", "type": "TextNode", "description": "Optional heading above the feed", "defaultValue": "Follow us on Instagram", "group": "Content" },
+    { "name": "subheading", "type": "Text", "description": "Optional subheading below the heading", "defaultValue": "@yourhandle", "group": "Content" },
+    { "name": "showHeading", "type": "Boolean", "description": "Show or hide the heading block", "defaultValue": true, "group": "Display" },
+
+    { "name": "followButtonText", "type": "Text", "description": "Text on the 'Follow on Instagram' CTA", "defaultValue": "Follow on Instagram", "group": "Content" },
+    { "name": "showFollowButton", "type": "Boolean", "description": "Show or hide the follow CTA in the header", "defaultValue": true, "group": "Display" },
+
+    { "name": "maxPosts", "type": "Number", "description": "Maximum number of posts to display (1–24)", "defaultValue": 9, "group": "Behavior" },
+    { "name": "refreshInterval", "type": "Number", "description": "Client-side cache duration in minutes (0 disables caching)", "defaultValue": 10, "group": "Behavior" },
+    { "name": "openInNewTab", "type": "Boolean", "description": "Open posts on instagram.com in a new browser tab", "defaultValue": true, "group": "Behavior" },
+
+    { "name": "columns", "type": "Variant", "description": "Number of columns on desktop (collapses responsively on narrow screens)", "options": ["2", "3", "4"], "defaultValue": "3", "group": "Style" },
+    { "name": "aspectRatio", "type": "Variant", "description": "Aspect ratio of each post tile", "options": ["square", "portrait", "original"], "defaultValue": "square", "group": "Style" },
+    { "name": "gap", "type": "Number", "description": "Gap between post tiles in pixels", "defaultValue": 12, "group": "Style" },
+    { "name": "hoverEffect", "type": "Variant", "description": "Hover treatment on post tiles", "options": ["none", "zoom", "overlay", "fade"], "defaultValue": "overlay", "group": "Style" },
+    { "name": "borderRadius", "type": "Variant", "description": "Corner rounding on post tiles", "options": ["none", "small", "medium", "large"], "defaultValue": "medium", "group": "Style" },
+
+    { "name": "showCaption", "type": "Boolean", "description": "Show the post caption below each tile (uses overlay on hover when hoverEffect='overlay')", "defaultValue": false, "group": "Post Card" },
+    { "name": "captionLines", "type": "Number", "description": "Maximum number of caption lines before truncating with an ellipsis", "defaultValue": 2, "group": "Post Card" },
+    { "name": "showDate", "type": "Boolean", "description": "Show the relative post date (e.g. '3 days ago')", "defaultValue": false, "group": "Post Card" },
+
+    { "name": "loadingText", "type": "Text", "description": "Text shown while the feed is loading", "defaultValue": "Loading Instagram posts…", "group": "States" },
+    { "name": "errorText", "type": "Text", "description": "Message shown when the feed fails to load", "defaultValue": "We couldn't reach Instagram right now. Please try again in a moment.", "group": "States" },
+    { "name": "retryButtonText", "type": "Text", "description": "Text on the retry button", "defaultValue": "Retry", "group": "States" },
+    { "name": "emptyStateText", "type": "Text", "description": "Message shown when the feed is empty", "defaultValue": "No posts to show yet.", "group": "States" }
+  ],
+  "group": "Social",
+  "apiIntegrations": [
+    {
+      "service": "JSON Feed v1 via rss.app or rsshub.app (Instagram bridge)",
+      "endpoint": "{feedUrl}",
+      "authMethod": "none",
+      "responseShape": "interface JSONFeed {\n  version: string;\n  title: string;\n  home_page_url?: string;\n  feed_url?: string;\n  icon?: string;\n  items: Array<{\n    id: string;\n    url?: string;            // the instagram.com/p/XXX permalink\n    title?: string;          // some bridges use this for captions\n    content_text?: string;   // full caption as plain text\n    content_html?: string;   // full caption as HTML\n    image?: string;          // primary image URL for the post\n    banner_image?: string;   // some bridges put the image here instead\n    date_published?: string; // ISO 8601 timestamp\n    attachments?: Array<{\n      url: string;\n      mime_type?: string;     // 'image/jpeg' for photos, 'video/mp4' for reels\n      title?: string;\n    }>;\n  }>;\n}",
+      "notes": "IMPORTANT — IG's own Basic Display API was deprecated on 2024-12-04, so this component deliberately does NOT call graph.instagram.com. Instead it accepts any JSON Feed v1 URL from a third-party bridge; rss.app is the recommended free option because it produces a stable schema and handles IG's auth on its own backend.\n\nFIELD FALLBACKS: different bridges populate different fields. Always resolve the image URL with a chain like: item.image || item.banner_image || item.attachments?.find(a => a.mime_type?.startsWith('image/'))?.url. Always resolve the caption with: item.content_text || item.title || '' (bridges sometimes stuff the caption into the title).\n\nCAPTION CLEANUP: Instagram captions often include newlines and hashtags; respect the captionLines prop by applying CSS line-clamp, don't pre-truncate in JS.\n\nREELS & CAROUSELS: bridges represent video reels with a video mime type in attachments. For this component, just show the still thumbnail from item.image and link to the instagram.com URL; the user will see the video when they click through.\n\nCORS: rss.app serves JSON feeds with permissive CORS headers; rsshub.app is the same. If a user plugs in a custom feed and hits CORS errors, the error state copy should point them toward rss.app.\n\nRATE LIMITS: rss.app caches its own fetch against IG (usually 15-minute windows). Combine that with the refreshInterval prop on the client so we only re-fetch the JSON feed once per interval."
+    }
+  ]
+}
